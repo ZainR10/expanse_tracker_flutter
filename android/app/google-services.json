@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1064861940126",
+    "project_id": "flutter-expanse-tracker",
+    "storage_bucket": "flutter-expanse-tracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064861940126:android:19f87c2aa5b20e7461fe8f",
+        "android_client_info": {
+          "package_name": "com.example.expanse_tracker_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUAShW8zvwe3UODOl3NB01uf2f3G5B09c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
