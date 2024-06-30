@@ -1,10 +1,11 @@
+import 'package:expanse_tracker_flutter/View_Models/signup_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/view/login_view.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -14,6 +15,8 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   final _formkey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
@@ -23,7 +26,6 @@ class _SignupViewState extends State<SignupView> {
 
   FocusNode nameFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
-
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
@@ -33,18 +35,18 @@ class _SignupViewState extends State<SignupView> {
     super.dispose();
     nameController.dispose();
     phoneNumberController.dispose();
-
     emailController.dispose();
     passwordController.dispose();
+
     nameFocusNode.dispose();
     phoneNumberFocusNode.dispose();
-
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final _signupViewModel = Provider.of<SignUpViewModel>(context);
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
         appBar: AppBar(
@@ -153,6 +155,10 @@ class _SignupViewState extends State<SignupView> {
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
+                              onFieldSubmitted: (value) {
+                                GeneralUtils.fieldFocusChange(context,
+                                    phoneNumberFocusNode, passwordFocusNode);
+                              },
                             ),
                             SizedBox(
                               height: height * .03,
@@ -183,11 +189,18 @@ class _SignupViewState extends State<SignupView> {
                         ))
                   ],
                 ),
+
                 RoundButton(
                     title: 'Sign up',
                     onPress: () {
-                      if (_formkey.currentState!.validate()) {}
+                      if (_formkey.currentState!.validate()) {
+                        _signupViewModel.signUp(
+                            email: emailController.text,
+                            password: passwordController.text,
+                            context: context);
+                      }
                     }),
+
                 // SizedBox(
                 //   height: height * .0,
                 // ),
