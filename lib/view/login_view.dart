@@ -1,8 +1,8 @@
+import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
-import 'package:flutter/foundation.dart';
+import 'package:expanse_tracker_flutter/view/signup_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -32,11 +32,13 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Log in'),
           centerTitle: true,
           automaticallyImplyLeading: false,
+          backgroundColor: Colors.indigo,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -78,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                             },
                           ),
                           SizedBox(
-                            height: 30,
+                            height: height * .03,
                           ),
                           TextFormField(
                             focusNode: passwordFocusNode,
@@ -110,7 +112,33 @@ class _LoginViewState extends State<LoginView> {
                   title: 'Log in',
                   onPress: () {
                     if (_formkey.currentState!.validate()) {}
-                  })
+                  }),
+              // SizedBox(
+              //   height: height * .0,
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Don't have an account?",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignupView()));
+                      },
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(
+                            color: AppColors.buttonColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ))
+                ],
+              )
             ],
           ),
         ));
