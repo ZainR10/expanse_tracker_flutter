@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/validate.dart';
 import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
@@ -55,16 +56,7 @@ class _LoginViewState extends State<LoginView> {
                           TextFormField(
                             focusNode: emailFocusNode,
                             controller: emailController,
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Email field cannot be empty";
-                              }
-                              if (!value.contains('@') ||
-                                  !value.contains('.com')) {
-                                return "Invalid email address";
-                              }
-                              return null;
-                            },
+                            validator: FormValidation.validateEmail,
                             keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.alternate_email),
@@ -85,15 +77,7 @@ class _LoginViewState extends State<LoginView> {
                           TextFormField(
                             focusNode: passwordFocusNode,
                             controller: passwordController,
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return "Password field cannot be empty";
-                              }
-                              if (value.length <= 8) {
-                                return "Password length must be greater than 8";
-                              }
-                              return null;
-                            },
+                            validator: FormValidation.validatePassword,
                             keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.lock_person_rounded),

@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
           create: (_) => SignUpViewModel(),
         ),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        home: const SignupView(),
+        home: SignupView(),
       ),
     );
   }
