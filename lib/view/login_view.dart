@@ -3,6 +3,7 @@ import 'package:expanse_tracker_flutter/View_Models/validate.dart';
 import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
+import 'package:expanse_tracker_flutter/view/phone_field_view.dart';
 import 'package:expanse_tracker_flutter/view/signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -137,7 +138,40 @@ class _LoginViewState extends State<LoginView> {
                             fontSize: 16),
                       ))
                 ],
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey[600],
+                      thickness: 1,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      'or',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: Colors.grey[600],
+                      thickness: 1,
+                    ),
+                  ),
+                ],
+              ),
+              RoundButton(
+                  title: 'Use Phone Number',
+                  onPress: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PhoneFieldView()));
+                  })
             ],
           ),
         ),
