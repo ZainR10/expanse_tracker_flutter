@@ -1,9 +1,11 @@
+import 'package:expanse_tracker_flutter/View_Models/login_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/View_Models/validate.dart';
 import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/view/signup_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -35,18 +37,22 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Log in'),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.indigo,
-        ),
-        body: Padding(
+      appBar: AppBar(
+        title: const Text('Log in'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.indigo,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                height: height * .05,
+              ),
               Column(
                 children: [
                   Form(
@@ -92,14 +98,23 @@ class _LoginViewState extends State<LoginView> {
                       ))
                 ],
               ),
-              RoundButton(
-                  title: 'Log in',
-                  onPress: () {
-                    if (_formkey.currentState!.validate()) {}
-                  }),
-              // SizedBox(
-              //   height: height * .0,
-              // ),
+              Consumer<LoginViewModel>(
+                builder: (context, value, child) {
+                  return RoundButton(
+                    title: 'Log in',
+                    loading: value.loginLoading,
+                    onPress: () {
+                      if (_formkey.currentState!.validate()) {
+                        value.login(
+                          email: emailController.text.toString(),
+                          password: passwordController.text.toString(),
+                          context: context,
+                        );
+                      }
+                    },
+                  );
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -125,6 +140,8 @@ class _LoginViewState extends State<LoginView> {
               )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
