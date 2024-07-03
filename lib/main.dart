@@ -1,5 +1,6 @@
 import 'package:expanse_tracker_flutter/View_Models/login_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/View_Models/signup_firebase_logic.dart';
+import 'package:expanse_tracker_flutter/View_Models/varification_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/view/splash_view.dart';
 
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => LoginViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => VerificationViewModel(),
         ),
       ],
       child: const MaterialApp(

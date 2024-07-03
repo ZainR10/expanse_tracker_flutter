@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PhoneCodeView extends StatefulWidget {
-  const PhoneCodeView({super.key});
+class VarificationCodeView extends StatefulWidget {
+  final String verificationId;
+  const VarificationCodeView({required this.verificationId, super.key});
 
   @override
-  State<PhoneCodeView> createState() => _PhoneCodeViewState();
+  State<VarificationCodeView> createState() => _VarificationCodeViewState();
 }
 
-class _PhoneCodeViewState extends State<PhoneCodeView> {
+class _VarificationCodeViewState extends State<VarificationCodeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

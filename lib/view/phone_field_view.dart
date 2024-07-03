@@ -1,7 +1,8 @@
 import 'package:expanse_tracker_flutter/View_Models/validate.dart';
+import 'package:expanse_tracker_flutter/View_Models/varification_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
-import 'package:expanse_tracker_flutter/view/phone_code_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PhoneFieldView extends StatefulWidget {
   const PhoneFieldView({super.key});
@@ -48,16 +49,17 @@ class _PhoneFieldViewState extends State<PhoneFieldView> {
                 ],
               ),
             ),
-            RoundButton(
-                title: 'Continue',
-                onPress: () {
-                  if (_formkey.currentState!.validate()) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PhoneCodeView()));
-                  }
-                })
+            Consumer<VerificationViewModel>(builder: (context, value, child) {
+              return RoundButton(
+                  title: 'Continue',
+                  loading: value.verificationLoading,
+                  onPress: () {
+                    if (_formkey.currentState!.validate()) {
+                      value.verification(
+                          phoneController: phonecontroller, context: context);
+                    }
+                  });
+            })
           ],
         ),
       ),
