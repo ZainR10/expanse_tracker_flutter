@@ -29,6 +29,7 @@ class VerificationViewModel with ChangeNotifier {
       verificationFailed: (e) {
         setverificationLoading(false);
         GeneralUtils.snackBar(e.toString(), context);
+        print('$GeneralUtils.snackBar(e.toString(), context)');
       },
       codeSent: (String verificationId, int? token) {
         setverificationLoading(false);
@@ -42,6 +43,8 @@ class VerificationViewModel with ChangeNotifier {
       },
       codeAutoRetrievalTimeout: (e) {
         setverificationLoading(false);
+        print('$GeneralUtils.snackBar(e.toString(), context)');
+
         GeneralUtils.snackBar(e.toString(), context);
       },
     )
@@ -49,6 +52,7 @@ class VerificationViewModel with ChangeNotifier {
       setverificationLoading(false);
     }).catchError((error) {
       setverificationLoading(false);
+      print('$GeneralUtils.snackBar(error.toString(), context)');
       GeneralUtils.snackBar(error.toString(), context);
     });
   }

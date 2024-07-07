@@ -23,9 +23,9 @@ class FormValidation {
     if (value == null || value.isEmpty) {
       return "Phone number cannot be empty";
     }
-    if (value.length != 11) {
-      return "Phone number length must be 11";
-    }
+    // if (value.length != 11) {
+    //   return "Phone number length must be 11";
+    // }
     return null;
   }
 

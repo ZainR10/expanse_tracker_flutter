@@ -1,4 +1,5 @@
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
+import 'package:expanse_tracker_flutter/view/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,8 @@ class SignUpViewModel with ChangeNotifier {
         .then((_) {
       setSignUpLoading(false);
       GeneralUtils.snackBar('Account Created', context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomeView()));
     }).catchError((error) {
       setSignUpLoading(false);
       GeneralUtils.snackBar(error.toString(), context);
