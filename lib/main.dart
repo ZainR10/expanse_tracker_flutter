@@ -1,7 +1,10 @@
 import 'package:expanse_tracker_flutter/View_Models/login_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/View_Models/signup_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/View_Models/varification_firebase_logic.dart';
-import 'package:expanse_tracker_flutter/view/splash_view.dart';
+import 'package:expanse_tracker_flutter/res/components/dialogbox.dart';
+import 'package:expanse_tracker_flutter/utils/routes/routes.dart';
+import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/utils/theme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,10 +37,12 @@ class MyApp extends StatelessWidget {
           create: (_) => VerificationViewModel(),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
+        theme: appThemeData,
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        home: SplashView(),
+        initialRoute: RoutesName.splashView,
+        onGenerateRoute: Routes.generateRoute,
       ),
     );
   }

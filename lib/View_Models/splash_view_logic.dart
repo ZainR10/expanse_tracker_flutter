@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:expanse_tracker_flutter/view/home_view.dart';
-import 'package:expanse_tracker_flutter/view/login_view.dart';
+import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,13 +11,11 @@ class SplashViewLogic {
 
     if (user != null) {
       Timer(const Duration(seconds: 3), () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomeView()));
+        Navigator.pushNamed(context, RoutesName.homeView);
       });
     } else {
       Timer(const Duration(seconds: 3), () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginView()));
+        Navigator.pushNamed(context, RoutesName.loginView);
       });
     }
   }

@@ -2,15 +2,15 @@ import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 
-class AnalyticsView extends StatefulWidget {
-  const AnalyticsView({super.key});
+class ExpanseListView extends StatefulWidget {
+  const ExpanseListView({super.key});
 
   @override
-  State<AnalyticsView> createState() => _AnalyticsViewState();
+  State<ExpanseListView> createState() => _ExpanseListViewState();
 }
 
-class _AnalyticsViewState extends State<AnalyticsView> {
-  int _selectedIndex = 1;
+class _ExpanseListViewState extends State<ExpanseListView> {
+  int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -49,7 +49,7 @@ class _AnalyticsViewState extends State<AnalyticsView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Analytics'),
+        title: const Text('Export data'),
       ),
       bottomNavigationBar: CustomBottomNavBar(
         onItemTapped: _onItemTapped,

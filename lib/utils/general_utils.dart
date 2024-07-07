@@ -10,7 +10,7 @@ class GeneralUtils {
   static snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.black87,
         behavior: SnackBarBehavior.floating,
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.all(10),

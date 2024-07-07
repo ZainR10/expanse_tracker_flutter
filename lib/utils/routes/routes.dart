@@ -1,7 +1,6 @@
-import 'package:expanse_tracker_flutter/View_Models/varification_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/view/analytics.dart';
-import 'package:expanse_tracker_flutter/view/export.dart';
+import 'package:expanse_tracker_flutter/view/expanse_list_view.dart';
 import 'package:expanse_tracker_flutter/view/home_view.dart';
 import 'package:expanse_tracker_flutter/view/login_view.dart';
 import 'package:expanse_tracker_flutter/view/phone_field_view.dart';
@@ -37,16 +36,16 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const AnalyticsView());
 
-      case RoutesName.exportView:
+      case RoutesName.expanseListView:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const ExportView());
-
+            builder: (BuildContext context) => const ExpanseListView());
       case RoutesName.verificationCodeView:
         final args = settings.arguments;
         if (args is VerificationCodeViewArguments) {
           return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  VarificationCodeView(verificationId: args.verificationId));
+            builder: (BuildContext context) =>
+                VarificationCodeView(verificationId: args.verificationId),
+          );
         }
         return _errorRoute();
       default:

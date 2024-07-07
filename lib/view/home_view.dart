@@ -1,7 +1,7 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
-import 'package:expanse_tracker_flutter/utils/general_utils.dart';
-import 'package:expanse_tracker_flutter/view/login_view.dart';
+import 'package:expanse_tracker_flutter/res/components/dialogbox.dart';
+import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +14,50 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final auth = FirebaseAuth.instance;
+  final TextEditingController _controller = TextEditingController();
 
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      switch (index) {
+        case 0:
+          // Navigate to Home Screen
+          Navigator.pushNamed(context, RoutesName.homeView);
+          break;
+        case 1:
+          // Navigate to Analytics Screen
+          Navigator.pushNamed(context, RoutesName.analyticsView);
+
+          break;
+        case 2:
+          // Show dialog
+          showDialog(
+            context: context,
+            builder: (context) {
+              return DialogBox(
+                controller: _controller,
+                onSave: () {
+                  // Handle save logic
+                  Navigator.of(context).pop();
+                },
+                onCancel: () => Navigator.of(context).pop(),
+              );
+            },
+          );
+
+          break;
+        case 3:
+          // Navigate to Expanse list Screen
+          Navigator.pushNamed(context, RoutesName.expanseListView);
+
+          break;
+        case 4:
+          // Navigate to Settings Screen
+
+          break;
+      }
       // Add your navigation logic here
       // For example, you can use a switch statement to navigate to different screens
     });
