@@ -1,32 +1,29 @@
-import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_&_balance_class.dart';
-import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:flutter/material.dart';
 
-class DialogBox extends StatefulWidget {
-  final void Function(Expanses newExpanse) addExpansesCallback;
+import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
+
+class BalanceDialogbox extends StatefulWidget {
+  final void Function(double newBalance) addBalanceCallback;
   final VoidCallback onSave;
   final VoidCallback onCancel;
 
-  DialogBox({
+  const BalanceDialogbox({
     Key? key,
-    required this.addExpansesCallback,
+    required this.addBalanceCallback,
     required this.onSave,
     required this.onCancel,
   }) : super(key: key);
 
   @override
-  State<DialogBox> createState() => _DialogBoxState();
+  State<BalanceDialogbox> createState() => _BalanceDialogboxState();
 }
 
-class _DialogBoxState extends State<DialogBox> {
-  bool isExpenseActive = true; // Track which button is active
-
+class _BalanceDialogboxState extends State<BalanceDialogbox> {
   DateTime startDate = DateTime.now();
   TimeOfDay startTime = TimeOfDay.now();
-  final TextEditingController expanseController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController amountController = TextEditingController();
+  final TextEditingController balanceController = TextEditingController();
 
   Future<void> _selectStartDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -54,15 +51,17 @@ class _DialogBoxState extends State<DialogBox> {
     }
   }
 
-  void _addExpenses() {
-    Expanses newExpanse = Expanses(
-      title: expanseController.text,
-      description: descriptionController.text,
-      startDate: startDate,
-      startTime: startTime,
-      amount: double.tryParse(amountController.text) ?? 0.0,
+  // void _addBalance() {
+  //   double balanceAmount = double.tryParse(balanceController.text) ?? 0.0;
+  //   widget.addBalanceCallback(balanceAmount);
+  //   Navigator.pop(context); // Use pop instead of pushNamed to close the dialog
+  // }
+  void _addBalance() {
+    double balanceAmount = double.tryParse(balanceController.text) ?? 0.0;
+    Balance newBalance = Balance(
+      balanceAmount: balanceAmount,
     );
-    widget.addExpansesCallback(newExpanse);
+    widget.addBalanceCallback(balanceAmount);
     Navigator.pushNamed(context, RoutesName.homeView);
   }
 
@@ -74,7 +73,7 @@ class _DialogBoxState extends State<DialogBox> {
     return Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: AlertDialog(
-          title: const Text('Add Expanse Details'),
+          title: const Text('Add  Balance'),
           contentPadding: const EdgeInsets.all(20),
           shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -89,38 +88,15 @@ class _DialogBoxState extends State<DialogBox> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Toggle buttons for Expense and Balance
-
-                    // Fields based on active button
-
-                    // Name
-                    TextField(
-                      controller: expanseController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mode_edit_outline_outlined),
-                        border: OutlineInputBorder(),
-                        hintText: "Add a new expense",
-                      ),
-                    ),
-                    SizedBox(height: height * .02),
-                    // Category
-                    TextField(
-                      controller: descriptionController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.description_outlined),
-                        border: OutlineInputBorder(),
-                        hintText: "Write about expense type",
-                      ),
-                    ),
                     SizedBox(height: height * .02),
                     // Amount
                     TextField(
                       keyboardType: TextInputType.number,
-                      controller: amountController,
+                      controller: balanceController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.attach_money_rounded),
                         border: OutlineInputBorder(),
-                        hintText: "Amount",
+                        hintText: "Add Balance Amount",
                       ),
                     ),
                     SizedBox(height: height * .03),
@@ -181,7 +157,7 @@ class _DialogBoxState extends State<DialogBox> {
                             width: width * .30,
                             color: Colors.black87,
                             title: 'Save',
-                            onPress: _addExpenses,
+                            onPress: _addBalance,
                           ),
                         ),
                         SizedBox(width: width * .06),

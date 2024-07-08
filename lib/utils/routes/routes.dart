@@ -25,8 +25,7 @@ class Routes {
             builder: (BuildContext context) => const SignupView());
 
       case RoutesName.homeView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const HomeView());
+        return MaterialPageRoute(builder: (BuildContext context) => HomeView());
 
       case RoutesName.phoneFieldView:
         return MaterialPageRoute(
