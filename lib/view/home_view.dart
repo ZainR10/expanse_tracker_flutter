@@ -1,7 +1,7 @@
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
-import 'package:expanse_tracker_flutter/res/components/balance_dialogbox.dart';
+
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
-import 'package:expanse_tracker_flutter/res/components/dialogbox.dart';
+
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -27,21 +27,6 @@ class _HomeViewState extends State<HomeView> {
         Navigator.pushNamed(context, RoutesName.analyticsView);
         break;
       case 2:
-        // showDialog(
-        //   context: context,
-        //   builder: (context) {
-        //     return DialogBox(
-        //       addExpansesCallback: (newExpense) {
-        //         Provider.of<ExpensesProvider>(context, listen: false)
-        //             .addExpense(newExpense);
-        //       },
-        //       onSave: () {
-        //         Navigator.pop(context);
-        //       },
-        //       onCancel: () => Navigator.of(context).pop(),
-        //     );
-        //   },
-        // );
         break;
       case 3:
         Navigator.pushNamed(context, RoutesName.expanseListView);
@@ -143,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                             "Rs ${remainingBalance.toStringAsFixed(2)}",
                             style: const TextStyle(
                               wordSpacing: 1,
-                              color: Colors.green,
+                              color: Colors.lightGreen,
                               fontSize: 24,
                               fontWeight: FontWeight.w400,
                             ),

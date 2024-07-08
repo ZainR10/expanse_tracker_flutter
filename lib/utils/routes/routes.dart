@@ -33,7 +33,7 @@ class Routes {
 
       case RoutesName.analyticsView:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const AnalyticsView());
+            builder: (BuildContext context) => ExpensePieChart());
 
       case RoutesName.expanseListView:
         return MaterialPageRoute(

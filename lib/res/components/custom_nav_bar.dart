@@ -53,13 +53,13 @@ class CustomBottomNavBar extends StatelessWidget {
         if (index == 2) {
           showMenu(
             context: context,
-            position: RelativeRect.fromLTRB(100, 100, 100, 100),
+            position: const RelativeRect.fromLTRB(100, 100, 100, 100),
             items: [
-              PopupMenuItem<String>(
+              const PopupMenuItem<String>(
                 value: 'Balance',
                 child: Text('Add Balance'),
               ),
-              PopupMenuItem<String>(
+              const PopupMenuItem<String>(
                 value: 'Expense',
                 child: Text('Add Expense'),
               ),
