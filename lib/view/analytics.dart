@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 
 class ExpensePieChart extends StatefulWidget {
+  const ExpensePieChart({super.key});
+
   @override
   State<ExpensePieChart> createState() => _ExpensePieChartState();
 }
@@ -166,7 +168,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
             ),
             SizedBox(height: height * .10),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Text(
                 'Most Costly Category: $mostCostlyCategory',
                 style: const TextStyle(

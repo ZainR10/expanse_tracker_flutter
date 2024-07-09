@@ -174,7 +174,7 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               height: height * .01,
             ),
-            ListTileBuilder(expenses: expenses)
+            ListTileBuilder(itemCount: 2, expenses: expenses)
           ],
         ),
       ),
