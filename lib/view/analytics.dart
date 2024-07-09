@@ -33,27 +33,23 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
           case 1:
             // Navigate to Analytics Screen
             Navigator.pushNamed(context, RoutesName.analyticsView);
-
             break;
           case 2:
             // Navigate to Add Screen
-
             break;
           case 3:
             // Navigate to Expanse list Screen
             Navigator.pushNamed(context, RoutesName.expanseListView);
-
             break;
           case 4:
             // Navigate to Settings Screen
-
             break;
         }
-        // Add your navigation logic here
-        // For example, you can use a switch statement to navigate to different screens
       });
     }
 
+    final height = MediaQuery.of(context).size.height * 1;
+    final width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
       bottomNavigationBar: CustomBottomNavBar(
         onItemTapped: onItemTapped,
@@ -64,46 +60,119 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         child: Column(
           children: [
             const Text(
-              'Balance vs Expenses',
+              'Expense Analysis',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
+            // SizedBox(height: height * .0),
             Expanded(
-              child: Stack(
-                alignment: Alignment.center,
+              child: Column(
                 children: [
-                  PieChart(
-                    PieChartData(
-                      sections:
-                          _showingSections(totalExpenses, remainingBalance),
-                      centerSpaceRadius: 60,
-                      centerSpaceColor: Colors.white,
-                      sectionsSpace: 0,
-                      pieTouchData: PieTouchData(
-                        touchCallback:
-                            (FlTouchEvent event, pieTouchResponse) {},
-                      ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * .02,
+                        ),
+                        const Text(
+                          'Balance vs Expenses',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: height * .10),
+                        Expanded(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              PieChart(
+                                PieChartData(
+                                  sections: _showingSections(
+                                      totalExpenses, remainingBalance),
+                                  centerSpaceRadius: 60,
+                                  centerSpaceColor: Colors.white,
+                                  sectionsSpace: 0,
+                                  pieTouchData: PieTouchData(
+                                    touchCallback: (FlTouchEvent event,
+                                        pieTouchResponse) {},
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '${(remainingBalance / totalBalance * 100).toStringAsFixed(1)}%',
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    '${(remainingBalance / totalBalance * 100).toStringAsFixed(1)}%',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: height * .08,
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: height * .02,
+                        ),
+                        const Text(
+                          'Expenses by Category',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: height * .10),
+                        Expanded(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              PieChart(
+                                PieChartData(
+                                  sections: _showingCategorySections(
+                                      expensesProvider.expenses),
+                                  centerSpaceRadius: 60,
+                                  centerSpaceColor: Colors.white,
+                                  sectionsSpace: 0,
+                                  pieTouchData: PieTouchData(
+                                    touchCallback: (FlTouchEvent event,
+                                        pieTouchResponse) {},
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '${(remainingBalance / totalBalance * 100).toStringAsFixed(1)}%',
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              'Most Costly Category: $mostCostlyCategory',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+            SizedBox(height: height * .10),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                'Most Costly Category: $mostCostlyCategory',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ],
@@ -138,29 +207,61 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
       ),
     ];
   }
-}
 
-String _getMostCostlyCategory(List<Expanses> expenses) {
-  Map<String, double> categoryTotals = {};
+  List<PieChartSectionData> _showingCategorySections(List<Expanses> expenses) {
+    Map<String, double> categoryTotals = {};
 
-  for (var expense in expenses) {
-    if (categoryTotals.containsKey(expense.description)) {
-      categoryTotals[expense.description] =
-          categoryTotals[expense.description]! + expense.amount;
-    } else {
-      categoryTotals[expense.description] = expense.amount;
+    for (var expense in expenses) {
+      if (categoryTotals.containsKey(expense.description)) {
+        categoryTotals[expense.description] =
+            categoryTotals[expense.description]! + expense.amount;
+      } else {
+        categoryTotals[expense.description] = expense.amount;
+      }
     }
+
+    List<PieChartSectionData> sections = [];
+    categoryTotals.forEach((category, amount) {
+      sections.add(
+        PieChartSectionData(
+          color: Colors.primaries[sections.length % Colors.primaries.length],
+          value: amount,
+          title: category,
+          radius: 50,
+          titleStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      );
+    });
+
+    return sections;
   }
 
-  String mostCostlyCategory = '';
-  double highestAmount = 0.0;
+  String _getMostCostlyCategory(List<Expanses> expenses) {
+    Map<String, double> categoryTotals = {};
 
-  categoryTotals.forEach((category, amount) {
-    if (amount > highestAmount) {
-      mostCostlyCategory = category;
-      highestAmount = amount;
+    for (var expense in expenses) {
+      if (categoryTotals.containsKey(expense.description)) {
+        categoryTotals[expense.description] =
+            categoryTotals[expense.description]! + expense.amount;
+      } else {
+        categoryTotals[expense.description] = expense.amount;
+      }
     }
-  });
 
-  return mostCostlyCategory;
+    String mostCostlyCategory = '';
+    double highestAmount = 0.0;
+
+    categoryTotals.forEach((category, amount) {
+      if (amount > highestAmount) {
+        mostCostlyCategory = category;
+        highestAmount = amount;
+      }
+    });
+
+    return mostCostlyCategory;
+  }
 }
