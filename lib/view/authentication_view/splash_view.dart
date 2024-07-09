@@ -1,4 +1,4 @@
-import 'package:expanse_tracker_flutter/View_Models/splash_view_logic.dart';
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/splash_view_logic.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {

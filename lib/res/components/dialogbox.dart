@@ -90,7 +90,7 @@ class _DialogBoxState extends State<DialogBox> {
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.description_outlined),
                     border: OutlineInputBorder(),
-                    hintText: 'Please select your Gender',
+                    hintText: 'Please select your Category',
                     hintStyle: TextStyle(
                       fontWeight: FontWeight.normal,
                     ),

@@ -1,7 +1,7 @@
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
-import 'package:expanse_tracker_flutter/View_Models/login_firebase_logic.dart';
-import 'package:expanse_tracker_flutter/View_Models/signup_firebase_logic.dart';
-import 'package:expanse_tracker_flutter/View_Models/varification_firebase_logic.dart';
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/login_firebase_logic.dart';
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/signup_firebase_logic.dart';
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/varification_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/utils/theme.dart';

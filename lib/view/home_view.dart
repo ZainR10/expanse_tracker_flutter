@@ -143,6 +143,37 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               height: height * .02,
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Transactions:',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                  ),
+                  SizedBox(
+                    width: width * .01,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, RoutesName.expanseListView);
+                    },
+                    child: const Text(
+                      'View all',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                          decoration: TextDecoration.underline),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: height * .01,
+            ),
             ListTileBuilder(expenses: expenses)
           ],
         ),

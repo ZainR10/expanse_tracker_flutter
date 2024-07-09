@@ -3,9 +3,10 @@ import 'package:expanse_tracker_flutter/res/components/balance_dialogbox.dart';
 import 'package:expanse_tracker_flutter/res/components/dialogbox.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
+class CustomBottomNavBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
@@ -16,9 +17,14 @@ class CustomBottomNavBar extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
+}
+
+class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
+  @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      index: selectedIndex,
+      index: widget.selectedIndex,
       color: Colors.black87,
       backgroundColor: Colors.transparent,
       buttonBackgroundColor: Colors.black87,
@@ -39,7 +45,7 @@ class CustomBottomNavBar extends StatelessWidget {
           color: Colors.white,
         ),
         Icon(
-          Icons.transform_outlined,
+          Icons.list_alt_sharp,
           size: 40,
           color: Colors.white,
         ),
@@ -53,7 +59,7 @@ class CustomBottomNavBar extends StatelessWidget {
         if (index == 2) {
           showMenu(
             context: context,
-            position: const RelativeRect.fromLTRB(100, 100, 100, 100),
+            position: const RelativeRect.fromLTRB(150, 450, 150, 100),
             items: [
               const PopupMenuItem<String>(
                 value: 'Balance',
@@ -98,7 +104,7 @@ class CustomBottomNavBar extends StatelessWidget {
             }
           });
         } else {
-          onItemTapped(index);
+          widget.onItemTapped(index);
         }
       },
     );

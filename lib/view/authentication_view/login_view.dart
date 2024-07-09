@@ -1,5 +1,5 @@
-import 'package:expanse_tracker_flutter/View_Models/login_firebase_logic.dart';
-import 'package:expanse_tracker_flutter/View_Models/validate.dart';
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/login_firebase_logic.dart';
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/validate.dart';
 import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';

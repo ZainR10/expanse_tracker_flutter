@@ -2,11 +2,11 @@ import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/view/analytics.dart';
 import 'package:expanse_tracker_flutter/view/expanse_list_view.dart';
 import 'package:expanse_tracker_flutter/view/home_view.dart';
-import 'package:expanse_tracker_flutter/view/login_view.dart';
-import 'package:expanse_tracker_flutter/view/phone_field_view.dart';
-import 'package:expanse_tracker_flutter/view/signup_view.dart';
-import 'package:expanse_tracker_flutter/view/splash_view.dart';
-import 'package:expanse_tracker_flutter/view/varification_code_view.dart';
+import 'package:expanse_tracker_flutter/view/authentication_view/login_view.dart';
+import 'package:expanse_tracker_flutter/view/authentication_view/phone_field_view.dart';
+import 'package:expanse_tracker_flutter/view/authentication_view/signup_view.dart';
+import 'package:expanse_tracker_flutter/view/authentication_view/splash_view.dart';
+import 'package:expanse_tracker_flutter/view/authentication_view/varification_code_view.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
