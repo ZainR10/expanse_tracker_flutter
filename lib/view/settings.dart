@@ -1,9 +1,11 @@
+import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -14,6 +16,17 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   int _selectedIndex = 4;
+  List<String> _currencies = ['Rs', 'USD', 'EUR', 'GBP'];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrency();
+  }
+
+  Future<void> _loadCurrency() async {
+    // You can load initial currency if needed
+  }
 
   void _onItemTapped(int index) {
     switch (index) {
@@ -37,6 +50,8 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    final currencyProvider = Provider.of<CurrencyProvider>(context);
+    String _selectedCurrency = currencyProvider.selectedCurrency;
     final auth = FirebaseAuth.instance;
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
@@ -96,31 +111,37 @@ class _SettingsViewState extends State<SettingsView> {
               height: height * .03,
             ),
             Container(
-              width: width * 1,
-              height: height * .10,
-              child: InkWell(
-                onTap: () {},
-                child: Card(
-                  shadowColor: Colors.green,
-                  color: Colors.lightGreen[400],
-                  // color: const Color.fromARGB(255, 255, 250, 248),
-                  shape: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black87),
-                    borderRadius: BorderRadius.circular(5),
+                width: width * 1,
+                height: height * .10,
+                child: InkWell(
+                  onTap: () {},
+                  child: Card(
+                    shadowColor: Colors.green,
+                    color: Colors.lightGreen[400],
+                    // color: const Color.fromARGB(255, 255, 250, 248),
+                    shape: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black87),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    elevation: 8,
+                    margin: const EdgeInsets.all(8),
+                    child: Center(
+                      child: DropdownButton<String>(
+                        value: _selectedCurrency,
+                        onChanged: (String? newValue) {
+                          currencyProvider.selectedCurrency = newValue!;
+                        },
+                        items: _currencies
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
-                  elevation: 8,
-                  margin: const EdgeInsets.all(8),
-                  child: const Center(
-                      child: Text(
-                    'Export Data to Excel Sheets',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 2),
-                  )),
-                ),
-              ),
-            )
+                ))
           ],
         ),
       ),

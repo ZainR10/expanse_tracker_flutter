@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
+import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
@@ -66,7 +68,30 @@ class _ExpanseListViewState extends State<ExpanseListView> {
       ),
       body: Column(
         children: [
-          ListTileBuilder(itemCount: expenses.length, expenses: expenses)
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream:
+                  FirebaseFirestore.instance.collection('expenses').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                final expenses = snapshot.data?.docs.map((doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      return Expanses.fromFirestore(
+                          doc); // Corrected this line to pass the DocumentSnapshot
+                    }).toList() ??
+                    [];
+                return ListTileBuilder(
+                  itemCount: expenses.length,
+                  expenses: expenses,
+                );
+              },
+            ),
+          )
         ],
       ),
     );

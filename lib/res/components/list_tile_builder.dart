@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,8 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    final currencyProvider = Provider.of<CurrencyProvider>(context);
+    String _selectedCurrency = currencyProvider.selectedCurrency;
     return widget.expenses.isEmpty
         ? const Center(
             child: Text(
@@ -84,7 +87,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                     leading: const Icon(Icons.attach_money_outlined),
                     trailing: Text(
                       double.tryParse(expense.amount.toString()) != null
-                          ? '\$${double.parse(expense.amount.toString()).toStringAsFixed(2)}'
+                          ? '$_selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(2)}'
                           : '\$0.00',
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500),

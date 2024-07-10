@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
@@ -38,6 +39,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final currencyProvider = Provider.of<CurrencyProvider>(context);
+    String _selectedCurrency = currencyProvider.selectedCurrency;
     final expensesProvider = Provider.of<ExpensesProvider>(context);
     final expenses = expensesProvider.expenses;
     final totalExpenses = expensesProvider.totalExpenses;
@@ -99,7 +102,7 @@ class _HomeViewState extends State<HomeView> {
                                 (data['totalBalance'] ?? 0).toDouble();
                           }
                           return Text(
-                            "Rs ${totalBalance.toStringAsFixed(2)}",
+                            "$_selectedCurrency ${totalBalance.toStringAsFixed(2)}",
                             style: const TextStyle(
                               wordSpacing: 2.5,
                               color: Colors.white,
@@ -161,7 +164,7 @@ class _HomeViewState extends State<HomeView> {
                                 });
                               }
                               return Text(
-                                "Rs ${totalExpenses.toStringAsFixed(2)}",
+                                "$_selectedCurrency ${totalExpenses.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   wordSpacing: 1,
                                   color: Colors.red,
@@ -195,7 +198,7 @@ class _HomeViewState extends State<HomeView> {
                               double remainingBalance =
                                   totalBalance - totalExpenses;
                               return Text(
-                                "Rs ${remainingBalance.toStringAsFixed(2)}",
+                                "$_selectedCurrency ${remainingBalance.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   wordSpacing: 1,
                                   color: Colors.lightGreen,
