@@ -7,4 +7,5 @@ class RoutesName {
   static const String verificationCodeView = 'phone_field_view';
   static const String expanseListView = 'expanse_list_view';
   static const String analyticsView = 'analytics';
+  static const String settingsView = 'settings';
 }

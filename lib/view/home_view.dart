@@ -1,11 +1,10 @@
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
-
+import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
-
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -32,6 +31,7 @@ class _HomeViewState extends State<HomeView> {
         Navigator.pushNamed(context, RoutesName.expanseListView);
         break;
       case 4:
+        Navigator.pushNamed(context, RoutesName.settingsView);
         break;
     }
   }
@@ -44,6 +44,7 @@ class _HomeViewState extends State<HomeView> {
     final remainingBalance = expensesProvider.remainingBalance;
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
+
     return Scaffold(
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
@@ -77,14 +78,36 @@ class _HomeViewState extends State<HomeView> {
                           fontWeight: FontWeight.w300,
                         ),
                       ),
-                      Text(
-                        "Rs ${expensesProvider.totalBalance.toStringAsFixed(2)}",
-                        style: const TextStyle(
-                          wordSpacing: 2.5,
-                          color: Colors.white,
-                          fontSize: 36,
-                          fontWeight: FontWeight.w400,
-                        ),
+                      StreamBuilder<DocumentSnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('balances')
+                            .doc('main')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          }
+                          double totalBalance = 0.0;
+                          if (snapshot.hasData && snapshot.data!.exists) {
+                            final data =
+                                snapshot.data!.data() as Map<String, dynamic>;
+                            totalBalance =
+                                (data['totalBalance'] ?? 0).toDouble();
+                          }
+                          return Text(
+                            "Rs ${totalBalance.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              wordSpacing: 2.5,
+                              color: Colors.white,
+                              fontSize: 36,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          );
+                        },
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .03,
@@ -115,23 +138,72 @@ class _HomeViewState extends State<HomeView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Rs ${totalExpenses.toStringAsFixed(2)}",
-                            style: const TextStyle(
-                              wordSpacing: 1,
-                              color: Colors.red,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                            ),
+                          StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('expenses')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              }
+                              double totalExpenses = 0.0;
+                              if (snapshot.hasData) {
+                                totalExpenses =
+                                    snapshot.data!.docs.fold(0.0, (sum, doc) {
+                                  final data =
+                                      doc.data() as Map<String, dynamic>;
+                                  return sum +
+                                      (data['amount'] ?? 0.0).toDouble();
+                                });
+                              }
+                              return Text(
+                                "Rs ${totalExpenses.toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                  wordSpacing: 1,
+                                  color: Colors.red,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              );
+                            },
                           ),
-                          Text(
-                            "Rs ${remainingBalance.toStringAsFixed(2)}",
-                            style: const TextStyle(
-                              wordSpacing: 1,
-                              color: Colors.lightGreen,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w400,
-                            ),
+                          StreamBuilder<DocumentSnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('balances')
+                                .doc('main')
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              }
+                              double totalBalance = 0.0;
+                              double totalExpenses = 0.0;
+                              if (snapshot.hasData && snapshot.data!.exists) {
+                                final data = snapshot.data!.data()
+                                    as Map<String, dynamic>;
+                                totalBalance =
+                                    (data['totalBalance'] ?? 0.0).toDouble();
+                              }
+                              double remainingBalance =
+                                  totalBalance - totalExpenses;
+                              return Text(
+                                "Rs ${remainingBalance.toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                  wordSpacing: 1,
+                                  color: Colors.lightGreen,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -141,40 +213,48 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             SizedBox(
-              height: height * .02,
+              height: height * 0.04,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Transactions:',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    width: width * .01,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, RoutesName.expanseListView);
-                    },
-                    child: const Text(
-                      'View all',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                          decoration: TextDecoration.underline),
-                    ),
-                  )
-                ],
+            Container(
+              margin: const EdgeInsets.only(left: 20),
+              alignment: Alignment.topLeft,
+              child: const Text(
+                "Transactions",
+                style: TextStyle(
+                  wordSpacing: 2.5,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w300,
+                ),
               ),
             ),
             SizedBox(
-              height: height * .01,
+              height: height * 0.02,
             ),
-            ListTileBuilder(itemCount: 2, expenses: expenses)
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('expenses')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  final expenses = snapshot.data?.docs.map((doc) {
+                        final data = doc.data() as Map<String, dynamic>;
+                        return Expanses.fromFirestore(
+                            doc); // Corrected this line to pass the DocumentSnapshot
+                      }).toList() ??
+                      [];
+                  return ListTileBuilder(
+                    itemCount: 3,
+                    expenses: expenses,
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

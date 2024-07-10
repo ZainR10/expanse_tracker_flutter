@@ -1,4 +1,4 @@
-import 'package:expanse_tracker_flutter/View_Models/expanse_&_balance_class.dart';
+import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -44,7 +44,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
             Navigator.pushNamed(context, RoutesName.expanseListView);
             break;
           case 4:
-            // Navigate to Settings Screen
+            Navigator.pushNamed(context, RoutesName.settingsView);
             break;
         }
       });

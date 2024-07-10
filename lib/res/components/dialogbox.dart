@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:expanse_tracker_flutter/View_Models/expanse_&_balance_class.dart';
+import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:intl/intl.dart';

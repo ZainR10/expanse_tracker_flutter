@@ -39,11 +39,10 @@ class _ExpanseListViewState extends State<ExpanseListView> {
           break;
         case 4:
           // Navigate to Settings Screen
+          Navigator.pushNamed(context, RoutesName.settingsView);
 
           break;
       }
-      // Add your navigation logic here
-      // For example, you can use a switch statement to navigate to different screens
     });
   }
 
