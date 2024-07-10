@@ -9,6 +9,16 @@ class FormValidation {
     return null;
   }
 
+  static String? validateExpanseName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Expanse title cannot be empty";
+    }
+    if (value.contains('@') || value.contains('.com')) {
+      return "Expanse title cannot contain letters like these";
+    }
+    return null;
+  }
+
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return "Email field cannot be empty";
@@ -16,6 +26,16 @@ class FormValidation {
     if (!value.contains('@') || !value.contains('.com')) {
       return "Invalid email address";
     }
+    return null;
+  }
+
+  static String? validateamount(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter your amount";
+    }
+    // if (value.length != 11) {
+    //   return "Phone number length must be 11";
+    // }
     return null;
   }
 

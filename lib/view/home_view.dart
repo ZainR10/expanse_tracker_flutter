@@ -92,7 +92,9 @@ class _HomeViewState extends State<HomeView> {
                           }
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator(
+                              color: Colors.white,
+                            );
                           }
                           double totalBalance = 0.0;
                           if (snapshot.hasData && snapshot.data!.exists) {
@@ -151,7 +153,9 @@ class _HomeViewState extends State<HomeView> {
                               }
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator(
+                                  color: Colors.white,
+                                );
                               }
                               double totalExpenses = 0.0;
                               if (snapshot.hasData) {
@@ -185,7 +189,9 @@ class _HomeViewState extends State<HomeView> {
                               }
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator(
+                                  color: Colors.white,
+                                );
                               }
                               double totalBalance = 0.0;
                               double totalExpenses = 0.0;
@@ -243,7 +249,9 @@ class _HomeViewState extends State<HomeView> {
                     return Text('Error: ${snapshot.error}');
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator(
+                      color: Colors.black87,
+                    );
                   }
                   final expenses = snapshot.data?.docs.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;

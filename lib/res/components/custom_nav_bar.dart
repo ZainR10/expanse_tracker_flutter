@@ -3,7 +3,6 @@ import 'package:expanse_tracker_flutter/res/components/balance_dialogbox.dart';
 import 'package:expanse_tracker_flutter/res/components/dialogbox.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
@@ -11,10 +10,10 @@ class CustomBottomNavBar extends StatefulWidget {
   final Function(int) onItemTapped;
 
   const CustomBottomNavBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onItemTapped,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();

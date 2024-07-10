@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
@@ -22,6 +23,7 @@ class DialogBox extends StatefulWidget {
 
 class _DialogBoxState extends State<DialogBox> {
   String? selectedCategory;
+  final _formkey = GlobalKey<FormState>();
 
   DateTime startDate = DateTime.now();
 
@@ -77,94 +79,103 @@ class _DialogBoxState extends State<DialogBox> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextField(
-                  controller: expanseController,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.mode_edit_outline_outlined),
-                    border: OutlineInputBorder(),
-                    hintText: "Add a new expense",
-                  ),
-                ),
-                SizedBox(height: height * .02),
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.description_outlined),
-                    border: OutlineInputBorder(),
-                    hintText: 'Please select your Category',
-                    hintStyle: TextStyle(
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  value: selectedCategory,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedCategory = newValue;
-                    });
-                  },
-                  items: <String>[
-                    'Food',
-                    'Travel Expense',
-                    'Bills',
-                    'Shopping',
-                    'Education',
-                    'Health',
-                    'Grocery'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: height * .02),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  controller: amountController,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(Icons.attach_money_rounded),
-                    border: OutlineInputBorder(),
-                    hintText: "Amount",
-                  ),
-                ),
-                SizedBox(height: height * .03),
-                GestureDetector(
-                  onTap: () => _selectStartDate(context),
-                  child: AbsorbPointer(
-                    child: TextField(
-                      controller: TextEditingController(
-                        text: dateFormat.format(startDate),
-                      ),
-                      decoration: const InputDecoration(
+                Form(
+                    key: _formkey,
+                    child: Column(children: [
+                      TextFormField(
+                        validator: FormValidation.validateExpanseName,
+                        controller: expanseController,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.mode_edit_outline_outlined),
                           border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.calendar_month)),
-                    ),
-                  ),
-                ),
-                SizedBox(height: height * .02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: CustomButton(
-                        width: width * .30,
-                        color: Colors.black87,
-                        title: 'Save',
-                        onPress: _addExpenses,
+                          hintText: "Add a new expense",
+                        ),
                       ),
-                    ),
-                    SizedBox(width: width * .06),
-                    Expanded(
-                      child: CustomButton(
-                        width: width * .30,
-                        color: Colors.red,
-                        title: 'Cancel',
-                        onPress: () {
-                          Navigator.pop(context);
+                      SizedBox(height: height * .02),
+                      DropdownButtonFormField<String>(
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.description_outlined),
+                          border: OutlineInputBorder(),
+                          hintText: 'Please select your Category',
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        value: selectedCategory,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedCategory = newValue;
+                          });
                         },
+                        items: <String>[
+                          'Food',
+                          'Travel Expense',
+                          'Bills',
+                          'Shopping',
+                          'Education',
+                          'Health',
+                          'Grocery'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(height: height * .02),
+                      TextFormField(
+                        validator: FormValidation.validateamount,
+                        keyboardType: TextInputType.number,
+                        controller: amountController,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.attach_money_rounded),
+                          border: OutlineInputBorder(),
+                          hintText: "Amount",
+                        ),
+                      ),
+                      SizedBox(height: height * .03),
+                      GestureDetector(
+                        onTap: () => _selectStartDate(context),
+                        child: AbsorbPointer(
+                          child: TextField(
+                            controller: TextEditingController(
+                              text: dateFormat.format(startDate),
+                            ),
+                            decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.calendar_month)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: height * .02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: CustomButton(
+                                width: width * .30,
+                                color: Colors.black87,
+                                title: 'Save',
+                                onPress: () {
+                                  if (_formkey.currentState!.validate()) {
+                                    _addExpenses();
+                                  }
+                                }),
+                          ),
+                          SizedBox(width: width * .06),
+                          Expanded(
+                            child: CustomButton(
+                              width: width * .30,
+                              color: Colors.red,
+                              title: 'Cancel',
+                              onPress: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]))
               ],
             ),
           ),

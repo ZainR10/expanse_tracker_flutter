@@ -21,12 +21,23 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Text(
-          'WELCOME',
-          style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+      backgroundColor: Colors.black87,
+      body: Stack(children: [
+        Center(
+          child: Icon(
+            Icons.track_changes,
+            size: 300,
+            color: Colors.red,
+          ),
         ),
-      ),
+        Center(
+          child: Text(
+            'Expanse Tracker',
+            style: TextStyle(
+                fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+      ]),
     );
   }
 }

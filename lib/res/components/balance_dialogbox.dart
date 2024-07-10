@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/validate.dart';
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -21,35 +22,8 @@ class BalanceDialogbox extends StatefulWidget {
 }
 
 class _BalanceDialogboxState extends State<BalanceDialogbox> {
-  DateTime startDate = DateTime.now();
-  TimeOfDay startTime = TimeOfDay.now();
+  final _formkey = GlobalKey<FormState>();
   final TextEditingController balanceController = TextEditingController();
-
-  Future<void> _selectStartDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: startDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(3000),
-    );
-    if (pickedDate != null && pickedDate != startDate) {
-      setState(() {
-        startDate = pickedDate;
-      });
-    }
-  }
-
-  Future<void> _selectStartTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: startTime,
-    );
-    if (pickedTime != null) {
-      setState(() {
-        startTime = pickedTime;
-      });
-    }
-  }
 
   // void _addBalance() {
   //   double balanceAmount = double.tryParse(balanceController.text) ?? 0.0;
@@ -82,69 +56,29 @@ class _BalanceDialogboxState extends State<BalanceDialogbox> {
           ),
           backgroundColor: const Color.fromARGB(255, 255, 250, 248),
           content: SizedBox(
-            height: height * .55,
-            width: width * .80,
+            // height: height * .55,
+            // width: width * .80,
             child: SingleChildScrollView(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: height * .02),
                     // Amount
-                    TextField(
-                      keyboardType: TextInputType.number,
-                      controller: balanceController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.attach_money_rounded),
-                        border: OutlineInputBorder(),
-                        hintText: "Add Balance Amount",
+                    Form(
+                      key: _formkey,
+                      child: TextFormField(
+                        validator: FormValidation.validateamount,
+                        keyboardType: TextInputType.number,
+                        controller: balanceController,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.attach_money_rounded),
+                          border: OutlineInputBorder(),
+                          hintText: "Add Balance Amount",
+                        ),
                       ),
                     ),
                     SizedBox(height: height * .03),
                     // Date and time row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.calendar_month_outlined),
-                          onPressed: () => _selectStartDate(context),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _selectStartDate(context),
-                            child: AbsorbPointer(
-                              child: TextField(
-                                controller: TextEditingController(
-                                  text: startDate.toString().split(' ')[0],
-                                ),
-                                decoration: const InputDecoration(
-                                  labelText: 'Start Date',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: width * .02),
-                        IconButton(
-                          icon: const Icon(Icons.access_time),
-                          onPressed: () => _selectStartTime(context),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _selectStartTime(context),
-                            child: AbsorbPointer(
-                              child: TextField(
-                                controller: TextEditingController(
-                                  text: startTime.format(context),
-                                ),
-                                decoration: const InputDecoration(
-                                  labelText: 'Start Time',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
 
                     SizedBox(height: height * .02),
                     // Buttons: Save and Cancel
@@ -154,11 +88,14 @@ class _BalanceDialogboxState extends State<BalanceDialogbox> {
                         // Save button
                         Expanded(
                           child: CustomButton(
-                            width: width * .30,
-                            color: Colors.black87,
-                            title: 'Save',
-                            onPress: _addBalance,
-                          ),
+                              width: width * .30,
+                              color: Colors.black87,
+                              title: 'Save',
+                              onPress: () {
+                                if (_formkey.currentState!.validate()) {
+                                  _addBalance();
+                                }
+                              }),
                         ),
                         SizedBox(width: width * .06),
                         // Cancel button

@@ -84,7 +84,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500),
                     ),
-                    leading: const Icon(Icons.attach_money_outlined),
+                    // leading:  Color,
                     trailing: Text(
                       double.tryParse(expense.amount.toString()) != null
                           ? '$_selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(2)}'

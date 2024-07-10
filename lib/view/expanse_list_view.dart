@@ -77,7 +77,9 @@ class _ExpanseListViewState extends State<ExpanseListView> {
                   return Text('Error: ${snapshot.error}');
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator(
+                    color: Colors.black87,
+                  );
                 }
                 final expenses = snapshot.data?.docs.map((doc) {
                       final data = doc.data() as Map<String, dynamic>;

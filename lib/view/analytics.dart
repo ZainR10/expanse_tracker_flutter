@@ -1,10 +1,12 @@
+import 'package:expanse_tracker_flutter/View_Models/chart_provider.dart';
+import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
+
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 
 class ExpensePieChart extends StatefulWidget {
   const ExpensePieChart({super.key});
@@ -18,6 +20,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
   Widget build(BuildContext context) {
     int _selectedIndex = 1;
     final expensesProvider = Provider.of<ExpensesProvider>(context);
+    final chartTypeProvider = Provider.of<ChartTypeProvider>(context);
     final totalBalance = expensesProvider.totalBalance;
     final totalExpenses = expensesProvider.totalExpenses;
     final remainingBalance = totalBalance - totalExpenses;
@@ -68,105 +71,31 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // SizedBox(height: height * .0),
+            SizedBox(height: height * .02),
+            DropdownButton<String>(
+              value: chartTypeProvider.selectedChartType,
+              onChanged: (String? newValue) {
+                chartTypeProvider.setSelectedChartType(newValue!);
+              },
+              items: <String>['Expenses vs Balance', 'Categories']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
             Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: height * .02,
-                        ),
-                        const Text(
-                          'Balance vs Expenses',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: height * .10),
-                        Expanded(
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              PieChart(
-                                PieChartData(
-                                  sections: _showingSections(
-                                      totalExpenses, remainingBalance),
-                                  centerSpaceRadius: 60,
-                                  centerSpaceColor: Colors.white,
-                                  sectionsSpace: 0,
-                                  pieTouchData: PieTouchData(
-                                    touchCallback: (FlTouchEvent event,
-                                        pieTouchResponse) {},
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                '${(remainingBalance / totalBalance * 100).toStringAsFixed(1)}%',
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * .08,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: height * .02,
-                        ),
-                        const Text(
-                          'Expenses by Category',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(height: height * .10),
-                        Expanded(
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              PieChart(
-                                PieChartData(
-                                  sections: _showingCategorySections(
-                                      expensesProvider.expenses),
-                                  centerSpaceRadius: 60,
-                                  centerSpaceColor: Colors.white,
-                                  sectionsSpace: 0,
-                                  pieTouchData: PieTouchData(
-                                    touchCallback: (FlTouchEvent event,
-                                        pieTouchResponse) {},
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                '${(remainingBalance / totalBalance * 100).toStringAsFixed(1)}%',
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: _buildChart(
+                    chartTypeProvider.selectedChartType,
+                    totalBalance,
+                    totalExpenses,
+                    remainingBalance,
+                    expensesProvider.expenses),
               ),
             ),
-            SizedBox(height: height * .10),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -183,6 +112,52 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     );
   }
 
+  Widget _buildChart(String chartType, double totalBalance,
+      double totalExpenses, double remainingBalance, List<Expanses> expenses) {
+    switch (chartType) {
+      case 'Categories':
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            PieChart(
+              PieChartData(
+                sections: _showingCategorySections(expenses),
+                centerSpaceRadius: 60,
+                centerSpaceColor: Colors.white,
+                sectionsSpace: 0,
+                pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {}),
+              ),
+            ),
+          ],
+        );
+      case 'Expenses vs Balance':
+      default:
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            PieChart(
+              PieChartData(
+                sections: _showingSections(totalExpenses, remainingBalance),
+                centerSpaceRadius: 60,
+                centerSpaceColor: Colors.white,
+                sectionsSpace: 0,
+                pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {}),
+              ),
+            ),
+            Text(
+              '${(remainingBalance / totalBalance * 100).toStringAsFixed(1)}%',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        );
+    }
+  }
+
   List<PieChartSectionData> _showingSections(double expenses, double balance) {
     return [
       PieChartSectionData(
@@ -193,7 +168,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         titleStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
       PieChartSectionData(
@@ -204,7 +179,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         titleStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
     ];
@@ -233,7 +208,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
           titleStyle: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       );

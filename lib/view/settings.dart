@@ -3,7 +3,6 @@ import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +71,7 @@ class _SettingsViewState extends State<SettingsView> {
         },
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Container(
@@ -109,6 +108,11 @@ class _SettingsViewState extends State<SettingsView> {
             ),
             SizedBox(
               height: height * .03,
+            ),
+            const Text(
+              'Choose Currency',
+              style: TextStyle(
+                  fontSize: 20, letterSpacing: 3, fontWeight: FontWeight.w600),
             ),
             Container(
                 width: width * 1,
