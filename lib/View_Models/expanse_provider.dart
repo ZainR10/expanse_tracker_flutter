@@ -17,11 +17,10 @@ class ExpensesProvider with ChangeNotifier {
 
   void addExpense(Expanses expense) async {
     _expenses.add(expense);
-    _totalBalance -= expense.amount;
     notifyListeners();
     try {
       await _firestore.collection('expenses').add(expense.toFirestore());
-      await updateTotalBalanceInFirestore();
+      await updateTotalsInFirestore(); // Update totals after adding an expense
     } catch (e) {
       print('Error adding expense: $e');
     }
@@ -32,25 +31,29 @@ class ExpensesProvider with ChangeNotifier {
     notifyListeners();
     try {
       await _firestore.collection('expenses').doc(expense.id).delete();
-      await updateTotalBalanceInFirestore();
+      await updateTotalsInFirestore(); // Update totals after removing an expense
     } catch (e) {
       print('Error removing expense: $e');
     }
   }
 
   void updateTotalBalance(double amount) async {
-    _totalBalance += amount;
+    _totalBalance = amount;
+    await updateTotalsInFirestore(); // Update totals after updating the balance
     notifyListeners();
-    await updateTotalBalanceInFirestore();
   }
 
-  Future<void> updateTotalBalanceInFirestore() async {
+  Future<void> updateTotalsInFirestore() async {
+    double totalExpenses = _expenses.fold(0, (sum, item) => sum + item.amount);
+    double remainingBalance = _totalBalance - totalExpenses;
     try {
       await _firestore.collection('balances').doc('main').set({
         'totalBalance': _totalBalance,
+        'totalExpenses': totalExpenses,
+        'remainingBalance': remainingBalance,
       });
     } catch (e) {
-      print('Error updating balance: $e');
+      print('Error updating totals: $e');
     }
   }
 
@@ -79,7 +82,9 @@ class ExpensesProvider with ChangeNotifier {
       final snapshot =
           await _firestore.collection('balances').doc('main').get();
       if (snapshot.exists) {
-        _totalBalance = snapshot.data()?['totalBalance'] ?? 0.0;
+        final data = snapshot.data();
+        _totalBalance = data?['totalBalance'] ?? 0.0;
+        // Note: totalExpenses and remainingBalance are not fetched as they are recalculated
       }
       notifyListeners();
     } catch (e) {

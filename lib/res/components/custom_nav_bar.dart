@@ -56,52 +56,75 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       ],
       onTap: (index) {
         if (index == 2) {
-          showMenu(
+          showModalBottomSheet(
+            backgroundColor: Colors.black87,
+            isScrollControlled: true,
             context: context,
-            position: const RelativeRect.fromLTRB(150, 450, 150, 100),
-            items: [
-              const PopupMenuItem<String>(
-                value: 'Balance',
-                child: Text('Add Balance'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'Expense',
-                child: Text('Add Expense'),
-              ),
-            ],
-          ).then((value) {
-            if (value != null) {
-              if (value == 'Balance') {
-                showDialog(
-                  context: context,
-                  builder: (context) => BalanceDialogbox(
-                    addBalanceCallback: (newBalance) {
-                      Provider.of<ExpensesProvider>(context, listen: false)
-                          .updateTotalBalance(newBalance);
-                    },
-                    onSave: () {
-                      Navigator.pop(context);
-                    },
-                    onCancel: () => Navigator.of(context).pop(),
-                  ),
-                );
-              } else if (value == 'Expense') {
-                showDialog(
-                  context: context,
-                  builder: (context) => DialogBox(
-                    addExpansesCallback: (newExpense) {
-                      Provider.of<ExpensesProvider>(context, listen: false)
-                          .addExpense(newExpense);
-                    },
-                    onSave: () {
-                      Navigator.pop(context);
-                    },
-                    onCancel: () => Navigator.of(context).pop(),
-                  ),
-                );
-              }
-            }
-          });
+            builder: (context) {
+              return Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(
+                        Icons.account_balance,
+                        color: Colors.white,
+                      ),
+                      title: const Text(
+                        'Add Balance',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) => BalanceDialogbox(
+                            addBalanceCallback: (newBalance) {
+                              Provider.of<ExpensesProvider>(context,
+                                      listen: false)
+                                  .updateTotalBalance(newBalance);
+                            },
+                            onSave: () {
+                              Navigator.pop(context);
+                            },
+                            onCancel: () => Navigator.of(context).pop(),
+                          ),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(
+                        Icons.money_off,
+                        color: Colors.green,
+                      ),
+                      title: const Text(
+                        'Add Expense',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder: (context) => DialogBox(
+                            addExpansesCallback: (newExpense) {
+                              Provider.of<ExpensesProvider>(context,
+                                      listen: false)
+                                  .addExpense(newExpense);
+                            },
+                            onSave: () {
+                              Navigator.pop(context);
+                            },
+                            onCancel: () => Navigator.of(context).pop(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         } else {
           widget.onItemTapped(index);
         }

@@ -26,15 +26,18 @@ class _SplashViewState extends State<SplashView> {
         Center(
           child: Icon(
             Icons.track_changes,
-            size: 300,
+            size: 250,
             color: Colors.red,
+            shadows: [
+              Shadow(color: Colors.red, blurRadius: 30, offset: Offset(0, 10))
+            ],
           ),
         ),
         Center(
           child: Text(
             'Expanse Tracker',
             style: TextStyle(
-                fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
       ]),
