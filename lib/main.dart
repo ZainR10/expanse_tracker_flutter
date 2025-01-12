@@ -7,7 +7,6 @@ import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/v
 import 'package:expanse_tracker_flutter/utils/routes/routes.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/utils/theme.dart';
-import 'package:expanse_tracker_flutter/view/authentication_view/splash_view.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

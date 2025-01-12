@@ -1,4 +1,5 @@
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
+import 'package:expanse_tracker_flutter/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:provider/provider.dart';
@@ -33,16 +34,13 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
     String _selectedCurrency = currencyProvider.selectedCurrency;
     return widget.expenses.isEmpty
         ? const Center(
-            child: Text(
-              'Nothing to show',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: 2,
-                color: Colors.grey,
-              ),
-            ),
-          )
+            child: CustomText(
+            text: 'Nothing to show',
+            textColor: Colors.white,
+            textLetterSpace: 1,
+            textSize: 28,
+            textWeight: FontWeight.bold,
+          ))
         : ListView.builder(
             itemCount: widget.itemCount <= widget.expenses.length
                 ? widget.itemCount
@@ -71,39 +69,45 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
 
                 child: Card(
                   shadowColor: Colors.black,
-                  color: const Color.fromARGB(255, 255, 250, 248),
+                  color: Colors.black,
                   shape: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.black87),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  elevation: 8,
-                  margin: const EdgeInsets.all(8),
+                  // elevation: 8,
+                  margin: const EdgeInsets.all(5),
                   child: ListTile(
-                    title: Text(
-                      expense.title,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
+                    title: CustomText(
+                      text: expense.title,
+                      textColor: Colors.white,
+                      textLetterSpace: 1,
+                      textSize: 24,
+                      textWeight: FontWeight.bold,
                     ),
-                    // leading:  Color,
-                    trailing: Text(
-                      double.tryParse(expense.amount.toString()) != null
+                    trailing: CustomText(
+                      text: double.tryParse(expense.amount.toString()) != null
                           ? '$_selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(2)}'
                           : '\$0.00',
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
+                      textColor: Colors.white,
+                      textLetterSpace: 1,
+                      textSize: 24,
+                      textWeight: FontWeight.bold,
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          expense.description.toString(),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
+                        CustomText(
+                          text: expense.description.toString(),
+                          textColor: Colors.white,
+                          textLetterSpace: 2,
+                          textSize: 18,
+                          textWeight: FontWeight.normal,
                         ),
-                        Text(
-                          expense.startDate.toString(),
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w400),
+                        CustomText(
+                          text: expense.startDate.toString(),
+                          textColor: Colors.white,
+                          textSize: 14,
+                          textWeight: FontWeight.normal,
                         ),
                       ],
                     ),

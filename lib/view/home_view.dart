@@ -1,12 +1,15 @@
-import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
-import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
+// ignore_for_file: unused_local_variable
+
 import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/widgets/remaining_balance_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/text_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/total_balance_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/total_expenses_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -39,15 +42,11 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final currencyProvider = Provider.of<CurrencyProvider>(context);
-    String _selectedCurrency = currencyProvider.selectedCurrency;
-    final expensesProvider = Provider.of<ExpensesProvider>(context);
-    final totalExpenses = expensesProvider.totalExpenses;
-    final remainingBalance = expensesProvider.remainingBalance;
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
 
     return Scaffold(
+      backgroundColor: Colors.deepPurpleAccent.shade400,
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (int index) {
@@ -60,176 +59,35 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: Column(
           children: [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Container(
-                  width: width * 1,
-                  // margin: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black87
-                            .withOpacity(.9), // Adjust opacity as needed
-                        spreadRadius: 4,
-                        blurRadius: 20,
-                        offset:
-                            const Offset(9, 9), // changes position of shadow
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.black87,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Total Balance ",
-                          style: TextStyle(
-                            wordSpacing: 2.5,
-                            color: Colors.white,
-                            fontSize: 35,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        StreamBuilder<DocumentSnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('balances')
-                              .doc('main')
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            }
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const CircularProgressIndicator(
-                                color: Colors.white,
-                              );
-                            }
-                            double totalBalance = 0.0;
-                            if (snapshot.hasData && snapshot.data!.exists) {
-                              final data =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              totalBalance =
-                                  (data['totalBalance'] ?? 0).toDouble();
-                            }
-                            return Text(
-                              "$_selectedCurrency ${totalBalance.toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                wordSpacing: 2.5,
-                                color: Colors.white,
-                                fontSize: 36,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * .03,
-                        ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Total Expenses ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                            Text(
-                              "Remaining Balance",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection('expenses')
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                }
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  );
-                                }
-                                double totalExpenses = 0.0;
-                                if (snapshot.hasData) {
-                                  totalExpenses =
-                                      snapshot.data!.docs.fold(0.0, (sum, doc) {
-                                    final data =
-                                        doc.data() as Map<String, dynamic>;
-                                    return sum +
-                                        (data['amount'] ?? 0.0).toDouble();
-                                  });
-                                }
-                                return Text(
-                                  "$_selectedCurrency ${totalExpenses.toStringAsFixed(2)}",
-                                  style: const TextStyle(
-                                    wordSpacing: 1,
-                                    color: Colors.red,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                );
-                              },
-                            ),
-                            Text(
-                              "$_selectedCurrency ${remainingBalance.toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                wordSpacing: 1,
-                                color: Colors.lightGreen,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            //total balance custom widget:
+            const Center(child: TotalBalanceWidget()),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Center(child: TotalExpensesWidget()),
+                Center(child: RemainingBalanceWidget()),
+              ],
             ),
-            SizedBox(
-              height: height * 0.04,
-            ),
+
             Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Transactions:',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),
+                  const CustomText(
+                    text: 'Transactions',
+                    textSize: 28,
+                    textColor: Colors.white,
+                    textWeight: FontWeight.w500,
                   ),
-                  TextButton(
-                      onPressed: () {
+                  InkWell(
+                      onTap: () {
                         Navigator.pushNamed(
                             context, RoutesName.expanseListView);
                       },
-                      child: const Text(
-                        'View all',
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
                       )),
                 ],
               ),
@@ -250,8 +108,7 @@ class _HomeViewState extends State<HomeView> {
                   }
                   final expenses = snapshot.data?.docs.map((doc) {
                         final data = doc.data() as Map<String, dynamic>;
-                        return Expanses.fromFirestore(
-                            doc); // Corrected this line to pass the DocumentSnapshot
+                        return Expanses.fromFirestore(doc);
                       }).toList() ??
                       [];
                   return ListTileBuilder(
