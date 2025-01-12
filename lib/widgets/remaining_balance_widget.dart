@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
-import 'package:expanse_tracker_flutter/widgets/text_widget.dart';
+import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

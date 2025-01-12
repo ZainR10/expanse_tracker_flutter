@@ -5,7 +5,7 @@ import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/widgets/remaining_balance_widget.dart';
-import 'package:expanse_tracker_flutter/widgets/text_widget.dart';
+import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/total_balance_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/total_expenses_widget.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
     final width = MediaQuery.of(context).size.width * 1;
 
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent.shade400,
+      backgroundColor: Colors.blueGrey.shade50,
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (int index) {
@@ -77,7 +77,7 @@ class _HomeViewState extends State<HomeView> {
                   const CustomText(
                     text: 'Transactions',
                     textSize: 28,
-                    textColor: Colors.white,
+                    textColor: Colors.black,
                     textWeight: FontWeight.w500,
                   ),
                   InkWell(
@@ -87,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
                       },
                       child: const Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.white,
+                        color: Colors.black,
                       )),
                 ],
               ),

@@ -1,7 +1,7 @@
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/balance_dialogbox.dart';
-import 'package:expanse_tracker_flutter/res/components/dialogbox.dart';
-import 'package:expanse_tracker_flutter/widgets/text_widget.dart';
+import 'package:expanse_tracker_flutter/res/components/bottom_sheet_widget.dart';
+import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
@@ -133,20 +133,21 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        showDialog(
-                          context: context,
-                          builder: (context) => DialogBox(
-                            addExpansesCallback: (newExpense) {
-                              Provider.of<ExpensesProvider>(context,
-                                      listen: false)
-                                  .addExpense(newExpense);
-                            },
-                            onSave: () {
-                              Navigator.pop(context);
-                            },
-                            onCancel: () => Navigator.of(context).pop(),
-                          ),
-                        );
+                        showMyBottomSheet(context);
+                        // // showDialog(
+                        // //   context: context,
+                        // //   builder: (context) => DialogBox(
+                        // //     addExpansesCallback: (newExpense) {
+                        // //       Provider.of<ExpensesProvider>(context,
+                        // //               listen: false)
+                        // //           .addExpense(newExpense);
+                        // //     },
+                        // //     onSave: () {
+                        // //       Navigator.pop(context);
+                        // //     },
+                        // //     onCancel: () => Navigator.of(context).pop(),
+                        // //   ),
+                        // );
                       },
                     ),
                   ],
