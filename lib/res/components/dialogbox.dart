@@ -10,12 +10,12 @@ class DialogBox extends StatefulWidget {
   final VoidCallback onSave;
   final VoidCallback onCancel;
 
-  DialogBox({
-    Key? key,
+  const DialogBox({
+    super.key,
     required this.addExpansesCallback,
     required this.onSave,
     required this.onCancel,
-  }) : super(key: key);
+  });
 
   @override
   State<DialogBox> createState() => _DialogBoxState();
@@ -154,7 +154,7 @@ class _DialogBoxState extends State<DialogBox> {
                           Expanded(
                             child: CustomButton(
                                 width: width * .30,
-                                color: Colors.black87,
+                                buttonColor: Colors.black87,
                                 title: 'Save',
                                 onPress: () {
                                   if (_formkey.currentState!.validate()) {
@@ -166,7 +166,7 @@ class _DialogBoxState extends State<DialogBox> {
                           Expanded(
                             child: CustomButton(
                               width: width * .30,
-                              color: Colors.red,
+                              buttonColor: Colors.red,
                               title: 'Cancel',
                               onPress: () {
                                 Navigator.pop(context);

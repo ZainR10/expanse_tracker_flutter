@@ -4,6 +4,7 @@ import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/widgets/appbar.dart';
 import 'package:expanse_tracker_flutter/widgets/remaining_balance_widget.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/total_balance_widget.dart';
@@ -56,6 +57,8 @@ class _HomeViewState extends State<HomeView> {
           _onItemTapped(index);
         },
       ),
+      appBar: const PreferredSize(
+          preferredSize: Size(0, 45), child: ReuseableAppBar()),
       body: SafeArea(
         child: Column(
           children: [

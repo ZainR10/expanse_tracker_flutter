@@ -1,10 +1,8 @@
-import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
-import 'package:expanse_tracker_flutter/res/components/balance_dialogbox.dart';
-import 'package:expanse_tracker_flutter/res/components/bottom_sheet_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/add_balance_bottom_sheet.dart';
+import 'package:expanse_tracker_flutter/widgets/expense_bottom_sheet_widget.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:provider/provider.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   final int selectedIndex;
@@ -25,39 +23,39 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
       index: widget.selectedIndex,
-      color: Colors.black,
+      color: Colors.blueGrey.shade200,
       backgroundColor: Colors.transparent,
-      buttonBackgroundColor: Colors.black87,
+      buttonBackgroundColor: Colors.blueGrey,
       items: const [
         Icon(
           Icons.home_sharp,
           size: 40,
-          color: Colors.white,
-          shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
+          color: Colors.black,
+          // shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
         ),
         Icon(
           Icons.pie_chart,
           size: 40,
-          color: Colors.white,
-          shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
+          color: Colors.black,
+          // shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
         ),
         Icon(
           Icons.add,
           size: 40,
-          color: Colors.white,
-          shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
+          color: Colors.black,
+          // shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
         ),
         Icon(
           Icons.list_alt_sharp,
           size: 40,
-          color: Colors.white,
-          shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
+          color: Colors.black,
+          // shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
         ),
         Icon(
           Icons.settings,
           size: 40,
-          color: Colors.white,
-          shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
+          color: Colors.black,
+          // shadows: [Shadow(color: Colors.greenAccent, blurRadius: 10)],
         ),
       ],
       onTap: (index) {
@@ -75,43 +73,28 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ListTile(
-                      leading: const Icon(
-                        Icons.account_balance,
-                        color: Colors.green,
-                        shadows: [
-                          Shadow(
-                            color: Colors.greenAccent,
-                            blurRadius: 5,
-                          )
-                        ],
-                        size: 35,
-                      ),
-                      title: const CustomText(
-                        text: 'Add Balance',
-                        textColor: Colors.white,
-                        textSize: 28,
-                        textLetterSpace: 1,
-                        textWeight: FontWeight.w300,
-                      ),
-                      onTap: () {
-                        Navigator.pop(context);
-                        showDialog(
-                          useSafeArea: true,
-                          context: context,
-                          builder: (context) => BalanceDialogbox(
-                            addBalanceCallback: (newBalance) {
-                              Provider.of<ExpensesProvider>(context,
-                                      listen: false)
-                                  .updateTotalBalance(newBalance);
-                            },
-                            onSave: () {
-                              Navigator.pop(context);
-                            },
-                            onCancel: () => Navigator.of(context).pop(),
-                          ),
-                        );
-                      },
-                    ),
+                        leading: const Icon(
+                          Icons.account_balance,
+                          color: Colors.green,
+                          shadows: [
+                            Shadow(
+                              color: Colors.greenAccent,
+                              blurRadius: 5,
+                            )
+                          ],
+                          size: 35,
+                        ),
+                        title: const CustomText(
+                          text: 'Add Balance',
+                          textColor: Colors.white,
+                          textSize: 28,
+                          textLetterSpace: 1,
+                          textWeight: FontWeight.w300,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                          addBalanceBottomSheet(context);
+                        }),
                     ListTile(
                       leading: const Icon(
                         shadows: [
@@ -133,7 +116,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        showMyBottomSheet(context);
+                        expenseBottomSheet(context);
                         // // showDialog(
                         // //   context: context,
                         // //   builder: (context) => DialogBox(

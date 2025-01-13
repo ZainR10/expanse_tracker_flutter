@@ -11,11 +11,11 @@ class BalanceDialogbox extends StatefulWidget {
   final VoidCallback onCancel;
 
   const BalanceDialogbox({
-    Key? key,
+    super.key,
     required this.addBalanceCallback,
     required this.onSave,
     required this.onCancel,
-  }) : super(key: key);
+  });
 
   @override
   State<BalanceDialogbox> createState() => _BalanceDialogboxState();
@@ -89,7 +89,7 @@ class _BalanceDialogboxState extends State<BalanceDialogbox> {
                         Expanded(
                           child: CustomButton(
                               width: width * .30,
-                              color: Colors.black87,
+                              buttonColor: Colors.black87,
                               title: 'Save',
                               onPress: () {
                                 if (_formkey.currentState!.validate()) {
@@ -102,7 +102,7 @@ class _BalanceDialogboxState extends State<BalanceDialogbox> {
                         Expanded(
                           child: CustomButton(
                             width: width * .30,
-                            color: Colors.red,
+                            buttonColor: Colors.red,
                             title: 'Cancel',
                             onPress: () {
                               Navigator.pop(context);

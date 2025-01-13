@@ -25,6 +25,8 @@ class CustomTextfield extends StatelessWidget {
         controller: textStore,
         keyboardType: keyboardType,
         decoration: InputDecoration(
+          fillColor: Colors.blueGrey.shade100,
+          filled: true,
           prefixIcon: textFieldIcon,
           labelText: lebaltitle,
           labelStyle: TextStyle(
@@ -33,11 +35,13 @@ class CustomTextfield extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
           border: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(
               color: Colors.blueGrey.shade50, // Default border color
             ),
           ),
           focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
             // Border when focused
             borderSide: BorderSide(
               color: Colors
@@ -45,6 +49,7 @@ class CustomTextfield extends StatelessWidget {
             ),
           ),
           enabledBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
             // Border when enabled (not focused)
             borderSide: BorderSide(
               color: Colors.blueGrey.shade50, // Enabled border color

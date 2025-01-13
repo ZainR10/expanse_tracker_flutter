@@ -22,14 +22,16 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
     final expensesProvider = Provider.of<ExpensesProvider>(context);
     final remainingBalance = expensesProvider.remainingBalance;
 
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
 
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Padding(
-      padding: EdgeInsets.only(top: 0, right: 8, left: 8, bottom: 8),
+      padding: const EdgeInsets.only(top: 0, right: 6, left: 6, bottom: 8),
       child: CustomContainer(
-        color: Colors.black,
+        height: height * .10,
+        width: width * .45,
+        color: Colors.blueGrey.shade200,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,16 +41,14 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
               children: [
                 CustomText(
                   text: "Remaining Balance",
-                  textColor: Colors.grey.shade400,
+                  textColor: Colors.grey.shade800,
                   textLetterSpace: 0,
                   textSize: 16,
-                ),
-                SizedBox(
-                  width: width * .02,
+                  textWeight: FontWeight.w500,
                 ),
                 const Icon(
                   Icons.account_balance,
-                  color: Colors.green,
+                  color: Colors.black,
                   size: 20,
                   shadows: [
                     Shadow(
@@ -70,7 +70,8 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator(
-                    color: Colors.white,
+                    color: Colors.black,
+                    strokeWidth: 25,
                   );
                 }
                 double totalExpenses = 0.0;
@@ -82,8 +83,8 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
                 }
                 return CustomText(
                   text:
-                      "$_selectedCurrency ${remainingBalance.toStringAsFixed(2)}",
-                  textColor: Colors.white,
+                      "$selectedCurrency ${remainingBalance.toStringAsFixed(0)}",
+                  textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 22,
                   textWeight: FontWeight.w500,

@@ -26,7 +26,8 @@ class Routes {
             builder: (BuildContext context) => const SignupView());
 
       case RoutesName.homeView:
-        return MaterialPageRoute(builder: (BuildContext context) => HomeView());
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const HomeView());
 
       case RoutesName.phoneFieldView:
         return MaterialPageRoute(
@@ -34,7 +35,7 @@ class Routes {
 
       case RoutesName.analyticsView:
         return MaterialPageRoute(
-            builder: (BuildContext context) => ExpensePieChart());
+            builder: (BuildContext context) => const ExpensePieChart());
 
       case RoutesName.expanseListView:
         return MaterialPageRoute(

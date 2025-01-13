@@ -19,14 +19,16 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
 
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
 
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Padding(
-      padding: const EdgeInsets.only(top: 0, bottom: 8, right: 8, left: 8),
+      padding: const EdgeInsets.only(top: 0, bottom: 8, right: 6, left: 6),
       child: CustomContainer(
-        color: Colors.black,
+        height: height * .10,
+        width: width * .45,
+        color: Colors.blueGrey.shade200,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,12 +38,10 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
               children: [
                 CustomText(
                   text: 'Total Expenses',
-                  textColor: Colors.grey.shade400,
+                  textColor: Colors.grey.shade800,
                   textLetterSpace: 0,
                   textSize: 18,
-                ),
-                SizedBox(
-                  width: width * .02,
+                  textWeight: FontWeight.w500,
                 ),
                 const Icon(
                   Icons.horizontal_rule,
@@ -67,7 +67,8 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator(
-                    color: Colors.white,
+                    color: Colors.black,
+                    strokeWidth: 25,
                   );
                 }
                 double totalExpenses = 0.0;
@@ -78,9 +79,8 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                   });
                 }
                 return CustomText(
-                  text:
-                      "$_selectedCurrency ${totalExpenses.toStringAsFixed(2)}",
-                  textColor: Colors.white,
+                  text: "$selectedCurrency ${totalExpenses.toStringAsFixed(0)}",
+                  textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 22,
                   textWeight: FontWeight.w500,

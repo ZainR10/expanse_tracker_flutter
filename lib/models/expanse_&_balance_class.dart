@@ -40,7 +40,7 @@ class Expanses {
       'title': title,
       'description': description,
       'amount': amount,
-      'startDate': startDate.toIso8601String(),
+      'startDate': startDate.toString(),
     };
   }
 

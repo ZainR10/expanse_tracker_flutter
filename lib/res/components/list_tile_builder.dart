@@ -10,11 +10,11 @@ class ListTileBuilder extends StatefulWidget {
   final List<Expanses> expenses;
   final int itemCount;
 
-  ListTileBuilder({
+  const ListTileBuilder({
     required this.itemCount,
     required this.expenses,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ListTileBuilder> createState() => _ListTileBuilderState();
@@ -31,7 +31,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
     return widget.expenses.isEmpty
         ? const Center(
             child: CustomText(
@@ -69,48 +69,60 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
 
                 child: Card(
                   shadowColor: Colors.black,
-                  color: Colors.black,
+                  color: Colors.blueGrey.shade200,
                   shape: OutlineInputBorder(
-                    borderSide: const BorderSide(color: Colors.black87),
-                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Colors.black, width: 2),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   // elevation: 8,
                   margin: const EdgeInsets.all(5),
                   child: ListTile(
+                    contentPadding: const EdgeInsets.all(18),
+                    leading: const Icon(
+                      Icons.local_hospital_rounded,
+                      color: Colors.black,
+                      size: 50,
+                    ),
                     title: CustomText(
                       text: expense.title,
-                      textColor: Colors.white,
+                      textColor: Colors.black,
                       textLetterSpace: 1,
                       textSize: 24,
                       textWeight: FontWeight.bold,
                     ),
                     trailing: CustomText(
                       text: double.tryParse(expense.amount.toString()) != null
-                          ? '$_selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(2)}'
-                          : '\$0.00',
-                      textColor: Colors.white,
+                          ? '$selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(0)}'
+                          : '\$0.0',
+                      textColor: Colors.black,
                       textLetterSpace: 1,
                       textSize: 24,
                       textWeight: FontWeight.bold,
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: expense.description.toString(),
-                          textColor: Colors.white,
-                          textLetterSpace: 2,
-                          textSize: 18,
-                          textWeight: FontWeight.normal,
-                        ),
-                        CustomText(
-                          text: expense.startDate.toString(),
-                          textColor: Colors.white,
-                          textSize: 14,
-                          textWeight: FontWeight.normal,
-                        ),
-                      ],
+                    subtitle: CustomText(
+                      text: expense.startDate.toString(),
+                      textColor: Colors.grey.shade800,
+                      textSize: 16,
+                      textWeight: FontWeight.bold,
                     ),
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     CustomText(
+                    //       text: expense.description.toString(),
+                    //       textColor: Colors.white,
+                    //       textLetterSpace: 2,
+                    //       textSize: 18,
+                    //       textWeight: FontWeight.normal,
+                    //     ),
+                    //     CustomText(
+                    //       text: expense.startDate.toString(),
+                    //       textColor: Colors.white,
+                    //       textSize: 14,
+                    //       textWeight: FontWeight.normal,
+                    //     ),
+                    //   ],
+                    // ),
                   ),
                 ),
               );

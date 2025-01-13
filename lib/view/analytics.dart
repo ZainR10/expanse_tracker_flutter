@@ -18,7 +18,7 @@ class ExpensePieChart extends StatefulWidget {
 class _ExpensePieChartState extends State<ExpensePieChart> {
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 1;
+    int selectedIndex = 1;
     final expensesProvider = Provider.of<ExpensesProvider>(context);
     final chartTypeProvider = Provider.of<ChartTypeProvider>(context);
     final totalBalance = expensesProvider.totalBalance;
@@ -29,7 +29,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
 
     void onItemTapped(int index) {
       setState(() {
-        _selectedIndex = index;
+        selectedIndex = index;
         switch (index) {
           case 0:
             // Navigate to Home Screen
@@ -58,7 +58,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
     return Scaffold(
       bottomNavigationBar: CustomBottomNavBar(
         onItemTapped: onItemTapped,
-        selectedIndex: _selectedIndex,
+        selectedIndex: selectedIndex,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

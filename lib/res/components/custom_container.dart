@@ -11,13 +11,14 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 10, right: 10),
+      // padding: const EdgeInsets.all(8),
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: color,
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: color,
+          border: Border.all(color: Colors.black, width: 2)),
       child: child,
     );
   }

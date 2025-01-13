@@ -19,14 +19,14 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
 
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
 
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 6),
       child: CustomContainer(
-        color: Colors.black,
+        color: Colors.blueGrey.shade200,
         // height: height * 0.2,
         // width: width * 1,
         child: Column(
@@ -38,18 +38,18 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
               children: [
                 CustomText(
                   text: 'Total Balance',
-                  textColor: Colors.grey.shade400,
+                  textColor: Colors.grey.shade800,
                   textLetterSpace: 2,
                   textSize: 28,
                 ),
-                const Icon(
+                Icon(
                   Icons.energy_savings_leaf_outlined,
                   color: Colors.greenAccent,
                   size: 35,
                   shadows: [
                     Shadow(
                       blurRadius: 15,
-                      color: Colors.greenAccent,
+                      color: Colors.greenAccent.shade700,
                     )
                   ],
                 )
@@ -68,7 +68,8 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator(
-                    color: Colors.white,
+                    color: Colors.black,
+                    strokeWidth: 25,
                   );
                 }
                 double totalBalance = 0.0;
@@ -78,8 +79,8 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                 }
                 //balance amount:
                 return CustomText(
-                  text: "$_selectedCurrency ${totalBalance.toStringAsFixed(2)}",
-                  textColor: Colors.white,
+                  text: "$selectedCurrency ${totalBalance.toStringAsFixed(0)}",
+                  textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 35,
                   textWeight: FontWeight.bold,

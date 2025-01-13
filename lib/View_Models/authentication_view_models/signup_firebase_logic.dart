@@ -12,7 +12,7 @@ class SignUpViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> signUp({
     required String email,

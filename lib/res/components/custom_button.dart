@@ -2,30 +2,31 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
-  final Color color;
-  final width;
+  final Color buttonColor;
+  final double? width;
+  final double? height;
+
   final VoidCallback onPress;
   final bool loading;
 
   const CustomButton(
-      {required this.width,
+      {this.width,
       required this.title,
-      required this.color,
+      this.height,
+      required this.buttonColor,
       this.loading = false,
       required this.onPress,
       super.key});
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 1;
-    final width = MediaQuery.of(context).size.width * 1;
     return InkWell(
       onTap: onPress,
       child: Container(
-        height: height * .09,
+        height: height,
         width: width,
-        decoration:
-            BoxDecoration(color: color, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            color: buttonColor, borderRadius: BorderRadius.circular(8)),
         child: Center(
           child: Text(
             title,
