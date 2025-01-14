@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
-import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
+import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,12 +57,11 @@ class _ExpanseListViewState extends State<ExpanseListView> {
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        title: const Text('Expanses list'),
-      ),
+      appBar: const PreferredSize(
+          preferredSize: Size(0, 45),
+          child: ReuseableAppBar(
+            appBarTitle: 'Expense Tracker',
+          )),
       bottomNavigationBar: CustomBottomNavBar(
         onItemTapped: _onItemTapped,
         selectedIndex: _selectedIndex,

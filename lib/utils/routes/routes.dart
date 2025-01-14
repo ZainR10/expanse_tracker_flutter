@@ -6,7 +6,6 @@ import 'package:expanse_tracker_flutter/view/authentication_view/login_view.dart
 import 'package:expanse_tracker_flutter/view/authentication_view/phone_field_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/signup_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/splash_view.dart';
-import 'package:expanse_tracker_flutter/view/authentication_view/varification_code_view.dart';
 import 'package:expanse_tracker_flutter/view/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -44,15 +43,6 @@ class Routes {
       case RoutesName.settingsView:
         return MaterialPageRoute(
             builder: (BuildContext context) => const SettingsView());
-      case RoutesName.verificationCodeView:
-        final args = settings.arguments;
-        if (args is VerificationCodeViewArguments) {
-          return MaterialPageRoute(
-            builder: (BuildContext context) =>
-                VarificationCodeView(verificationId: args.verificationId),
-          );
-        }
-        return _errorRoute();
       default:
         return _errorRoute();
     }

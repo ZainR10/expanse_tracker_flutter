@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
+import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 
 class ExpensesProvider with ChangeNotifier {
   List<Expanses> _expenses = [];

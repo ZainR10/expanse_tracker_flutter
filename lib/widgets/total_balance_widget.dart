@@ -5,6 +5,7 @@ import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class TotalBalanceWidget extends StatefulWidget {
@@ -67,9 +68,9 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                   return CustomText(text: 'Error: ${snapshot.error}');
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 25,
+                  return const SpinKitSpinningLines(
+                    color: Colors.blueGrey,
+                    size: 45,
                   );
                 }
                 double totalBalance = 0.0;

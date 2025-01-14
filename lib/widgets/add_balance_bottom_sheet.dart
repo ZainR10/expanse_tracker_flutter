@@ -5,7 +5,6 @@ import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 
 void addBalanceBottomSheet(BuildContext context) {
   DateTime startDate = DateTime.now();
-  final TextEditingController titleController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
 

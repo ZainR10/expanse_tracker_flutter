@@ -1,16 +1,17 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:expanse_tracker_flutter/models/expanse_&_balance_class.dart';
+import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
+import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/widgets/appbar.dart';
 import 'package:expanse_tracker_flutter/widgets/remaining_balance_widget.dart';
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/total_balance_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/total_expenses_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -58,7 +59,10 @@ class _HomeViewState extends State<HomeView> {
         },
       ),
       appBar: const PreferredSize(
-          preferredSize: Size(0, 45), child: ReuseableAppBar()),
+          preferredSize: Size(0, 45),
+          child: ReuseableAppBar(
+            appBarTitle: 'Expense Tracker',
+          )),
       body: SafeArea(
         child: Column(
           children: [
@@ -72,29 +76,6 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
 
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const CustomText(
-                    text: 'Transactions',
-                    textSize: 28,
-                    textColor: Colors.black,
-                    textWeight: FontWeight.w500,
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, RoutesName.expanseListView);
-                      },
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                      )),
-                ],
-              ),
-            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -105,8 +86,8 @@ class _HomeViewState extends State<HomeView> {
                     return Text('Error: ${snapshot.error}');
                   }
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator(
-                      color: Colors.black87,
+                    return const SpinKitSpinningLines(
+                      color: Colors.blueGrey,
                     );
                   }
                   final expenses = snapshot.data?.docs.map((doc) {
@@ -114,7 +95,31 @@ class _HomeViewState extends State<HomeView> {
                         return Expanses.fromFirestore(doc);
                       }).toList() ??
                       [];
+
                   return ListTileBuilder(
+                    widget: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const CustomText(
+                            text: 'Transactions',
+                            textSize: 28,
+                            textColor: Colors.black,
+                            textWeight: FontWeight.w500,
+                          ),
+                          InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, RoutesName.expanseListView);
+                              },
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.black,
+                              )),
+                        ],
+                      ),
+                    ),
                     itemCount: 3,
                     expenses: expenses,
                   );

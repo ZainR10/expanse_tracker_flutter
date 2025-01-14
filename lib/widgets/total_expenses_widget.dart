@@ -5,6 +5,7 @@ import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class TotalExpensesWidget extends StatefulWidget {
@@ -26,7 +27,7 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
     return Padding(
       padding: const EdgeInsets.only(top: 0, bottom: 8, right: 6, left: 6),
       child: CustomContainer(
-        height: height * .10,
+        height: height * .12,
         width: width * .45,
         color: Colors.blueGrey.shade200,
         child: Column(
@@ -66,9 +67,9 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                   return Text('Error: ${snapshot.error}');
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 25,
+                  return const SpinKitSpinningLines(
+                    color: Colors.blueGrey,
+                    size: 30,
                   );
                 }
                 double totalExpenses = 0.0;
