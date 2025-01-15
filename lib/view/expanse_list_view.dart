@@ -57,6 +57,7 @@ class _ExpanseListViewState extends State<ExpanseListView> {
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade200,
       appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
@@ -68,6 +69,9 @@ class _ExpanseListViewState extends State<ExpanseListView> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: height * .04,
+          ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream:

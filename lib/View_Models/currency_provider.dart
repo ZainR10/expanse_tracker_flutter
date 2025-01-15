@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CurrencyProvider with ChangeNotifier {
-  String _selectedCurrency = 'Rs'; // Default currency
+  String _selectedCurrency = '₨'; // Default currency
 
   String get selectedCurrency => _selectedCurrency;
 

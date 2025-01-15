@@ -15,7 +15,7 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   int _selectedIndex = 4;
-  final List<String> _currencies = ['Rs', 'USD', 'EUR', 'GBP'];
+  final List<String> _currencies = ['₨', '\$', '€', '£'];
 
   @override
   void initState() {

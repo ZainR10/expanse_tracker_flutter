@@ -7,6 +7,7 @@ import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class RemainingBalanceWidget extends StatefulWidget {
@@ -17,6 +18,7 @@ class RemainingBalanceWidget extends StatefulWidget {
 }
 
 class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
+  String formattedBalance = '';
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
@@ -32,7 +34,7 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
       child: CustomContainer(
         height: height * .12,
         width: width * .45,
-        color: Colors.blueGrey.shade200,
+        color: Colors.blueGrey.shade100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,15 +78,22 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
                   );
                 }
                 double totalExpenses = 0.0;
+
                 if (snapshot.hasData) {
-                  totalExpenses = snapshot.data!.docs.fold(0.0, (sum, doc) {
+                  final totalExpenses =
+                      snapshot.data!.docs.fold(0.0, (sum, doc) {
                     final data = doc.data() as Map<String, dynamic>;
                     return sum + (data['amount'] ?? 0.0).toDouble();
                   });
+                  formattedBalance = NumberFormat.currency(
+                          locale: 'en_US', symbol: selectedCurrency)
+                      .format(remainingBalance -
+                          totalExpenses); // Calculate and format
                 }
+
                 return CustomText(
-                  text:
-                      "$selectedCurrency ${remainingBalance.toStringAsFixed(0)}",
+                  text: formattedBalance,
+                  // "$selectedCurrency${remainingBalance.toStringAsFixed(0)}",
                   textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 22,

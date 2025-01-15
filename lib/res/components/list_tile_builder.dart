@@ -38,9 +38,9 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
         ? const Center(
             child: CustomText(
             text: 'Nothing to show',
-            textColor: Colors.white,
+            textColor: Colors.black,
             textLetterSpace: 1,
-            textSize: 28,
+            textSize: 18,
             textWeight: FontWeight.bold,
           ))
         : SingleChildScrollView(
@@ -76,64 +76,68 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                         ],
                       ),
 
-                      child: Card(
-                        shadowColor: Colors.black,
-                        color: Colors.blueGrey.shade200,
-                        shape: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        // elevation: 8,
-                        margin: const EdgeInsets.all(5),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(18),
-                          leading: const Icon(
-                            Icons.local_hospital_rounded,
-                            color: Colors.black,
-                            size: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 2, top: 0, left: 8, right: 8),
+                        child: Card(
+                          // shadowColor: Colors.black,
+                          // color: Colors.blueGrey.shade200,
+                          color: Colors.blueGrey.shade100,
+                          shape: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.blueGrey.shade50, width: 2),
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          title: CustomText(
-                            text: expense.title,
-                            textColor: Colors.black,
-                            textLetterSpace: 1,
-                            textSize: 24,
-                            textWeight: FontWeight.bold,
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(10),
+                            leading: const Icon(
+                              Icons.local_hospital_rounded,
+                              color: Colors.black,
+                              size: 50,
+                            ),
+                            title: CustomText(
+                              text: expense.title,
+                              textColor: Colors.black,
+                              textLetterSpace: 1,
+                              textSize: 24,
+                              textWeight: FontWeight.w500,
+                            ),
+                            trailing: CustomText(
+                              text: double.tryParse(
+                                          expense.amount.toString()) !=
+                                      null
+                                  ? '$selectedCurrency${double.parse(expense.amount.toString()).toStringAsFixed(0)}'
+                                  : '\$0.0',
+                              textColor: Colors.black,
+                              textLetterSpace: 1,
+                              textSize: 24,
+                              textWeight: FontWeight.w500,
+                            ),
+                            subtitle: CustomText(
+                              text: expense.startDate.toString(),
+                              textColor: Colors.grey.shade800,
+                              textSize: 16,
+                              textWeight: FontWeight.bold,
+                            ),
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     CustomText(
+                            //       text: expense.description.toString(),
+                            //       textColor: Colors.white,
+                            //       textLetterSpace: 2,
+                            //       textSize: 18,
+                            //       textWeight: FontWeight.normal,
+                            //     ),
+                            //     CustomText(
+                            //       text: expense.startDate.toString(),
+                            //       textColor: Colors.white,
+                            //       textSize: 14,
+                            //       textWeight: FontWeight.normal,
+                            //     ),
+                            //   ],
+                            // ),
                           ),
-                          trailing: CustomText(
-                            text: double.tryParse(expense.amount.toString()) !=
-                                    null
-                                ? '$selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(0)}'
-                                : '\$0.0',
-                            textColor: Colors.black,
-                            textLetterSpace: 1,
-                            textSize: 24,
-                            textWeight: FontWeight.bold,
-                          ),
-                          subtitle: CustomText(
-                            text: expense.startDate.toString(),
-                            textColor: Colors.grey.shade800,
-                            textSize: 16,
-                            textWeight: FontWeight.bold,
-                          ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: [
-                          //     CustomText(
-                          //       text: expense.description.toString(),
-                          //       textColor: Colors.white,
-                          //       textLetterSpace: 2,
-                          //       textSize: 18,
-                          //       textWeight: FontWeight.normal,
-                          //     ),
-                          //     CustomText(
-                          //       text: expense.startDate.toString(),
-                          //       textColor: Colors.white,
-                          //       textSize: 14,
-                          //       textWeight: FontWeight.normal,
-                          //     ),
-                          //   ],
-                          // ),
                         ),
                       ),
                     );

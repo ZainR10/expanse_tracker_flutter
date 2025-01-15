@@ -23,7 +23,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
       index: widget.selectedIndex,
-      color: Colors.blueGrey.shade200,
+      color: Colors.blueGrey.shade300,
       backgroundColor: Colors.transparent,
       buttonBackgroundColor: Colors.blueGrey,
       items: const [

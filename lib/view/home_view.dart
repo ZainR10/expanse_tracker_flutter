@@ -48,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
     final width = MediaQuery.of(context).size.width * 1;
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade50,
+      backgroundColor: Colors.blueGrey.shade200,
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (int index) {

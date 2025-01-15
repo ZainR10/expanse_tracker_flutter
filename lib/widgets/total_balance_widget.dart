@@ -27,7 +27,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 6),
       child: CustomContainer(
-        color: Colors.blueGrey.shade200,
+        color: Colors.blueGrey.shade100,
         // height: height * 0.2,
         // width: width * 1,
         child: Column(
@@ -80,7 +80,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                 }
                 //balance amount:
                 return CustomText(
-                  text: "$selectedCurrency ${totalBalance.toStringAsFixed(0)}",
+                  text: "$selectedCurrency${totalBalance.toStringAsFixed(0)}",
                   textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 35,

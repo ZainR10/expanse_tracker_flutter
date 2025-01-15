@@ -29,7 +29,7 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
       child: CustomContainer(
         height: height * .12,
         width: width * .45,
-        color: Colors.blueGrey.shade200,
+        color: Colors.blueGrey.shade100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +80,7 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                   });
                 }
                 return CustomText(
-                  text: "$selectedCurrency ${totalExpenses.toStringAsFixed(0)}",
+                  text: "$selectedCurrency${totalExpenses.toStringAsFixed(0)}",
                   textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 22,
