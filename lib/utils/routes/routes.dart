@@ -6,7 +6,7 @@ import 'package:expanse_tracker_flutter/view/authentication_view/login_view.dart
 import 'package:expanse_tracker_flutter/view/authentication_view/phone_field_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/signup_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/splash_view.dart';
-import 'package:expanse_tracker_flutter/view/settings.dart';
+import 'package:expanse_tracker_flutter/view/settings_view.dart';
 import 'package:flutter/material.dart';
 
 class Routes {
