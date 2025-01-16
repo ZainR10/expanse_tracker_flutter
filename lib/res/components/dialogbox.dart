@@ -1,4 +1,4 @@
-import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/validate.dart';
+import 'package:expanse_tracker_flutter/utils/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_button.dart';

@@ -1,9 +1,8 @@
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
-import 'package:expanse_tracker_flutter/view/analytics.dart';
+import 'package:expanse_tracker_flutter/view/analytics_view.dart';
 import 'package:expanse_tracker_flutter/view/expanse_list_view.dart';
 import 'package:expanse_tracker_flutter/view/home_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/login_view.dart';
-import 'package:expanse_tracker_flutter/view/authentication_view/phone_field_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/signup_view.dart';
 import 'package:expanse_tracker_flutter/view/authentication_view/splash_view.dart';
 import 'package:expanse_tracker_flutter/view/settings_view.dart';
@@ -28,13 +27,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const HomeView());
 
-      case RoutesName.phoneFieldView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const PhoneFieldView());
-
       case RoutesName.analyticsView:
         return MaterialPageRoute(
-            builder: (BuildContext context) => const ExpensePieChart());
+            builder: (BuildContext context) => const AnalyticsView());
 
       case RoutesName.expanseListView:
         return MaterialPageRoute(

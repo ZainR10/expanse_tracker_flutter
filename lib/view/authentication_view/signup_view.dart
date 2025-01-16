@@ -1,9 +1,11 @@
 import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/signup_firebase_logic.dart';
-import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/validate.dart';
-import 'package:expanse_tracker_flutter/res/components/colors.dart';
+import 'package:expanse_tracker_flutter/res/components/custom_textfield.dart';
+import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/utils/validate.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/widgets/appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,24 +51,18 @@ class _SignupViewState extends State<SignupView> {
     }
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Sign up'),
-      //   centerTitle: true,
-      //   automaticallyImplyLeading: false,
-      //   backgroundColor: Colors.indigo,
-      // ),
+      backgroundColor: Colors.blueGrey.shade200,
+      appBar: const PreferredSize(
+          preferredSize: Size(0, 45),
+          child: ReuseableAppBar(
+            appBarTitle: 'Create Account',
+          )),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Create Account ',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
-                ),
                 SizedBox(
                   height: height * .03,
                 ),
@@ -75,85 +71,53 @@ class _SignupViewState extends State<SignupView> {
                   child: Column(
                     children: [
                       //name
-                      TextFormField(
-                        focusNode: nameFocusNode,
-                        controller: nameController,
-                        validator: FormValidation.validateName,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person_outline_outlined),
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your Name',
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        onFieldSubmitted: (value) {
-                          GeneralUtils.fieldFocusChange(
-                              context, nameFocusNode, emailFocusNode);
-                        },
-                      ),
-                      SizedBox(
-                        height: height * .03,
-                      ),
+                      CustomTextfield(
+                          textStore: nameController,
+                          keyboardType: TextInputType.emailAddress,
+                          textFieldIcon: const Icon(Icons.person),
+                          textsize: 20,
+                          lebaltitle: 'Enter your name',
+                          validator: FormValidation.validateName,
+                          onfieldSubmission: (value) {
+                            GeneralUtils.fieldFocusChange(
+                                context, nameFocusNode, emailFocusNode);
+                          }),
+
                       //email
-                      TextFormField(
-                        focusNode: emailFocusNode,
-                        controller: emailController,
-                        validator: FormValidation.validateEmail,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.alternate_email),
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your Email',
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        onFieldSubmitted: (value) {
-                          GeneralUtils.fieldFocusChange(
-                              context, emailFocusNode, phoneNumberFocusNode);
-                        },
-                      ),
-                      SizedBox(
-                        height: height * .03,
-                      ),
+                      CustomTextfield(
+                          textStore: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          textFieldIcon: const Icon(Icons.alternate_email),
+                          textsize: 20,
+                          lebaltitle: 'Enter your email',
+                          validator: FormValidation.validateEmail,
+                          onfieldSubmission: (value) {
+                            GeneralUtils.fieldFocusChange(
+                                context, emailFocusNode, phoneNumberFocusNode);
+                          }),
+
                       //phone number
-                      TextFormField(
-                        focusNode: phoneNumberFocusNode,
-                        controller: phoneNumberController,
-                        validator: FormValidation.validatePhoneNumber,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.phone),
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your Phone Number',
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        onFieldSubmitted: (value) {
-                          GeneralUtils.fieldFocusChange(
-                              context, phoneNumberFocusNode, passwordFocusNode);
-                        },
-                      ),
-                      SizedBox(
-                        height: height * .03,
-                      ),
+                      CustomTextfield(
+                          textStore: phoneNumberController,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true, signed: true),
+                          textFieldIcon: const Icon(Icons.phone),
+                          textsize: 20,
+                          lebaltitle: 'Enter your phone number',
+                          validator: FormValidation.validatePhoneNumber,
+                          onfieldSubmission: (value) {
+                            GeneralUtils.fieldFocusChange(context,
+                                phoneNumberFocusNode, passwordFocusNode);
+                          }),
+
                       //password
-                      TextFormField(
-                        focusNode: passwordFocusNode,
-                        controller: passwordController,
-                        validator: FormValidation.validatePassword,
+                      CustomTextfield(
+                        textStore: passwordController,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock_person_rounded),
-                          border: OutlineInputBorder(),
-                          hintText: 'Enter your Password',
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
+                        textFieldIcon: const Icon(Icons.lock),
+                        textsize: 20,
+                        lebaltitle: 'Enter your password',
+                        validator: FormValidation.validatePassword,
                       ),
                     ],
                   ),
@@ -178,22 +142,25 @@ class _SignupViewState extends State<SignupView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Already have an account?",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    const CustomText(
+                      text: 'Already have an account?',
+                      textSize: 20,
+                      textWeight: FontWeight.bold,
                     ),
+                    // const Text(
+                    //   "Already have an account?",
+                    //   style:
+                    //       TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    // ),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, RoutesName.loginView);
                       },
-                      child: const Text(
-                        'Log in',
-                        style: TextStyle(
-                          color: AppColors.buttonColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
+                      child: CustomText(
+                        text: 'Login',
+                        textSize: 20,
+                        textWeight: FontWeight.bold,
+                        textColor: Colors.blueGrey.shade800,
                       ),
                     ),
                   ],

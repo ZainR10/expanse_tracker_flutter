@@ -62,7 +62,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         if (index == 2) {
           showModalBottomSheet(
             barrierColor: Colors.transparent,
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.blueGrey,
             useSafeArea: true,
             isScrollControlled: true,
             context: context,
