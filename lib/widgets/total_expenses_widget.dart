@@ -2,10 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
+import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TotalExpensesWidget extends StatefulWidget {
@@ -19,8 +21,10 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
+    final expensesProvider = Provider.of<ExpensesProvider>(context);
 
     String selectedCurrency = currencyProvider.selectedCurrency;
+    double remainingBalance = expensesProvider.remainingBalance;
 
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
@@ -72,15 +76,15 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                     size: 30,
                   );
                 }
-                double totalExpenses = 0.0;
-                if (snapshot.hasData) {
-                  totalExpenses = snapshot.data!.docs.fold(0.0, (sum, doc) {
-                    final data = doc.data() as Map<String, dynamic>;
-                    return sum + (data['amount'] ?? 0.0).toDouble();
-                  });
-                }
+                double totalExpenses = context
+                    .watch<ExpensesProvider>()
+                    .totalExpenses; // Use provider for totalExpenses
+
                 return CustomText(
-                  text: "$selectedCurrency${totalExpenses.toStringAsFixed(0)}",
+                  text: NumberFormat.currency(
+                    locale: 'en_US',
+                    symbol: selectedCurrency,
+                  ).format(remainingBalance), // Directly using remainingBalance
                   textColor: Colors.black,
                   textLetterSpace: 1,
                   textSize: 22,

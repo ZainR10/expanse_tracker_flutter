@@ -58,4 +58,12 @@ class FormValidation {
     }
     return null;
   }
+
+  static String? generalValidation(String? value) {
+    if (value == null || value.isEmpty) {
+      return "This field cannot be empty";
+    }
+
+    return null;
+  }
 }

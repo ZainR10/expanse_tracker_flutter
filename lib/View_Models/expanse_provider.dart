@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
+import 'package:flutter/material.dart';
 
 class ExpensesProvider with ChangeNotifier {
   List<Expanses> _expenses = [];
@@ -15,36 +15,34 @@ class ExpensesProvider with ChangeNotifier {
     fetchBalance();
   }
 
+  // Add expense and update balance
   void addExpense(Expanses expense) async {
     _expenses.add(expense);
     notifyListeners();
     try {
       await _firestore.collection('expenses').add(expense.toFirestore());
-      await updateTotalsInFirestore(); // Update totals after adding an expense
+      await updateTotalsInFirestore();
     } catch (e) {
       print('Error adding expense: $e');
     }
   }
 
+  // Remove expense and update balance
   void removeExpense(Expanses expense) async {
     _expenses.remove(expense);
     notifyListeners();
     try {
       await _firestore.collection('expenses').doc(expense.id).delete();
-      await updateTotalsInFirestore(); // Update totals after removing an expense
+      await updateTotalsInFirestore();
     } catch (e) {
       print('Error removing expense: $e');
     }
   }
 
-  void updateTotalBalance(double amount) async {
-    _totalBalance = amount;
-    await updateTotalsInFirestore(); // Update totals after updating the balance
-    notifyListeners();
-  }
-
+  // Update balance in Firestore
   Future<void> updateTotalsInFirestore() async {
-    double totalExpenses = _expenses.fold(0, (sum, item) => sum + item.amount);
+    double totalExpenses =
+        _expenses.fold(0.0, (sum, item) => sum + item.amount);
     double remainingBalance = _totalBalance - totalExpenses;
     try {
       await _firestore.collection('balances').doc('main').set({
@@ -57,14 +55,7 @@ class ExpensesProvider with ChangeNotifier {
     }
   }
 
-  double get totalExpenses {
-    return _expenses.fold(0, (sum, item) => sum + item.amount);
-  }
-
-  double get remainingBalance {
-    return _totalBalance - totalExpenses;
-  }
-
+  // Fetch expenses from Firestore
   Future<void> fetchExpenses() async {
     try {
       final snapshot = await _firestore.collection('expenses').get();
@@ -77,6 +68,7 @@ class ExpensesProvider with ChangeNotifier {
     }
   }
 
+  // Fetch balance from Firestore
   Future<void> fetchBalance() async {
     try {
       final snapshot =
@@ -84,11 +76,19 @@ class ExpensesProvider with ChangeNotifier {
       if (snapshot.exists) {
         final data = snapshot.data();
         _totalBalance = data?['totalBalance'] ?? 0.0;
-        // Note: totalExpenses and remainingBalance are not fetched as they are recalculated
+        // Total expenses and remaining balance will be recalculated
       }
       notifyListeners();
     } catch (e) {
       print('Error fetching balance: $e');
     }
+  }
+
+  double get totalExpenses {
+    return _expenses.fold(0.0, (sum, item) => sum + item.amount);
+  }
+
+  double get remainingBalance {
+    return _totalBalance - totalExpenses;
   }
 }

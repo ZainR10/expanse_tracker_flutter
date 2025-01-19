@@ -1,9 +1,15 @@
+import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
+import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
+import 'package:expanse_tracker_flutter/utils/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_textfield.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:provider/provider.dart';
 
 void addBalanceBottomSheet(BuildContext context) {
+  final _formkey = GlobalKey<FormState>();
+
   DateTime startDate = DateTime.now();
   final TextEditingController amountController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
@@ -71,154 +77,189 @@ void addBalanceBottomSheet(BuildContext context) {
           return SizedBox(
             width: width,
             height: height * .75,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // CustomTextfield(
-                //   textsize: 28,
-                //   textFieldIcon: const Icon(
-                //     Icons.edit,
-                //     color: Colors.black,
-                //     size: 30,
-                //   ),
-                //   lebaltitle: 'Type Expense Title',
-                //   textStore: titleController,
-                // ),
-
-                const SizedBox(width: 5),
-                CustomTextfield(
-                  textsize: 24,
-                  textFieldIcon: const Icon(
-                    Icons.money_sharp,
-                    color: Colors.black,
-                    size: 30,
-                  ),
-                  lebaltitle: 'Add Amount',
-                  keyboardType: const TextInputType.numberWithOptions(),
-                  textStore: amountController,
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: () => selectStartDate(context),
-                  child: AbsorbPointer(
-                    child: CustomTextfield(
-                      textsize: 24,
-                      textFieldIcon: const Icon(
-                        Icons.calendar_today,
-                        color: Colors.black,
-                        size: 30,
+            child: Form(
+              key: _formkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(width: 5),
+                  Column(
+                    children: [
+                      CustomTextfield(
+                        validator: FormValidation.validateamount,
+                        textsize: 24,
+                        textFieldIcon: const Icon(
+                          Icons.money_sharp,
+                          color: Colors.black,
+                          size: 30,
+                        ),
+                        lebaltitle: 'Add Amount',
+                        keyboardType: const TextInputType.numberWithOptions(),
+                        textStore: amountController,
                       ),
-                      lebaltitle: 'Date',
-                      keyboardType: TextInputType.datetime,
-                      textStore: dateController,
-                    ),
-                  ),
-                ),
-
-                const Divider(
-                  color: Colors.black,
-                  height: 2,
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8),
-                          child: CustomText(
-                            text: 'Select Relevant Icon',
-                            textColor: Colors.black,
-                            textLetterSpace: 1,
-                            textSize: 28,
-                            textWeight: FontWeight.bold,
+                      GestureDetector(
+                        onTap: () => selectStartDate(context),
+                        child: AbsorbPointer(
+                          child: CustomTextfield(
+                            validator: FormValidation.generalValidation,
+                            textsize: 24,
+                            textFieldIcon: const Icon(
+                              Icons.calendar_today,
+                              color: Colors.black,
+                              size: 30,
+                            ),
+                            lebaltitle: 'Date',
+                            keyboardType: TextInputType.datetime,
+                            textStore: dateController,
                           ),
                         ),
-                        GridView.builder(
-                          padding: const EdgeInsets.all(8.0),
-                          shrinkWrap: true, // Important for GridView in Column
-                          physics: const NeverScrollableScrollPhysics(),
-                          // disable gridview scrolling
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.black,
+                    height: 2,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: CustomText(
+                              text: 'Source of Income',
+                              textColor: Colors.black,
+                              textLetterSpace: 1,
+                              textSize: 28,
+                              textWeight: FontWeight.bold,
+                            ),
                           ),
-                          itemCount: iconsData.length,
-                          itemBuilder: (context, index) {
-                            final iconData = iconsData[index];
-                            final isSelected = selectedIndex == index;
-
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex = index;
-                                });
-                              },
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CircleAvatar(
-                                    radius: 35,
-                                    backgroundColor: isSelected
-                                        ? Colors.greenAccent
-                                        : Colors.blueGrey.shade100,
-                                    child: Icon(
-                                      iconData['icon'],
-                                      size: 35,
-                                      color: isSelected
-                                          ? Colors.white
-                                          : Colors.black,
-                                      shadows: [
-                                        Shadow(
-                                            color: isSelected
-                                                ? Colors.green.shade900
-                                                : Colors.blueGrey.shade800,
-                                            blurRadius: 20)
-                                      ],
-                                    ),
+                          FormField<int>(validator: (value) {
+                            if (selectedIndex == -1) {
+                              return 'Please select an icon.';
+                            }
+                            return null; // No other errors
+                          }, builder: (FormFieldState<int> state) {
+                            return Column(
+                              children: [
+                                GridView.builder(
+                                  padding: const EdgeInsets.all(8.0),
+                                  shrinkWrap:
+                                      true, // Important for GridView in Column
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  // disable gridview scrolling
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
                                   ),
-                                  const SizedBox(height: 8),
+                                  itemCount: iconsData.length,
+                                  itemBuilder: (context, index) {
+                                    final iconData = iconsData[index];
+                                    final isSelected = selectedIndex == index;
+
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedIndex = index;
+                                        });
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 35,
+                                            backgroundColor: isSelected
+                                                ? Colors.greenAccent
+                                                : Colors.blueGrey.shade100,
+                                            child: Icon(
+                                              iconData['icon'],
+                                              size: 35,
+                                              color: isSelected
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              shadows: [
+                                                Shadow(
+                                                    color: isSelected
+                                                        ? Colors.green.shade900
+                                                        : Colors
+                                                            .blueGrey.shade800,
+                                                    blurRadius: 20)
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          CustomText(
+                                            text: iconData['label'],
+                                            textColor: isSelected
+                                                ? Colors.greenAccent.shade700
+                                                : Colors.blueGrey.shade600,
+                                            textSize: 18,
+                                            textWeight: FontWeight.w500,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                                if (state.hasError)
                                   CustomText(
-                                    text: iconData['label'],
-                                    textColor: isSelected
-                                        ? Colors.greenAccent.shade700
-                                        : Colors.blueGrey.shade600,
+                                    text: state.errorText!,
+                                    textColor: Colors.red,
                                     textSize: 18,
                                     textWeight: FontWeight.w500,
                                   ),
-                                ],
-                              ),
+                              ],
                             );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CustomButton(
-                                title: 'Cancel',
-                                buttonColor: Colors.red,
-                                onPress: () {},
-                                height: height * .07,
-                                width: width * .40,
-                              ),
-                              CustomButton(
-                                title: 'Save',
-                                buttonColor: Colors.green,
-                                onPress: () {},
-                                height: height * .07,
-                                width: width * .40,
-                              ),
-                            ],
+                          }),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomButton(
+                                  title: 'Cancel',
+                                  buttonColor: Colors.red,
+                                  onPress: () {},
+                                  height: height * .07,
+                                  width: width * .40,
+                                ),
+                                CustomButton(
+                                  title: 'Save',
+                                  buttonColor: Colors.green,
+                                  onPress: () async {
+                                    if (_formkey.currentState!.validate() &&
+                                        selectedIndex != -1) {
+                                      final provider = Provider.of<
+                                              BalanceAndExpensesProvider>(
+                                          context,
+                                          listen: false);
+
+                                      final newBalance = AddBalance(
+                                        amount:
+                                            double.parse(amountController.text),
+                                        date: startDate,
+                                        icon: iconsData[selectedIndex]
+                                            ['label'], // Store icon label
+                                      );
+
+                                      await provider.addBalance(newBalance);
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  height: height * .07,
+                                  width: width * .40,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

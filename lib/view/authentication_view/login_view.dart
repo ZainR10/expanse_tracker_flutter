@@ -1,7 +1,6 @@
 import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/login_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/utils/validate.dart';
-import 'package:expanse_tracker_flutter/res/components/colors.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_textfield.dart';
 import 'package:expanse_tracker_flutter/res/components/round_button.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
@@ -99,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const CustomText(
-                text: 'Dont have an account',
+                text: 'Dont have an account?',
                 textSize: 20,
                 textWeight: FontWeight.bold,
               ),

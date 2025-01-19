@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/widgets/appbar.dart';

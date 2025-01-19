@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/chart_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ChartTypeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BalanceAndExpensesProvider()..preloadData(),
         )
       ],
       child: MaterialApp(

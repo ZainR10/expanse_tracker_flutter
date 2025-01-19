@@ -24,16 +24,28 @@ class ListTileBuilder extends StatefulWidget {
 
 class _ListTileBuilderState extends State<ListTileBuilder> {
   void _deleteExpense(BuildContext context, Expanses expense) {
+    // Remove the expense from the list
     Provider.of<ExpensesProvider>(context, listen: false)
         .removeExpense(expense);
-    Provider.of<ExpensesProvider>(context, listen: false)
-        .updateTotalBalance(expense.amount);
+
+    // Update the total balance if it was an expense
+    // Update the total balance if it was an expense
+    // if (expense.type == 'expense') {
+    //   Provider.of<ExpensesProvider>(context, listen: false)
+    //       .updateTotalBalance(-expense.amount);
+    // }
+    // // If it's a balance, subtract it from total balance
+    // else if (expense.type == 'balance') {
+    //   Provider.of<ExpensesProvider>(context, listen: false)
+    //       .updateTotalBalance(-expense.amount);
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     String selectedCurrency = currencyProvider.selectedCurrency;
+
     return widget.expenses.isEmpty
         ? const Center(
             child: CustomText(
@@ -53,13 +65,26 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                   itemCount: widget.itemCount <= widget.expenses.length
                       ? widget.itemCount
                       : widget.expenses.length,
-
-                  // itemCount: widget.expenses.length,
                   itemBuilder: (context, index) {
                     final expense = widget.expenses[index];
-                    return Slidable(
-                      // key: ValueKey(expense.id), // Ensure a unique key for each expense
 
+                    // Select an icon based on expense type
+                    Icon leadingIcon;
+                    if (expense.type == 'balance') {
+                      leadingIcon = const Icon(
+                        Icons.account_balance_rounded,
+                        color: Colors.green,
+                        size: 50,
+                      );
+                    } else {
+                      leadingIcon = const Icon(
+                        Icons.local_hospital_rounded,
+                        color: Colors.black,
+                        size: 50,
+                      );
+                    }
+
+                    return Slidable(
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
                         children: [
@@ -75,13 +100,10 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                           ),
                         ],
                       ),
-
                       child: Padding(
                         padding: const EdgeInsets.only(
                             bottom: 2, top: 0, left: 8, right: 8),
                         child: Card(
-                          // shadowColor: Colors.black,
-                          // color: Colors.blueGrey.shade200,
                           color: Colors.blueGrey.shade100,
                           shape: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -90,11 +112,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                           ),
                           child: ListTile(
                             contentPadding: const EdgeInsets.all(10),
-                            leading: const Icon(
-                              Icons.local_hospital_rounded,
-                              color: Colors.black,
-                              size: 50,
-                            ),
+                            leading: leadingIcon, // Display icon based on type
                             title: CustomText(
                               text: expense.title,
                               textColor: Colors.black,
@@ -119,24 +137,6 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                               textSize: 16,
                               textWeight: FontWeight.bold,
                             ),
-                            // Column(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     CustomText(
-                            //       text: expense.description.toString(),
-                            //       textColor: Colors.white,
-                            //       textLetterSpace: 2,
-                            //       textSize: 18,
-                            //       textWeight: FontWeight.normal,
-                            //     ),
-                            //     CustomText(
-                            //       text: expense.startDate.toString(),
-                            //       textColor: Colors.white,
-                            //       textSize: 14,
-                            //       textWeight: FontWeight.normal,
-                            //     ),
-                            //   ],
-                            // ),
                           ),
                         ),
                       ),

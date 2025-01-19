@@ -1,12 +1,10 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -19,16 +17,18 @@ class RemainingBalanceWidget extends StatefulWidget {
 
 class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
   String formattedBalance = '';
+
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     final expensesProvider = Provider.of<ExpensesProvider>(context);
-    final remainingBalance = expensesProvider.remainingBalance;
 
     String selectedCurrency = currencyProvider.selectedCurrency;
+    double remainingBalance = expensesProvider.remainingBalance;
 
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
+
     return Padding(
       padding: const EdgeInsets.only(top: 0, right: 6, left: 6, bottom: 8),
       child: CustomContainer(
@@ -62,44 +62,15 @@ class _RemainingBalanceWidgetState extends State<RemainingBalanceWidget> {
                 )
               ],
             ),
-
-            //totall expenses text:
-            StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('expenses').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SpinKitSpinningLines(
-                    color: Colors.blueGrey,
-                    size: 30,
-                  );
-                }
-                double totalExpenses = 0.0;
-
-                if (snapshot.hasData) {
-                  final totalExpenses =
-                      snapshot.data!.docs.fold(0.0, (sum, doc) {
-                    final data = doc.data() as Map<String, dynamic>;
-                    return sum + (data['amount'] ?? 0.0).toDouble();
-                  });
-                  formattedBalance = NumberFormat.currency(
-                          locale: 'en_US', symbol: selectedCurrency)
-                      .format(remainingBalance -
-                          totalExpenses); // Calculate and format
-                }
-
-                return CustomText(
-                  text: formattedBalance,
-                  // "$selectedCurrency${remainingBalance.toStringAsFixed(0)}",
-                  textColor: Colors.black,
-                  textLetterSpace: 1,
-                  textSize: 22,
-                  textWeight: FontWeight.w500,
-                );
-              },
+            CustomText(
+              text: NumberFormat.currency(
+                locale: 'en_US',
+                symbol: selectedCurrency,
+              ).format(remainingBalance),
+              textColor: Colors.black,
+              textLetterSpace: 1,
+              textSize: 22,
+              textWeight: FontWeight.w500,
             ),
           ],
         ),
