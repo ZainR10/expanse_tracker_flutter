@@ -29,10 +29,10 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Padding(
-      padding: const EdgeInsets.only(top: 0, bottom: 8, right: 6, left: 6),
+      padding: const EdgeInsets.only(top: 0, right: 8, left: 8, bottom: 6),
       child: CustomContainer(
-        height: height * .12,
-        width: width * .45,
+        // height: height * .12,
+        // width: width * .45,
         color: Colors.blueGrey.shade100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -45,16 +45,16 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                   text: 'Total Expenses',
                   textColor: Colors.grey.shade800,
                   textLetterSpace: 0,
-                  textSize: 18,
+                  textSize: 28,
                   textWeight: FontWeight.w500,
                 ),
                 const Icon(
-                  Icons.horizontal_rule,
+                  Icons.do_not_disturb_on_total_silence_outlined,
                   color: Colors.redAccent,
-                  size: 20,
+                  size: 35,
                   shadows: [
                     Shadow(
-                      blurRadius: 10,
+                      blurRadius: 1,
                       color: Colors.red,
                     )
                   ],
@@ -87,7 +87,7 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                   ).format(remainingBalance), // Directly using remainingBalance
                   textColor: Colors.black,
                   textLetterSpace: 1,
-                  textSize: 22,
+                  textSize: 24,
                   textWeight: FontWeight.w500,
                 );
               },

@@ -17,21 +17,13 @@ class TotalBalanceWidget extends StatefulWidget {
 }
 
 class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   final provider =
-  //       Provider.of<BalanceAndExpensesProvider>(context, listen: false);
-  //   provider.fetchBalances();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     String selectedCurrency = currencyProvider.selectedCurrency;
     final balanceAndExpensesProvider =
         Provider.of<BalanceAndExpensesProvider>(context);
-    double _totalBalance = balanceAndExpensesProvider.totalBalance;
+    double totalBalance0 = balanceAndExpensesProvider.totalBalance;
 
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
@@ -53,8 +45,8 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                   textSize: 28,
                 ),
                 Icon(
-                  Icons.energy_savings_leaf_outlined,
-                  color: Colors.greenAccent,
+                  Icons.account_balance,
+                  color: Colors.greenAccent.shade200,
                   size: 35,
                   shadows: [
                     Shadow(
@@ -93,12 +85,16 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                     }
                   }
 
-                  return CustomText(
-                    text:
-                        '\$${balanceAndExpensesProvider.totalBalance.toStringAsFixed(2)}',
-                    textColor: Colors.black,
-                    textSize: 24,
-                    textWeight: FontWeight.bold,
+                  return Consumer<BalanceAndExpensesProvider>(
+                    builder: (context, child, value) {
+                      return CustomText(
+                        text:
+                            '$selectedCurrency${balanceAndExpensesProvider.totalBalance.toStringAsFixed(2)}',
+                        textColor: Colors.black,
+                        textSize: 24,
+                        textWeight: FontWeight.w500,
+                      );
+                    },
                   );
                 }),
           ],

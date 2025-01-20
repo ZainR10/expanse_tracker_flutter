@@ -8,7 +8,7 @@ import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:provider/provider.dart';
 
 void addBalanceBottomSheet(BuildContext context) {
-  final _formkey = GlobalKey<FormState>();
+  final formkey = GlobalKey<FormState>();
 
   DateTime startDate = DateTime.now();
   final TextEditingController amountController = TextEditingController();
@@ -78,7 +78,7 @@ void addBalanceBottomSheet(BuildContext context) {
             width: width,
             height: height * .75,
             child: Form(
-              key: _formkey,
+              key: formkey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -229,7 +229,7 @@ void addBalanceBottomSheet(BuildContext context) {
                                   title: 'Save',
                                   buttonColor: Colors.green,
                                   onPress: () async {
-                                    if (_formkey.currentState!.validate() &&
+                                    if (formkey.currentState!.validate() &&
                                         selectedIndex != -1) {
                                       final provider = Provider.of<
                                               BalanceAndExpensesProvider>(
@@ -237,6 +237,7 @@ void addBalanceBottomSheet(BuildContext context) {
                                           listen: false);
 
                                       final newBalance = AddBalance(
+                                        documentId: '',
                                         amount:
                                             double.parse(amountController.text),
                                         date: startDate,

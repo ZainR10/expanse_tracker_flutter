@@ -1,12 +1,10 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
-import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
-import 'package:expanse_tracker_flutter/res/components/list_tile_builder.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/widgets/appbar.dart';
+import 'package:expanse_tracker_flutter/widgets/balance_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -63,7 +61,7 @@ class _ExpanseListViewState extends State<ExpanseListView> {
       appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
-            appBarTitle: 'Expense Tracker',
+            appBarTitle: 'Expenses',
           )),
       bottomNavigationBar: CustomBottomNavBar(
         onItemTapped: _onItemTapped,
@@ -74,32 +72,7 @@ class _ExpanseListViewState extends State<ExpanseListView> {
           SizedBox(
             height: height * .04,
           ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('expenses').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator(
-                    color: Colors.black87,
-                  );
-                }
-                final expenses = snapshot.data?.docs.map((doc) {
-                      final data = doc.data() as Map<String, dynamic>;
-                      return Expanses.fromFirestore(
-                          doc); // Corrected this line to pass the DocumentSnapshot
-                    }).toList() ??
-                    [];
-                return ListTileBuilder(
-                  itemCount: expenses.length,
-                  expenses: expenses,
-                );
-              },
-            ),
-          )
+          const Expanded(child: BalanceListScreen())
         ],
       ),
     );

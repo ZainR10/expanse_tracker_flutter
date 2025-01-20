@@ -8,7 +8,7 @@ import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:provider/provider.dart';
 
 void expenseBottomSheet(BuildContext context) {
-  final _formkey = GlobalKey<FormState>();
+  final formkey = GlobalKey<FormState>();
 
   DateTime startDate = DateTime.now();
   final TextEditingController titleController = TextEditingController();
@@ -80,7 +80,7 @@ void expenseBottomSheet(BuildContext context) {
             width: width,
             height: height * .65,
             child: Form(
-              key: _formkey,
+              key: formkey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -256,8 +256,8 @@ void expenseBottomSheet(BuildContext context) {
                                   title: 'Save',
                                   buttonColor: Colors.green,
                                   onPress: () {
-                                    if (_formkey.currentState!.validate()) {
-                                      if (_formkey.currentState!.validate()) {
+                                    if (formkey.currentState!.validate()) {
+                                      if (formkey.currentState!.validate()) {
                                         // Create the Expanses object
                                         final expense = Expanses(
                                           title: titleController.text,

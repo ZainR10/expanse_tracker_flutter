@@ -29,7 +29,7 @@ class BalanceAndExpensesProvider with ChangeNotifier {
           .get();
 
       _balanceHistory = historySnapshot.docs.map((doc) {
-        return AddBalance.fromFirestore(doc.data());
+        return AddBalance.fromFirestore(doc.data(), doc.id);
       }).toList();
 
       notifyListeners();
@@ -70,5 +70,16 @@ class BalanceAndExpensesProvider with ChangeNotifier {
     } catch (error) {
       debugPrint('Error adding balance: $error');
     }
+  }
+
+  void deleteBalanceFromProvider(String documentId, double amountToDeduct) {
+    // Remove balance from list
+    balanceHistory.removeWhere((balance) => balance.documentId == documentId);
+
+    // Update total balance
+    _totalBalance -= amountToDeduct;
+
+    // Notify listeners to refresh UI
+    notifyListeners();
   }
 }

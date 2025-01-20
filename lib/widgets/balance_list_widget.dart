@@ -1,19 +1,30 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
-import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/utils/firebase_services_utils/delete_balance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class BalanceListScreen extends StatelessWidget {
+class BalanceListScreen extends StatefulWidget {
+  final Widget? widget;
+  const BalanceListScreen({
+    this.widget,
+    super.key,
+  });
+
+  @override
+  State<BalanceListScreen> createState() => _BalanceListScreenState();
+}
+
+class _BalanceListScreenState extends State<BalanceListScreen> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     String selectedCurrency = currencyProvider.selectedCurrency;
     return Consumer<BalanceAndExpensesProvider>(
-      builder: (context, provider, _) {
+      builder: (context, provider, value) {
         final balances = provider.balanceHistory;
 
         if (balances.isEmpty) {
@@ -30,26 +41,7 @@ class BalanceListScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const CustomText(
-                    text: 'Transactions',
-                    textSize: 28,
-                    textColor: Colors.black,
-                    textWeight: FontWeight.w500,
-                  ),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, RoutesName.expanseListView);
-                      },
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.black,
-                      )),
-                ],
-              ),
+              if (widget.widget != null) widget.widget!,
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -60,13 +52,30 @@ class BalanceListScreen extends StatelessWidget {
 
                   return Expanded(
                     child: Slidable(
+                      startActionPane:
+                          ActionPane(motion: const ScrollMotion(), children: [
+                        SlidableAction(
+                          borderRadius: const BorderRadius.horizontal(
+                              right: Radius.circular(10)),
+                          onPressed: (context) =>
+                              deleteBalance(context, balance),
+                          // onPressed: (context) =>
+                          //     _deleteExpense(context, expense),
+                          backgroundColor: const Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        ),
+                      ]),
                       endActionPane: ActionPane(
                         motion: const ScrollMotion(),
+                        dragDismissible: true,
                         children: [
                           SlidableAction(
                             borderRadius: const BorderRadius.horizontal(
                                 left: Radius.circular(10)),
-                            onPressed: (context) {},
+                            onPressed: (context) =>
+                                deleteBalance(context, balance),
                             // onPressed: (context) =>
                             //     _deleteExpense(context, expense),
                             backgroundColor: const Color(0xFFFE4A49),
