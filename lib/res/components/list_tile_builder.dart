@@ -9,11 +9,11 @@ class ListTileBuilder extends StatefulWidget {
   final List<Expanses> expenses;
   final int itemCount;
 
-  ListTileBuilder({
+  const ListTileBuilder({
     required this.itemCount,
     required this.expenses,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ListTileBuilder> createState() => _ListTileBuilderState();
@@ -30,7 +30,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
     return widget.expenses.isEmpty
         ? const Center(
             child: Text(
@@ -87,7 +87,7 @@ class _ListTileBuilderState extends State<ListTileBuilder> {
                     // leading:  Color,
                     trailing: Text(
                       double.tryParse(expense.amount.toString()) != null
-                          ? '$_selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(2)}'
+                          ? '$selectedCurrency ${double.parse(expense.amount.toString()).toStringAsFixed(2)}'
                           : '\$0.00',
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500),

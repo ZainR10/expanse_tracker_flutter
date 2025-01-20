@@ -11,11 +11,11 @@ class BalanceDialogbox extends StatefulWidget {
   final VoidCallback onCancel;
 
   const BalanceDialogbox({
-    Key? key,
+    super.key,
     required this.addBalanceCallback,
     required this.onSave,
     required this.onCancel,
-  }) : super(key: key);
+  });
 
   @override
   State<BalanceDialogbox> createState() => _BalanceDialogboxState();

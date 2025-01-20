@@ -15,7 +15,7 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   int _selectedIndex = 4;
-  List<String> _currencies = ['Rs', 'USD', 'EUR', 'GBP'];
+  final List<String> _currencies = ['Rs', 'USD', 'EUR', 'GBP'];
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
     final auth = FirebaseAuth.instance;
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
@@ -74,7 +74,7 @@ class _SettingsViewState extends State<SettingsView> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: width * 1,
               height: height * .10,
               child: InkWell(
@@ -114,7 +114,7 @@ class _SettingsViewState extends State<SettingsView> {
               style: TextStyle(
                   fontSize: 20, letterSpacing: 3, fontWeight: FontWeight.w600),
             ),
-            Container(
+            SizedBox(
                 width: width * 1,
                 height: height * .10,
                 child: InkWell(
@@ -131,7 +131,7 @@ class _SettingsViewState extends State<SettingsView> {
                     margin: const EdgeInsets.all(8),
                     child: Center(
                       child: DropdownButton<String>(
-                        value: _selectedCurrency,
+                        value: selectedCurrency,
                         onChanged: (String? newValue) {
                           currencyProvider.selectedCurrency = newValue!;
                         },

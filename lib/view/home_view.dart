@@ -40,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
-    String _selectedCurrency = currencyProvider.selectedCurrency;
+    String selectedCurrency = currencyProvider.selectedCurrency;
     final expensesProvider = Provider.of<ExpensesProvider>(context);
     final expenses = expensesProvider.expenses;
     final totalExpenses = expensesProvider.totalExpenses;
@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
                                 (data['totalBalance'] ?? 0).toDouble();
                           }
                           return Text(
-                            "$_selectedCurrency ${totalBalance.toStringAsFixed(2)}",
+                            "$selectedCurrency ${totalBalance.toStringAsFixed(2)}",
                             style: const TextStyle(
                               wordSpacing: 2.5,
                               color: Colors.white,
@@ -168,7 +168,7 @@ class _HomeViewState extends State<HomeView> {
                                 });
                               }
                               return Text(
-                                "$_selectedCurrency ${totalExpenses.toStringAsFixed(2)}",
+                                "$selectedCurrency ${totalExpenses.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   wordSpacing: 1,
                                   color: Colors.red,
@@ -204,7 +204,7 @@ class _HomeViewState extends State<HomeView> {
                               double remainingBalance =
                                   totalBalance - totalExpenses;
                               return Text(
-                                "$_selectedCurrency ${remainingBalance.toStringAsFixed(2)}",
+                                "$selectedCurrency ${remainingBalance.toStringAsFixed(2)}",
                                 style: const TextStyle(
                                   wordSpacing: 1,
                                   color: Colors.lightGreen,

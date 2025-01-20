@@ -10,12 +10,12 @@ class DialogBox extends StatefulWidget {
   final VoidCallback onSave;
   final VoidCallback onCancel;
 
-  DialogBox({
-    Key? key,
+  const DialogBox({
+    super.key,
     required this.addExpansesCallback,
     required this.onSave,
     required this.onCancel,
-  }) : super(key: key);
+  });
 
   @override
   State<DialogBox> createState() => _DialogBoxState();
@@ -46,6 +46,7 @@ class _DialogBoxState extends State<DialogBox> {
 
   void _addExpenses() {
     Expanses newExpanse = Expanses(
+      id: '',
       title: expanseController.text,
       description: selectedCategory.toString(),
       startDate: startDate,
