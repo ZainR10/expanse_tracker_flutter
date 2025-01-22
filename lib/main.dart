@@ -1,7 +1,6 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/chart_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
-import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/login_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/signup_firebase_logic.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes.dart';
@@ -34,9 +33,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => LoginViewModel(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ExpensesProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CurrencyProvider(),

@@ -1,12 +1,11 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/widgets/appbar.dart';
 import 'package:expanse_tracker_flutter/widgets/balance_list_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/expense_list_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExpanseListView extends StatefulWidget {
   const ExpanseListView({super.key});
@@ -51,9 +50,6 @@ class _ExpanseListViewState extends State<ExpanseListView> {
 
   @override
   Widget build(BuildContext context) {
-    final expensesProvider = Provider.of<ExpensesProvider>(context);
-    final expenses = expensesProvider.expenses;
-    final totalExpenses = expensesProvider.totalExpenses;
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
@@ -61,19 +57,22 @@ class _ExpanseListViewState extends State<ExpanseListView> {
       appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
-            appBarTitle: 'Expenses',
+            appBarTitle: 'Balance & Expense List',
           )),
       bottomNavigationBar: CustomBottomNavBar(
         onItemTapped: _onItemTapped,
         selectedIndex: _selectedIndex,
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: height * .04,
-          ),
-          const Expanded(child: BalanceListScreen())
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: height * .04,
+            ),
+            const BalanceListScreen(),
+            const ExpenseListScreen()
+          ],
+        ),
       ),
     );
   }

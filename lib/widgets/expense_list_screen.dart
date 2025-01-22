@@ -6,30 +6,27 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class BalanceListScreen extends StatefulWidget {
-  final Widget? widget;
-  const BalanceListScreen({
-    this.widget,
-    super.key,
-  });
+class ExpenseListScreen extends StatefulWidget {
+  const ExpenseListScreen({super.key});
 
   @override
-  State<BalanceListScreen> createState() => _BalanceListScreenState();
+  State<ExpenseListScreen> createState() => _ExpenseListScreenState();
 }
 
-class _BalanceListScreenState extends State<BalanceListScreen> {
+class _ExpenseListScreenState extends State<ExpenseListScreen> {
   @override
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     String selectedCurrency = currencyProvider.selectedCurrency;
+
     return Consumer<BalanceAndExpensesProvider>(
       builder: (context, provider, value) {
-        final balances = provider.balanceHistory;
+        final expenses = provider.expenseHistory;
 
-        if (balances.isEmpty) {
+        if (expenses.isEmpty) {
           return const Center(
             child: CustomText(
-              text: 'Nothing to show',
+              text: 'No expenses to show',
               textColor: Colors.black,
               textLetterSpace: 1,
               textSize: 18,
@@ -40,26 +37,25 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
 
         return Padding(
           padding: const EdgeInsets.only(top: 0, bottom: 5, right: 8, left: 8),
-          child: Column(children: [
-            if (widget.widget != null) widget.widget!,
-            Consumer<BalanceAndExpensesProvider>(
-                builder: (context, balanceProvider, child) {
-              return ListView.builder(
+          child: Column(
+            children: [
+              ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: balanceProvider.balanceHistory.length,
+                itemCount: expenses.length,
                 itemBuilder: (context, index) {
-                  final balance = balances[index];
+                  final expense = expenses[index];
                   final iconIndex = iconsData
-                      .indexWhere((icon) => icon['label'] == balance.icon);
+                      .indexWhere((icon) => icon['label'] == expense.icon);
+
                   return Slidable(
                     startActionPane:
                         ActionPane(motion: const ScrollMotion(), children: [
                       SlidableAction(
                         borderRadius: const BorderRadius.horizontal(
                             right: Radius.circular(10)),
-                        onPressed: (context) => provider.deleteBalance(
-                            balance.documentId, balance.amount),
+                        onPressed: (context) => provider.deleteExpense(
+                            expense.documentId, expense.amount),
 
                         // onPressed: (context) =>
                         //     _deleteExpense(context, expense),
@@ -76,8 +72,8 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
                         SlidableAction(
                           borderRadius: const BorderRadius.horizontal(
                               left: Radius.circular(10)),
-                          onPressed: (context) => provider.deleteBalance(
-                              balance.documentId, balance.amount),
+                          onPressed: (context) => provider.deleteExpense(
+                              expense.documentId, expense.amount),
                           backgroundColor: const Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
@@ -98,50 +94,50 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
                           backgroundColor: Colors.blueGrey.shade100,
                           child: Icon(
                             iconsData[iconIndex]['icon'],
-                            color: Colors.green,
+                            color: Colors.red,
                             size: 35,
                           ),
                         ),
                         title: CustomText(
-                          text:
-                              '$selectedCurrency${balance.amount.toStringAsFixed(2)}',
+                          text: expense.title,
                           textSize: 28,
                           textColor: Colors.black,
                           textWeight: FontWeight.bold,
                         ),
                         subtitle: CustomText(
                           text:
-                              'Date: ${DateFormat('yyyy-MM-dd').format(balance.date)}',
-                          textSize: 18,
+                              'Date: ${DateFormat('yyyy-MM-dd').format(expense.date)}',
+                          textSize: 15,
                           textColor: Colors.grey.shade700,
                           textWeight: FontWeight.bold,
+                        ),
+                        trailing: CustomText(
+                          // title: CustomText(
+                          text:
+                              '$selectedCurrency${expense.amount.toStringAsFixed(2)}',
+                          textSize: 22,
+                          textWeight: FontWeight.bold,
+                          textColor: Colors.black,
                         ),
                       ),
                     ),
                   );
                 },
-              );
-            }),
-          ]),
+              ),
+            ],
+          ),
         );
       },
     );
   }
-
-  int _getIconIndex(String iconLabel) {
-    for (int i = 0; i < iconsData.length; i++) {
-      if (iconsData[i]['label'] == iconLabel) return i;
-    }
-    return -1; // Default icon index if not found
-  }
 }
 
-// Same iconsData list from the bottom sheet
 final List<Map<String, dynamic>> iconsData = [
-  {'icon': Icons.business_center, 'label': 'Salary'},
-  {'icon': Icons.add_chart, 'label': 'Investments'},
-  {'icon': Icons.laptop_chromebook, 'label': 'Freelancing'},
-  {'icon': Icons.business, 'label': 'Business'},
-  {'icon': Icons.savings_rounded, 'label': 'Savings'},
+  {'icon': Icons.directions_bus, 'label': 'Transportation'},
+  {'icon': Icons.shopping_cart, 'label': 'Grocery'},
+  {'icon': Icons.fastfood, 'label': 'Food'},
+  {'icon': Icons.local_hospital, 'label': 'Health'},
+  {'icon': Icons.house, 'label': 'Rent'},
+  {'icon': Icons.school, 'label': 'Education'},
   {'icon': Icons.more_horiz, 'label': 'Others'},
 ];

@@ -33,50 +33,39 @@ class AddBalance {
   }
 }
 
-class Expanses {
-  final String id; // Firestore document ID
+class AddExpenses {
+  final String documentId;
   final String title;
-  final String description;
   final double amount;
-  final DateTime startDate;
-  final String
-      type; // Add type here to specify whether it's an 'expense' or 'balance'
+  final DateTime date;
+  final String icon;
 
-  Expanses({
-    this.id = '', // default to empty string, can be set later
+  AddExpenses({
+    required this.documentId,
     required this.title,
-    required this.description,
     required this.amount,
-    required this.startDate,
-    required this.type, // Ensure type is passed in the constructor
+    required this.date,
+    required this.icon,
   });
 
+  // Convert to Firestore format
   Map<String, dynamic> toFirestore() {
     return {
       'title': title,
-      'description': description,
       'amount': amount,
-      'startDate': startDate.toString(),
-      'type': type, // Store type in Firestore
+      'date': date.toIso8601String(),
+      'icon': icon,
     };
   }
 
-  static Expanses fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    final amount = data['amount'];
-    final type = data['type'] ?? 'expense'; // Default to 'expense' if null
-    return Expanses(
-      id: doc.id,
+  // Create from Firestore
+  factory AddExpenses.fromFirestore(String id, Map<String, dynamic> data) {
+    return AddExpenses(
+      documentId: id,
       title: data['title'],
-      description: data['description'],
-      amount: amount is int ? amount.toDouble() : amount,
-      startDate: DateTime.parse(data['startDate']),
-      type: type, // Set type here, with default if null
+      amount: (data['amount'] as num).toDouble(),
+      date: DateTime.parse(data['date']),
+      icon: data['icon'],
     );
-  }
-
-  @override
-  String toString() {
-    return 'Expanses(title: $title, description: $description, amount: $amount, startDate: $startDate, type: $type)';
   }
 }

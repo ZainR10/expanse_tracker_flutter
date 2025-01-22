@@ -1,4 +1,5 @@
-import 'package:expanse_tracker_flutter/View_Models/expanse_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
 import 'package:expanse_tracker_flutter/utils/validate.dart';
@@ -255,27 +256,38 @@ void expenseBottomSheet(BuildContext context) {
                                 CustomButton(
                                   title: 'Save',
                                   buttonColor: Colors.green,
-                                  onPress: () {
-                                    if (formkey.currentState!.validate()) {
-                                      if (formkey.currentState!.validate()) {
-                                        // Create the Expanses object
-                                        final expense = Expanses(
-                                          title: titleController.text,
-                                          description:
-                                              'Some description', // Add a description if needed
-                                          amount: double.parse(amountController
-                                              .text), // Amount entered by the user
-                                          startDate: DateTime.parse(dateController
-                                              .text), // Date entered by the user
-                                          type:
-                                              'expense', // Assuming this is an expense
-                                        );
+                                  onPress: () async {
+                                    if (formkey.currentState!.validate() &&
+                                        selectedIndex != -1) {
+                                      final provider = Provider.of<
+                                              BalanceAndExpensesProvider>(
+                                          context,
+                                          listen: false);
 
-                                        // Call the provider's addExpense method
-                                        context
-                                            .read<ExpensesProvider>()
-                                            .addExpense(expense);
-                                      }
+                                      // Create a new expense
+                                      final newExpense = AddExpenses(
+                                        documentId: '',
+                                        title: titleController.text,
+                                        amount:
+                                            double.parse(amountController.text),
+                                        date: DateTime.now(),
+                                        icon: iconsData[selectedIndex]['label'],
+                                      );
+
+                                      // Add to Firestore and get the assigned documentId
+                                      final docRef = await FirebaseFirestore
+                                          .instance
+                                          .collection('expenses')
+                                          .doc(newExpense.title)
+                                          .set(newExpense.toFirestore());
+
+                                      // Update total expenses
+                                      provider.addExpense(newExpense);
+
+                                      // Subtract from balance
+                                      provider
+                                          .updateBalance(-newExpense.amount);
+
                                       Navigator.pop(context);
                                     }
                                   },
