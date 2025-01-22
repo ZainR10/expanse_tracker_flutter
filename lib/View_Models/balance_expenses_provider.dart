@@ -9,77 +9,79 @@ class BalanceAndExpensesProvider with ChangeNotifier {
   double get totalBalance => _totalBalance;
   List<AddBalance> get balanceHistory => _balanceHistory;
 
-  /// Fetch initial data on app restart
+  // Fetch initial data
   Future<void> preloadData() async {
     try {
       // Fetch Total Balance
-      final totalBalanceDoc = await FirebaseFirestore.instance
+      final totalDoc = await FirebaseFirestore.instance
           .collection('balance')
           .doc('total_balance')
           .get();
 
-      if (totalBalanceDoc.exists) {
-        _totalBalance = totalBalanceDoc.data()?['amount'] ?? 0.0;
-      }
+      _totalBalance =
+          totalDoc.exists ? (totalDoc.data()?['amount'] ?? 0.0) : 0.0;
 
       // Fetch Balance History
       final historySnapshot = await FirebaseFirestore.instance
           .collection('balance')
-          .where('type', isEqualTo: 'history') // Filter history documents
+          .orderBy('date', descending: true)
           .get();
 
-      _balanceHistory = historySnapshot.docs.map((doc) {
-        return AddBalance.fromFirestore(doc.data(), doc.id);
-      }).toList();
+      _balanceHistory = historySnapshot.docs
+          .map((doc) => AddBalance.fromFirestore(doc))
+          .toList();
 
       notifyListeners();
-    } catch (error) {
-      debugPrint('Error preloading data: $error');
+    } catch (e) {
+      debugPrint('Error preloading data: $e');
     }
   }
 
-  /// Add balance: update total balance and add a history record
-  Future<void> addBalance(AddBalance balance) async {
+  // Add balance
+  Future<void> addBalance(AddBalance newBalance) async {
     try {
-      // Update Total Balance Document
-      final totalBalanceDoc =
-          FirebaseFirestore.instance.collection('balance').doc('total_balance');
-      final totalBalanceData = await totalBalanceDoc.get();
+      // Update Firestore
+      await FirebaseFirestore.instance
+          .collection('balance')
+          .doc(newBalance.documentId)
+          .set(newBalance.toFirestore());
 
-      if (totalBalanceData.exists) {
-        final currentTotal = totalBalanceData.data()?['amount'] ?? 0.0;
-        await totalBalanceDoc.update({
-          'amount': currentTotal + balance.amount,
-        });
-        _totalBalance = currentTotal + balance.amount;
-      } else {
-        await totalBalanceDoc.set({'amount': balance.amount});
-        _totalBalance = balance.amount;
-      }
+      // Update total balance
+      _totalBalance += newBalance.amount;
+      await FirebaseFirestore.instance
+          .collection('balance')
+          .doc('total_balance')
+          .set({'amount': _totalBalance});
 
-      // Add Balance History Document
-      final historyDoc = FirebaseFirestore.instance.collection('balance').doc();
-      await historyDoc.set({
-        'type': 'history', // Add a field to identify history records
-        ...balance.toFirestore(),
-      });
-
-      // Update Local Data
-      _balanceHistory.add(balance);
+      // Update local state
+      _balanceHistory.insert(0, newBalance);
       notifyListeners();
-    } catch (error) {
-      debugPrint('Error adding balance: $error');
+    } catch (e) {
+      debugPrint('Error adding balance: $e');
     }
   }
 
-  void deleteBalanceFromProvider(String documentId, double amountToDeduct) {
-    // Remove balance from list
-    balanceHistory.removeWhere((balance) => balance.documentId == documentId);
+  // Delete balance
+  Future<void> deleteBalance(String documentId, double amount) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('balance')
+          .doc(documentId)
+          .delete();
 
-    // Update total balance
-    _totalBalance -= amountToDeduct;
+      // Update total balance
+      _totalBalance -= amount;
+      await FirebaseFirestore.instance
+          .collection('balance')
+          .doc('total_balance')
+          .set({'amount': _totalBalance});
 
-    // Notify listeners to refresh UI
-    notifyListeners();
+      // Update local state
+      _balanceHistory
+          .removeWhere((balance) => balance.documentId == documentId);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error deleting balance: $e');
+    }
   }
 }

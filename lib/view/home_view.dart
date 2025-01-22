@@ -96,7 +96,8 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            const Expanded(child: BalanceListScreen())
+            const Expanded(
+                child: SingleChildScrollView(child: BalanceListScreen()))
           ],
         ),
       ),

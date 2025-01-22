@@ -1,41 +1,49 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
-import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
+// import 'package:flutter/material.dart';
 
-void deleteBalance(BuildContext context, AddBalance balance) async {
-  try {
-    final docId =
-        balance.documentId; // Assuming `AddBalance` has a `documentId` field.
-    final balanceCollection = FirebaseFirestore.instance.collection('balance');
+// void testDelete() async {
+//   try {
+//     final path =
+//         'balance/je2DN7sD3TyLLjqrZOCD'; // Replace with the printed path
+//     await FirebaseFirestore.instance.doc(path).delete();
+//     print('Successfully deleted document at: $path');
+//   } catch (error) {
+//     print('Error deleting document: $error');
+//   }
+// }
 
-    // Delete the specific balance record
-    await balanceCollection.doc(docId).delete();
+// void deleteBalance(String documentId) async {
+//   try {
+//     final docRef =
+//         FirebaseFirestore.instance.collection('balance').doc(documentId);
+//     await docRef.delete();
+//     print('Successfully deleted document: $documentId');
+//   } catch (error) {
+//     print('Error deleting document: $error');
+//   }
+// }
+// // void deleteBalance(BuildContext context, AddBalance balance) async {
+// //   try {
+// //     if (balance.documentId == null || balance.documentId!.isEmpty) {
+// //       // Check for null or empty
+// //       ScaffoldMessenger.of(context).showSnackBar(
+// //         const SnackBar(content: Text('Cannot delete: Invalid balance ID.')),
+// //       );
+// //       return; // Important: Exit the function if the ID is invalid
+// //     }
 
-    // Update total balance
-    final totalBalanceDoc = balanceCollection.doc('total_balance');
-    final totalBalanceData = await totalBalanceDoc.get();
+// //     final docId =
+// //         balance.documentId!; // Now safe to use ! (null assertion operator)
+// //     final balanceCollection = FirebaseFirestore.instance.collection('balance');
+// //     await balanceCollection.doc(docId).delete();
+// //     print('Attempting to delete balance with ID: $docId');
 
-    if (totalBalanceData.exists) {
-      final currentTotal = totalBalanceData.data()?['amount'] ?? 0.0;
-      await totalBalanceDoc.update({
-        'amount': currentTotal - balance.amount,
-      });
-    }
-
-    // Update local state using the provider
-    final provider =
-        Provider.of<BalanceAndExpensesProvider>(context, listen: false);
-    provider.deleteBalanceFromProvider(docId, balance.amount);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Balance deleted successfully!')),
-    );
-  } catch (error) {
-    debugPrint('Error deleting balance: $error');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Failed to delete balance.')),
-    );
-  }
-}
+// //     // ... (rest of the deleteBalance function - updating total balance and provider)
+// //   } catch (error) {
+// //     debugPrint('Error deleting balance: $error');
+// //     ScaffoldMessenger.of(context).showSnackBar(
+// //       const SnackBar(content: Text('Failed to delete balance.')),
+// //     );
+// //   }
+// // }

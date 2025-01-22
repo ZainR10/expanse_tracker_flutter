@@ -1,7 +1,6 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
-import 'package:expanse_tracker_flutter/utils/firebase_services_utils/delete_balance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -28,102 +27,102 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
         final balances = provider.balanceHistory;
 
         if (balances.isEmpty) {
-          return const CustomText(
-            text: 'Nothing to show',
-            textColor: Colors.black,
-            textLetterSpace: 1,
-            textSize: 18,
-            textWeight: FontWeight.bold,
+          return const Center(
+            child: CustomText(
+              text: 'Nothing to show',
+              textColor: Colors.black,
+              textLetterSpace: 1,
+              textSize: 18,
+              textWeight: FontWeight.bold,
+            ),
           );
         }
 
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(children: [
-              if (widget.widget != null) widget.widget!,
-              ListView.builder(
+        return Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(children: [
+            if (widget.widget != null) widget.widget!,
+            Consumer<BalanceAndExpensesProvider>(
+                builder: (context, balanceProvider, child) {
+              return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: balances.length,
+                itemCount: balanceProvider.balanceHistory.length,
                 itemBuilder: (context, index) {
                   final balance = balances[index];
-                  final iconIndex = _getIconIndex(balance.icon);
+                  final iconIndex = iconsData
+                      .indexWhere((icon) => icon['label'] == balance.icon);
+                  return Slidable(
+                    startActionPane:
+                        ActionPane(motion: const ScrollMotion(), children: [
+                      SlidableAction(
+                        borderRadius: const BorderRadius.horizontal(
+                            right: Radius.circular(10)),
+                        onPressed: (context) => provider.deleteBalance(
+                            balance.documentId, balance.amount),
 
-                  return Expanded(
-                    child: Slidable(
-                      startActionPane:
-                          ActionPane(motion: const ScrollMotion(), children: [
+                        // onPressed: (context) =>
+                        //     _deleteExpense(context, expense),
+                        backgroundColor: const Color(0xFFFE4A49),
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                    ]),
+                    endActionPane: ActionPane(
+                      motion: const ScrollMotion(),
+                      dragDismissible: true,
+                      children: [
                         SlidableAction(
                           borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(10)),
-                          onPressed: (context) =>
-                              deleteBalance(context, balance),
-                          // onPressed: (context) =>
-                          //     _deleteExpense(context, expense),
+                              left: Radius.circular(10)),
+                          onPressed: (context) => provider.deleteBalance(
+                              balance.documentId!, balance.amount),
                           backgroundColor: const Color(0xFFFE4A49),
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                           label: 'Delete',
                         ),
-                      ]),
-                      endActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        dragDismissible: true,
-                        children: [
-                          SlidableAction(
-                            borderRadius: const BorderRadius.horizontal(
-                                left: Radius.circular(10)),
-                            onPressed: (context) =>
-                                deleteBalance(context, balance),
-                            // onPressed: (context) =>
-                            //     _deleteExpense(context, expense),
-                            backgroundColor: const Color(0xFFFE4A49),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Delete',
-                          ),
-                        ],
+                      ],
+                    ),
+                    child: Card(
+                      color: Colors.blueGrey.shade100,
+                      shape: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.white, width: 3),
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      child: Card(
-                        color: Colors.blueGrey.shade100,
-                        shape: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.white, width: 3),
-                          borderRadius: BorderRadius.circular(15),
+                      child: ListTile(
+                        horizontalTitleGap: 50,
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.blueGrey.shade100,
+                          child: Icon(
+                            iconsData[iconIndex]['icon'],
+                            color: Colors.green,
+                            size: 35,
+                          ),
                         ),
-                        child: ListTile(
-                          horizontalTitleGap: 50,
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.blueGrey.shade100,
-                            child: Icon(
-                              iconsData[iconIndex]['icon'],
-                              color: Colors.green,
-                              size: 35,
-                            ),
-                          ),
-                          title: CustomText(
-                            text:
-                                '$selectedCurrency${balance.amount.toStringAsFixed(2)}',
-                            textSize: 28,
-                            textColor: Colors.black,
-                            textWeight: FontWeight.bold,
-                          ),
-                          subtitle: CustomText(
-                            text:
-                                'Date: ${DateFormat('yyyy-MM-dd').format(balance.date)}',
-                            textSize: 18,
-                            textColor: Colors.grey.shade700,
-                            textWeight: FontWeight.bold,
-                          ),
+                        title: CustomText(
+                          text:
+                              '$selectedCurrency${balance.amount.toStringAsFixed(2)}',
+                          textSize: 28,
+                          textColor: Colors.black,
+                          textWeight: FontWeight.bold,
+                        ),
+                        subtitle: CustomText(
+                          text:
+                              'Date: ${DateFormat('yyyy-MM-dd').format(balance.date)}',
+                          textSize: 18,
+                          textColor: Colors.grey.shade700,
+                          textWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   );
                 },
-              ),
-            ]),
-          ),
+              );
+            }),
+          ]),
         );
       },
     );

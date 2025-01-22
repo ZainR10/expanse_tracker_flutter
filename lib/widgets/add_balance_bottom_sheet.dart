@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
 import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
@@ -236,16 +237,33 @@ void addBalanceBottomSheet(BuildContext context) {
                                           context,
                                           listen: false);
 
+                                      // Temporary placeholder for `documentId`
                                       final newBalance = AddBalance(
-                                        documentId: '',
+                                        documentId:
+                                            '', // Temporary; Firestore will assign it
                                         amount:
                                             double.parse(amountController.text),
-                                        date: startDate,
-                                        icon: iconsData[selectedIndex]
-                                            ['label'], // Store icon label
+                                        date: DateTime.now(),
+                                        icon: iconsData[selectedIndex]['label'],
                                       );
 
-                                      await provider.addBalance(newBalance);
+                                      // Add to Firestore and get the assigned `documentId`
+                                      final docRef = await FirebaseFirestore
+                                          .instance
+                                          .collection('balance')
+                                          .add(newBalance.toFirestore());
+
+                                      // Update `documentId` with the Firestore-assigned value
+                                      final updatedBalance = AddBalance(
+                                        documentId: docRef.id,
+                                        amount: newBalance.amount,
+                                        date: newBalance.date,
+                                        icon: newBalance.icon,
+                                      );
+
+                                      // Add the updated balance to the provider
+                                      await provider.addBalance(updatedBalance);
+
                                       Navigator.pop(context);
                                     }
                                   },

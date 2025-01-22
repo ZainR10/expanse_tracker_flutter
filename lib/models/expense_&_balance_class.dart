@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddBalance {
-  final String documentId; // Ensure this is properly initialized
+  final String documentId;
   final double amount;
   final DateTime date;
   final String icon;
@@ -13,19 +13,21 @@ class AddBalance {
     required this.icon,
   });
 
-  factory AddBalance.fromFirestore(Map<String, dynamic> data, String docId) {
+  // Factory method for Firestore
+  factory AddBalance.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
     return AddBalance(
-      documentId: docId,
-      amount: data['amount'] ?? 0.0,
+      documentId: doc.id, // Use Firestore's document ID
+      amount: data['amount'],
       date: (data['date'] as Timestamp).toDate(),
-      icon: data['icon'] ?? '',
+      icon: data['icon'],
     );
   }
 
   Map<String, dynamic> toFirestore() {
     return {
       'amount': amount,
-      'date': Timestamp.fromDate(date),
+      'date': date,
       'icon': icon,
     };
   }
