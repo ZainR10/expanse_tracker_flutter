@@ -20,13 +20,13 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.black87,
-      body: Stack(children: [
+    return Scaffold(
+      backgroundColor: Colors.blueGrey.shade200,
+      body: const Stack(children: [
         Center(
           child: Icon(
             Icons.track_changes,
-            size: 250,
+            size: 100,
             color: Colors.red,
             shadows: [
               Shadow(color: Colors.red, blurRadius: 30, offset: Offset(0, 10))
@@ -37,7 +37,7 @@ class _SplashViewState extends State<SplashView> {
           child: Text(
             'Expanse Tracker',
             style: TextStyle(
-                fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 34, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
       ]),
