@@ -48,24 +48,25 @@ class AddExpenses {
     required this.icon,
   });
 
-  // Convert to Firestore format
+  // Ensure the parameter is of type DocumentSnapshot
+  factory AddExpenses.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
+    final data = doc.data()!;
+    return AddExpenses(
+      documentId: doc.id,
+      title: data['title'] ?? '',
+      amount: (data['amount'] ?? 0).toDouble(),
+      date: (data['date'] as Timestamp).toDate(),
+      icon: data['icon'] ?? '',
+    );
+  }
+
   Map<String, dynamic> toFirestore() {
     return {
       'title': title,
       'amount': amount,
-      'date': date.toIso8601String(),
+      'date': date,
       'icon': icon,
     };
-  }
-
-  // Create from Firestore
-  factory AddExpenses.fromFirestore(String id, Map<String, dynamic> data) {
-    return AddExpenses(
-      documentId: id,
-      title: data['title'],
-      amount: (data['amount'] as num).toDouble(),
-      date: DateTime.parse(data['date']),
-      icon: data['icon'],
-    );
   }
 }

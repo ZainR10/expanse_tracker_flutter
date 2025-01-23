@@ -47,7 +47,14 @@ class BalanceAndExpensesProvider with ChangeNotifier {
       _balanceHistory = historySnapshot.docs
           .map((doc) => AddBalance.fromFirestore(doc))
           .toList();
+      final expensesSnapshot = await FirebaseFirestore.instance
+          .collection('expenses')
+          .orderBy('date', descending: true) // Order expenses by date
+          .get();
 
+      _expenseHistory = expensesSnapshot.docs
+          .map((doc) => AddExpenses.fromFirestore(doc))
+          .toList();
       notifyListeners();
     } catch (e) {
       debugPrint('Error preloading data: $e');
@@ -120,10 +127,12 @@ class BalanceAndExpensesProvider with ChangeNotifier {
   // Delete expense
   Future<void> deleteExpense(String documentId, double amount) async {
     try {
+      // Remove the expense from the local list
       _expenseHistory
           .removeWhere((expense) => expense.documentId == documentId);
-      notifyListeners();
+      debugPrint("Updated expense history: $_expenseHistory");
 
+      // Update the total expenses in Firestore
       final totalDoc = FirebaseFirestore.instance
           .collection('expenses')
           .doc('total_expenses');
@@ -133,10 +142,21 @@ class BalanceAndExpensesProvider with ChangeNotifier {
       totalExpenses -= amount;
 
       await totalDoc.set({'amount': totalExpenses});
+
+      // Add the amount back to the total balance
+      _totalBalance += amount;
+      await FirebaseFirestore.instance
+          .collection('balance')
+          .doc('total_balance')
+          .set({'amount': _totalBalance});
+
+      // Delete the expense from Firestore
       await FirebaseFirestore.instance
           .collection('expenses')
           .doc(documentId)
           .delete();
+
+      notifyListeners();
     } catch (e) {
       debugPrint('Error deleting expense: $e');
     }

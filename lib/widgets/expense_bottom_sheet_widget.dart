@@ -264,9 +264,9 @@ void expenseBottomSheet(BuildContext context) {
                                           context,
                                           listen: false);
 
-                                      // Create a new expense
+                                      // Create a new expense without `documentId` for now
                                       final newExpense = AddExpenses(
-                                        documentId: '',
+                                        documentId: '', // Placeholder for now
                                         title: titleController.text,
                                         amount:
                                             double.parse(amountController.text),
@@ -274,19 +274,27 @@ void expenseBottomSheet(BuildContext context) {
                                         icon: iconsData[selectedIndex]['label'],
                                       );
 
-                                      // Add to Firestore and get the assigned documentId
+                                      // Add to Firestore and get the assigned `documentId`
                                       final docRef = await FirebaseFirestore
                                           .instance
                                           .collection('expenses')
-                                          .doc(newExpense.title)
-                                          .set(newExpense.toFirestore());
+                                          .add(newExpense.toFirestore());
 
-                                      // Update total expenses
-                                      provider.addExpense(newExpense);
+                                      // Update `documentId` with the Firestore-assigned value
+                                      final updatedExpense = AddExpenses(
+                                        documentId: docRef.id,
+                                        title: newExpense.title,
+                                        amount: newExpense.amount,
+                                        date: newExpense.date,
+                                        icon: newExpense.icon,
+                                      );
+
+                                      // Add the updated expense to the provider
+                                      provider.addExpense(updatedExpense);
 
                                       // Subtract from balance
-                                      provider
-                                          .updateBalance(-newExpense.amount);
+                                      provider.updateBalance(
+                                          -updatedExpense.amount);
 
                                       Navigator.pop(context);
                                     }

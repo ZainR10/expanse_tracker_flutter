@@ -29,7 +29,7 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
         if (balances.isEmpty) {
           return const Center(
             child: CustomText(
-              text: 'Nothing to show',
+              text: 'No Balance List to show',
               textColor: Colors.black,
               textLetterSpace: 1,
               textSize: 18,

@@ -99,8 +99,8 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                 ),
-                BalanceListScreen(),
-                ExpenseListScreen(),
+                const BalanceListScreen(),
+                const ExpenseListScreen(),
               ],
             )
           ],
