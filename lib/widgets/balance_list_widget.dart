@@ -1,8 +1,8 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/slidable_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -52,39 +52,9 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
                   final balance = balances[index];
                   final iconIndex = iconsData
                       .indexWhere((icon) => icon['label'] == balance.icon);
-                  return Slidable(
-                    startActionPane:
-                        ActionPane(motion: const ScrollMotion(), children: [
-                      SlidableAction(
-                        borderRadius: const BorderRadius.horizontal(
-                            right: Radius.circular(10)),
-                        onPressed: (context) => provider.deleteBalance(
-                            balance.documentId, balance.amount),
-
-                        // onPressed: (context) =>
-                        //     _deleteExpense(context, expense),
-                        backgroundColor: const Color(0xFFFE4A49),
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Delete',
-                      ),
-                    ]),
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      dragDismissible: true,
-                      children: [
-                        SlidableAction(
-                          borderRadius: const BorderRadius.horizontal(
-                              left: Radius.circular(10)),
-                          onPressed: (context) => provider.deleteBalance(
-                              balance.documentId, balance.amount),
-                          backgroundColor: const Color(0xFFFE4A49),
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        ),
-                      ],
-                    ),
+                  return SlidableWidget(
+                    ontapped: (context) => provider.deleteBalance(
+                        balance.documentId, balance.amount),
                     child: Card(
                       color: Colors.blueGrey.shade100,
                       shape: OutlineInputBorder(
@@ -105,14 +75,14 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
                         title: CustomText(
                           text:
                               '$selectedCurrency${balance.amount.toStringAsFixed(2)}',
-                          textSize: 28,
+                          textSize: 20,
                           textColor: Colors.black,
                           textWeight: FontWeight.bold,
                         ),
                         subtitle: CustomText(
                           text:
                               'Date: ${DateFormat('yyyy-MM-dd').format(balance.date)}',
-                          textSize: 18,
+                          textSize: 15,
                           textColor: Colors.grey.shade700,
                           textWeight: FontWeight.bold,
                         ),

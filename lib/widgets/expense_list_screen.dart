@@ -1,8 +1,8 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/slidable_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -51,39 +51,9 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                     final iconIndex = iconsData
                         .indexWhere((icon) => icon['label'] == expense.icon);
 
-                    return Slidable(
-                      startActionPane:
-                          ActionPane(motion: const ScrollMotion(), children: [
-                        SlidableAction(
-                          borderRadius: const BorderRadius.horizontal(
-                              right: Radius.circular(10)),
-                          onPressed: (context) => provider.deleteExpense(
-                              expense.documentId, expense.amount),
-
-                          // onPressed: (context) =>
-                          //     _deleteExpense(context, expense),
-                          backgroundColor: const Color(0xFFFE4A49),
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete,
-                          label: 'Delete',
-                        ),
-                      ]),
-                      endActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        dragDismissible: true,
-                        children: [
-                          SlidableAction(
-                            borderRadius: const BorderRadius.horizontal(
-                                left: Radius.circular(10)),
-                            onPressed: (context) => provider.deleteExpense(
-                                expense.documentId, expense.amount),
-                            backgroundColor: const Color(0xFFFE4A49),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Delete',
-                          ),
-                        ],
-                      ),
+                    return SlidableWidget(
+                      ontapped: (context) => provider.deleteExpense(
+                          expense.documentId, expense.amount),
                       child: Card(
                         key: ValueKey(expense.documentId),
                         color: Colors.blueGrey.shade100,
@@ -104,14 +74,14 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                           ),
                           title: CustomText(
                             text: expense.title,
-                            textSize: 28,
+                            textSize: 18,
                             textColor: Colors.black,
                             textWeight: FontWeight.bold,
                           ),
                           subtitle: CustomText(
                             text:
                                 'Date: ${DateFormat('yyyy-MM-dd').format(expense.date)}',
-                            textSize: 15,
+                            textSize: 12,
                             textColor: Colors.grey.shade700,
                             textWeight: FontWeight.bold,
                           ),
@@ -119,7 +89,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                             // title: CustomText(
                             text:
                                 '$selectedCurrency${expense.amount.toStringAsFixed(2)}',
-                            textSize: 22,
+                            textSize: 18,
                             textWeight: FontWeight.bold,
                             textColor: Colors.black,
                           ),

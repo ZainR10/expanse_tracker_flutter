@@ -87,7 +87,7 @@ void expenseBottomSheet(BuildContext context) {
                 children: [
                   CustomTextfield(
                     validator: FormValidation.generalValidation,
-                    textsize: 28,
+                    textsize: 24,
                     textFieldIcon: const Icon(
                       Icons.edit,
                       color: Colors.black,
@@ -96,48 +96,44 @@ void expenseBottomSheet(BuildContext context) {
                     lebaltitle: 'Type Expense Title',
                     textStore: titleController,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: CustomTextfield(
-                            validator: FormValidation.generalValidation,
-                            textsize: 15,
-                            textFieldIcon: const Icon(
-                              Icons.money_sharp,
-                              color: Colors.black,
-                              size: 30,
-                            ),
-                            lebaltitle: 'Amount',
-                            keyboardType:
-                                const TextInputType.numberWithOptions(),
-                            textStore: amountController,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: CustomTextfield(
+                          validator: FormValidation.generalValidation,
+                          textsize: 15,
+                          textFieldIcon: const Icon(
+                            Icons.money_sharp,
+                            color: Colors.black,
+                            size: 30,
                           ),
+                          lebaltitle: 'Amount',
+                          keyboardType: const TextInputType.numberWithOptions(),
+                          textStore: amountController,
                         ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => selectStartDate(context),
-                            child: AbsorbPointer(
-                              child: CustomTextfield(
-                                validator: FormValidation.generalValidation,
-                                textsize: 15,
-                                textFieldIcon: const Icon(
-                                  Icons.calendar_today,
-                                  color: Colors.black,
-                                  size: 30,
-                                ),
-                                lebaltitle: 'Date',
-                                keyboardType: TextInputType.datetime,
-                                textStore: dateController,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => selectStartDate(context),
+                          child: AbsorbPointer(
+                            child: CustomTextfield(
+                              validator: FormValidation.generalValidation,
+                              textsize: 15,
+                              textFieldIcon: const Icon(
+                                Icons.calendar_today,
+                                color: Colors.black,
+                                size: 30,
                               ),
+                              lebaltitle: 'Date',
+                              keyboardType: TextInputType.datetime,
+                              textStore: dateController,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const Divider(
                     color: Colors.black,

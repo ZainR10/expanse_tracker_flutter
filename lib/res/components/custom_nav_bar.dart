@@ -1,5 +1,5 @@
 import 'package:expanse_tracker_flutter/widgets/add_balance_bottom_sheet.dart';
-import 'package:expanse_tracker_flutter/widgets/expense_bottom_sheet_widget.dart';
+import 'package:expanse_tracker_flutter/widgets/add_expense_bottom_sheet_widget.dart';
 import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
