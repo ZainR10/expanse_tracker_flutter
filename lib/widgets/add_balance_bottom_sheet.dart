@@ -222,7 +222,9 @@ void addBalanceBottomSheet(BuildContext context) {
                                 CustomButton(
                                   title: 'Cancel',
                                   buttonColor: Colors.red,
-                                  onPress: () {},
+                                  onPress: () {
+                                    Navigator.pop(context);
+                                  },
                                   height: height * .07,
                                   width: width * .40,
                                 ),

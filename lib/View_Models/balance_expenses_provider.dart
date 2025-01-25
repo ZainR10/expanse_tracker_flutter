@@ -161,4 +161,25 @@ class BalanceAndExpensesProvider with ChangeNotifier {
       debugPrint('Error deleting expense: $e');
     }
   }
+
+  /// method to calculate expnses data for charts
+  Map<String, Map<String, dynamic>> calculateCategoryData() {
+    final Map<String, double> categoryTotals = {};
+    double totalExpenses = 0.0;
+
+    for (var expense in expenseHistory) {
+      categoryTotals[expense.icon] =
+          (categoryTotals[expense.icon] ?? 0.0) + expense.amount;
+      totalExpenses += expense.amount;
+    }
+
+    // Calculate percentage for each category
+    return categoryTotals.map((key, value) {
+      final percentage = totalExpenses > 0 ? value / totalExpenses : 0.0;
+      return MapEntry(
+        key,
+        {'total': value, 'percentage': percentage},
+      );
+    });
+  }
 }

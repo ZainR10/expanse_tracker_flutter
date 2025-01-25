@@ -108,7 +108,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
 }
 
 final List<Map<String, dynamic>> iconsData = [
-  {'icon': Icons.directions_bus, 'label': 'Transportation'},
+  {'icon': Icons.directions_bus, 'label': 'Transport'},
   {'icon': Icons.shopping_cart, 'label': 'Grocery'},
   {'icon': Icons.fastfood, 'label': 'Food'},
   {'icon': Icons.local_hospital, 'label': 'Health'},

@@ -46,7 +46,7 @@ void expenseBottomSheet(BuildContext context) {
 
   // Icon data with corresponding labels
   final List<Map<String, dynamic>> iconsData = [
-    {'icon': Icons.directions_bus, 'label': 'Transportation'},
+    {'icon': Icons.directions_bus, 'label': 'Transport'},
     {'icon': Icons.shopping_cart, 'label': 'Grocery'},
     {'icon': Icons.fastfood, 'label': 'Food'},
     {'icon': Icons.local_hospital, 'label': 'Health'},
@@ -245,7 +245,9 @@ void expenseBottomSheet(BuildContext context) {
                                 CustomButton(
                                   title: 'Cancel',
                                   buttonColor: Colors.red,
-                                  onPress: () {},
+                                  onPress: () {
+                                    Navigator.pop(context);
+                                  },
                                   height: height * .07,
                                   width: width * .40,
                                 ),
