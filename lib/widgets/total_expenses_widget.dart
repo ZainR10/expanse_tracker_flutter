@@ -2,8 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
-import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/components/custom_container.dart';
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';

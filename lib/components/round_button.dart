@@ -1,4 +1,4 @@
-import 'package:expanse_tracker_flutter/res/components/colors.dart';
+import 'package:expanse_tracker_flutter/components/colors.dart';
 import 'package:flutter/material.dart';
 
 class RoundButton extends StatelessWidget {

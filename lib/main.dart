@@ -22,7 +22,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,8 @@ class MyApp extends StatelessWidget {
         theme: appThemeData,
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesName.splashView,
+        scaffoldMessengerKey: scaffoldMessengerKey,
+        initialRoute: RoutesName.homeView,
         onGenerateRoute: Routes.generateRoute,
         // home: SplashView(),
       ),

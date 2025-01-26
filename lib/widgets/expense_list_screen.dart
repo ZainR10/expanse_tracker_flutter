@@ -1,6 +1,6 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/slidable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -59,7 +59,7 @@ class _ExpenseListScreenState extends State<ExpenseListScreen> {
                         color: Colors.blueGrey.shade100,
                         shape: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: Colors.white, width: 3),
+                              const BorderSide(color: Colors.white, width: 1),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: ListTile(

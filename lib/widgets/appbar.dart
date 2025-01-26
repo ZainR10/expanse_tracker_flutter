@@ -1,4 +1,4 @@
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class ReuseableAppBar extends StatelessWidget {

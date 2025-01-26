@@ -1,6 +1,6 @@
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/add_balance_bottom_sheet.dart';
 import 'package:expanse_tracker_flutter/widgets/add_expense_bottom_sheet_widget.dart';
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
@@ -117,20 +117,6 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
                       onTap: () {
                         Navigator.pop(context);
                         expenseBottomSheet(context);
-                        // // showDialog(
-                        // //   context: context,
-                        // //   builder: (context) => DialogBox(
-                        // //     addExpansesCallback: (newExpense) {
-                        // //       Provider.of<ExpensesProvider>(context,
-                        // //               listen: false)
-                        // //           .addExpense(newExpense);
-                        // //     },
-                        // //     onSave: () {
-                        // //       Navigator.pop(context);
-                        // //     },
-                        // //     onCancel: () => Navigator.of(context).pop(),
-                        // //   ),
-                        // );
                       },
                     ),
                   ],

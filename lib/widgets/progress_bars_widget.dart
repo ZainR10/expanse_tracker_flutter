@@ -1,4 +1,4 @@
-import 'package:expanse_tracker_flutter/res/components/progress_bar_component.dart';
+import 'package:expanse_tracker_flutter/components/progress_bar_component.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:provider/provider.dart';

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
-import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
-import 'package:expanse_tracker_flutter/res/components/custom_button.dart';
+import 'package:expanse_tracker_flutter/models/expense_and_balance_class.dart';
+import 'package:expanse_tracker_flutter/components/custom_button.dart';
 import 'package:expanse_tracker_flutter/utils/validate.dart';
 import 'package:flutter/material.dart';
-import 'package:expanse_tracker_flutter/res/components/custom_textfield.dart';
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/components/custom_textfield.dart';
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:provider/provider.dart';
 
 void addBalanceBottomSheet(BuildContext context) {

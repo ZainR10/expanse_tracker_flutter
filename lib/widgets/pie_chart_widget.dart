@@ -1,7 +1,6 @@
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
-import 'package:expanse_tracker_flutter/res/components/custom_container.dart';
-import 'package:expanse_tracker_flutter/res/components/text_widget.dart';
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,80 +12,90 @@ class PieChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     String selectedCurrency = currencyProvider.selectedCurrency;
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Wrap(
-            spacing: 12,
-            runSpacing: 8,
-            alignment: WrapAlignment.start,
-            children: iconsData.map((data) {
-              return CustomContainer(
-                height: height * .06,
-                width: width * .28, // Adjusted to fit better
-                color: _getCategoryColor(data['label']),
-                child: Center(
-                  child: CustomText(
-                    text: data['label'],
-                    textWeight: FontWeight.bold,
-                  ),
-                ),
-              );
-            }).toList(),
+
+    return Consumer<BalanceAndExpensesProvider>(
+      builder: (context, provider, child) {
+        final Map<String, double> categoryTotals = {};
+        for (var expense in provider.expenseHistory) {
+          categoryTotals[expense.icon] =
+              (categoryTotals[expense.icon] ?? 0.0) + expense.amount;
+        }
+// Check if there is data in categoryTotals
+        if (categoryTotals.isEmpty) {
+          return const Center(
+              child: CustomText(
+            text: 'No Data Available',
+            textSize: 20,
+            textWeight: FontWeight.bold,
+          ));
+        }
+        final List<PieChartSectionData> sections = iconsData.map((data) {
+          final label = data['label'];
+          final value = categoryTotals[label] ?? 0.0;
+          final isLarge =
+              value > 0; // Check if the value is large enough to show the title
+
+          return PieChartSectionData(
+            value: value,
+            color: _getCategoryColor(label),
+            radius: 150,
+            title: isLarge
+                ? '$selectedCurrency${value.toStringAsFixed(0)}'
+                : '', // Show title only if value is large enough
+            titleStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            badgePositionPercentageOffset: 1,
+            badgeWidget: isLarge
+                ? _Badge(data['icon'] as IconData,
+                    size: 20, color: _getCategoryColor(label))
+                : null,
+            // badgePosition: BadgePosition.outside,
+            borderSide: const BorderSide(color: Colors.white, width: 2),
+          );
+        }).toList();
+
+        return PieChart(
+          PieChartData(
+            sectionsSpace: 2,
+            centerSpaceRadius: 0,
+            borderData: FlBorderData(show: false),
+            sections: sections,
           ),
-        ),
-        SizedBox(height: height * .03),
-        Expanded(
-          child: Consumer<BalanceAndExpensesProvider>(
-            builder: (context, provider, child) {
-              // Aggregate data for chart
-              final Map<String, double> categoryTotals = {};
-              for (var expense in provider.expenseHistory) {
-                categoryTotals[expense.icon] =
-                    (categoryTotals[expense.icon] ?? 0.0) + expense.amount;
-              }
+        );
+      },
+    );
+  }
+}
 
-              // Create PieChartSectionData for each category
-              final List<PieChartSectionData> sections = iconsData.map((data) {
-                final label = data['label'];
-                final value = categoryTotals[label] ?? 0.0;
+class _Badge extends StatelessWidget {
+  const _Badge(this.icon, {required this.size, required this.color});
+  final IconData icon;
+  final double size;
+  final Color color;
 
-                return PieChartSectionData(
-                  value: value,
-                  color: _getCategoryColor(label),
-                  radius: 65, // Adjusted for better scaling
-                  title: value > 0
-                      ? '$selectedCurrency${value.toStringAsFixed(2)}'
-                      : '',
-
-                  titleStyle: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  borderSide: const BorderSide(color: Colors.white, width: 2),
-                );
-              }).toList();
-
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PieChart(
-                  PieChartData(
-                    titleSunbeamLayout: true,
-                    centerSpaceRadius: 55,
-                    borderData: FlBorderData(show: false),
-                    sections: sections,
-                    sectionsSpace: 3,
-                  ),
-                ),
-              );
-            },
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black,
+            offset: Offset(3, 3),
+            blurRadius: 3,
           ),
-        ),
-      ],
+        ],
+      ),
+      padding: EdgeInsets.all(size * .3),
+      child: Icon(
+        icon,
+        size: size,
+        color: color,
+      ),
     );
   }
 }
@@ -114,9 +123,9 @@ Color _getCategoryColor(String category) {
     case 'Rent':
       return Colors.brown;
     case 'Education':
-      return Colors.blue.shade600;
+      return Colors.yellow;
     case 'Others':
-      return Colors.blueGrey;
+      return Colors.pink;
     default:
       return Colors.black;
   }

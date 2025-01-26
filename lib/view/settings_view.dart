@@ -1,9 +1,11 @@
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
-import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
-import 'package:expanse_tracker_flutter/res/components/listitle_settings.dart';
+import 'package:expanse_tracker_flutter/components/listitle_settings.dart';
+import 'package:expanse_tracker_flutter/main.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/utils/system_back_button_press.dart';
 import 'package:expanse_tracker_flutter/widgets/appbar.dart';
+import 'package:expanse_tracker_flutter/widgets/floating_nav_bar_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,27 +18,9 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  int _selectedIndex = 4;
-  final List<String> _currencies = ['₨', '\$', '€', '£'];
+  final int currentIndex = 4;
 
-  void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushNamed(context, RoutesName.homeView);
-        break;
-      case 1:
-        Navigator.pushNamed(context, RoutesName.analyticsView);
-        break;
-      case 2:
-        break;
-      case 3:
-        Navigator.pushNamed(context, RoutesName.expanseListView);
-        break;
-      case 4:
-        Navigator.pushNamed(context, RoutesName.settingsView);
-        break;
-    }
-  }
+  final List<String> _currencies = ['₨', '\$', '€', '£'];
 
   @override
   Widget build(BuildContext context) {
@@ -45,74 +29,72 @@ class _SettingsViewState extends State<SettingsView> {
     final auth = FirebaseAuth.instance;
     final height = MediaQuery.of(context).size.height * 1;
 
-    return Scaffold(
-      backgroundColor: Colors.blueGrey.shade200,
-      appBar: const PreferredSize(
-        preferredSize: Size(0, 45),
-        child: ReuseableAppBar(
-          appBarTitle: 'Settings',
+    return SystemBackButtonPress(
+      shouldExitApp: true,
+      scaffoldMessengerKey: MyApp.scaffoldMessengerKey,
+      child: Scaffold(
+        backgroundColor: Colors.blueGrey.shade200,
+        appBar: const PreferredSize(
+          preferredSize: Size(0, 45),
+          child: ReuseableAppBar(
+            appBarTitle: 'Settings',
+          ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          _onItemTapped(index);
-        },
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
+        body: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            SizedBox(
-              height: height * .03,
+            Column(
+              children: [
+                SizedBox(
+                  height: height * .03,
+                ),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 1,
+                ),
+                ListitleSettings(
+                  ontap: () {
+                    _showCurrencyDropdown(
+                        context, currencyProvider, selectedCurrency);
+                  },
+                  icon: Icons.money_sharp,
+                  iconColor: Colors.black,
+                  titleText: 'Currencies',
+                ),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 1,
+                ),
+                ListitleSettings(
+                  ontap: () {
+                    auth.signOut().then((value) {
+                      Navigator.pushNamed(context, RoutesName.loginView);
+                    }).onError((error, stackTrace) {
+                      GeneralUtils.snackBar(error.toString(), context);
+                    });
+                  },
+                  iconColor: Colors.black,
+                  icon: Icons.logout_rounded,
+                  titleText: 'Logout',
+                ),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 1,
+                ),
+                ListitleSettings(
+                  ontap: () {},
+                  icon: Icons.delete_forever,
+                  iconColor: Colors.red,
+                  titleText: 'Delete your account',
+                  color: Colors.red,
+                ),
+                const Divider(
+                  color: Colors.white,
+                  thickness: 1,
+                ),
+              ],
             ),
-            const Divider(
-              color: Colors.white,
-              thickness: 1,
-            ),
-            ListitleSettings(
-              ontap: () {
-                _showCurrencyDropdown(
-                    context, currencyProvider, selectedCurrency);
-              },
-              icon: Icons.money_sharp,
-              iconColor: Colors.black,
-              titleText: 'Currencies',
-            ),
-            const Divider(
-              color: Colors.white,
-              thickness: 1,
-            ),
-            ListitleSettings(
-              ontap: () {
-                auth.signOut().then((value) {
-                  Navigator.pushNamed(context, RoutesName.loginView);
-                }).onError((error, stackTrace) {
-                  GeneralUtils.snackBar(error.toString(), context);
-                });
-              },
-              iconColor: Colors.black,
-              icon: Icons.logout_rounded,
-              titleText: 'Logout',
-            ),
-            const Divider(
-              color: Colors.white,
-              thickness: 1,
-            ),
-            ListitleSettings(
-              ontap: () {},
-              icon: Icons.delete_forever,
-              iconColor: Colors.red,
-              titleText: 'Delete your account',
-              color: Colors.red,
-            ),
-            const Divider(
-              color: Colors.white,
-              thickness: 1,
-            ),
+            FloatingNavBarWidget(pageIndex: currentIndex)
           ],
         ),
       ),

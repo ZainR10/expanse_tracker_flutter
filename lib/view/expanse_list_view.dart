@@ -1,10 +1,11 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:expanse_tracker_flutter/res/components/custom_nav_bar.dart';
-import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/main.dart';
+import 'package:expanse_tracker_flutter/utils/system_back_button_press.dart';
 import 'package:expanse_tracker_flutter/widgets/appbar.dart';
 import 'package:expanse_tracker_flutter/widgets/balance_list_widget.dart';
 import 'package:expanse_tracker_flutter/widgets/expense_list_screen.dart';
+import 'package:expanse_tracker_flutter/widgets/floating_nav_bar_widget.dart';
 import 'package:flutter/material.dart';
 
 class ExpanseListView extends StatefulWidget {
@@ -15,62 +16,44 @@ class ExpanseListView extends StatefulWidget {
 }
 
 class _ExpanseListViewState extends State<ExpanseListView> {
-  int _selectedIndex = 3;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      switch (index) {
-        case 0:
-          // Navigate to Home Screen
-          Navigator.pushNamed(context, RoutesName.homeView);
-          break;
-        case 1:
-          // Navigate to Analytics Screen
-          Navigator.pushNamed(context, RoutesName.analyticsView);
-
-          break;
-        case 2:
-          // Navigate to Add Screen
-
-          break;
-        case 3:
-          // Navigate to Expanse list Screen
-          Navigator.pushNamed(context, RoutesName.expanseListView);
-
-          break;
-        case 4:
-          // Navigate to Settings Screen
-          Navigator.pushNamed(context, RoutesName.settingsView);
-
-          break;
-      }
-    });
-  }
-
+  final int currentIndex = 3;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     final width = MediaQuery.of(context).size.width * 1;
-    return Scaffold(
-      backgroundColor: Colors.blueGrey.shade200,
-      appBar: const PreferredSize(
-          preferredSize: Size(0, 45),
-          child: ReuseableAppBar(
-            appBarTitle: 'Balance & Expense List',
-          )),
-      bottomNavigationBar: CustomBottomNavBar(
-        onItemTapped: _onItemTapped,
-        selectedIndex: _selectedIndex,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+    return SystemBackButtonPress(
+      shouldExitApp: true,
+      scaffoldMessengerKey: MyApp.scaffoldMessengerKey,
+      child: Scaffold(
+        backgroundColor: Colors.blueGrey.shade200,
+        appBar: const PreferredSize(
+            preferredSize: Size(0, 45),
+            child: ReuseableAppBar(
+              appBarTitle: 'Balance & Expense List',
+            )),
+        body: Stack(
+          // alignment: Alignment.bottomCenter,
           children: [
-            SizedBox(
-              height: height * .04,
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: height * .04,
+                  ),
+                  const BalanceListScreen(),
+                  const ExpenseListScreen(),
+                  SizedBox(
+                    height: height * .09,
+                  )
+                ],
+              ),
             ),
-            const BalanceListScreen(),
-            const ExpenseListScreen()
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FloatingNavBarWidget(
+                pageIndex: currentIndex,
+              ),
+            )
           ],
         ),
       ),

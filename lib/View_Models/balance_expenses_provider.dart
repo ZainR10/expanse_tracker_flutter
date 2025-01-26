@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expanse_tracker_flutter/models/expense_&_balance_class.dart';
+import 'package:expanse_tracker_flutter/models/expense_and_balance_class.dart';
 import 'package:flutter/material.dart';
 
 class BalanceAndExpensesProvider with ChangeNotifier {
