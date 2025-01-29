@@ -27,10 +27,10 @@ class _FloatingNavBarWidgetState extends State<FloatingNavBarWidget> {
     final width = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: const EdgeInsets.all(11),
+      padding: const EdgeInsets.only(top: 10, right: 10, bottom: 10, left: 10),
       child: CustomContainer(
         color: Colors.blueGrey.shade200,
-        height: height * .07,
+        height: height * .08,
         width: width * 1,
         child: NavBarItems(
           selectedIndex: _selectedIndex,

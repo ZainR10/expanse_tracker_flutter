@@ -20,27 +20,17 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 1;
+    final width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
       backgroundColor: Colors.blueGrey.shade200,
-      body: const Stack(children: [
-        Center(
-          child: Icon(
-            Icons.track_changes,
-            size: 100,
-            color: Colors.red,
-            shadows: [
-              Shadow(color: Colors.red, blurRadius: 30, offset: Offset(0, 10))
-            ],
-          ),
-        ),
-        Center(
-          child: Text(
-            'Expanse Tracker',
-            style: TextStyle(
-                fontSize: 34, fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-        ),
-      ]),
+      body: Center(
+          child: Image.asset(
+        'assets/expense splash image.jpeg',
+        fit: BoxFit.cover,
+        height: height * 1,
+        width: width * 1,
+      )),
     );
   }
 }

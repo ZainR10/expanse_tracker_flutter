@@ -42,7 +42,7 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                   textColor: Colors.grey.shade800,
                   textLetterSpace: 0,
                   textSize: 28,
-                  textWeight: FontWeight.w500,
+                  textWeight: FontWeight.bold,
                 ),
                 const Icon(
                   Icons.do_not_disturb_on_total_silence_outlined,

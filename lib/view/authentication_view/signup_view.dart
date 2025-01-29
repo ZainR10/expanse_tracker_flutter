@@ -130,8 +130,10 @@ class _SignupViewState extends State<SignupView> {
                       onPress: () {
                         if (_formkey.currentState!.validate()) {
                           value.signUp(
-                            email: emailController.text.toString(),
-                            password: passwordController.text.toString(),
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            name: nameController.text.trim(),
+                            phone: phoneNumberController.text.trim(),
                             context: context,
                           );
                         }

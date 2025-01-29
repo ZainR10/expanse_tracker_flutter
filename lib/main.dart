@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/user_info_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/chart_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
@@ -43,6 +44,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => BalanceAndExpensesProvider()..preloadData(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
         )
       ],
       child: MaterialApp(
@@ -50,7 +54,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         scaffoldMessengerKey: scaffoldMessengerKey,
-        initialRoute: RoutesName.homeView,
+        initialRoute: RoutesName.splashView,
         onGenerateRoute: Routes.generateRoute,
         // home: SplashView(),
       ),

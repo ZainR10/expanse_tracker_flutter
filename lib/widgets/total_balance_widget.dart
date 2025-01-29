@@ -43,6 +43,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                   textColor: Colors.grey.shade800,
                   textLetterSpace: 2,
                   textSize: 28,
+                  textWeight: FontWeight.bold,
                 ),
                 Icon(
                   Icons.account_balance,
@@ -92,7 +93,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                             '$selectedCurrency${balanceAndExpensesProvider.totalBalance.toStringAsFixed(2)}',
                         textColor: Colors.black,
                         textSize: 24,
-                        textWeight: FontWeight.w500,
+                        textWeight: FontWeight.bold,
                       );
                     },
                   );

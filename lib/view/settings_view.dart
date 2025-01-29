@@ -1,5 +1,7 @@
+import 'package:expanse_tracker_flutter/View_Models/authentication_view_models/user_info_provider.dart';
 import 'package:expanse_tracker_flutter/View_Models/currency_provider.dart';
 import 'package:expanse_tracker_flutter/components/listitle_settings.dart';
+import 'package:expanse_tracker_flutter/components/text_widget.dart';
 import 'package:expanse_tracker_flutter/main.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
@@ -18,12 +20,20 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false).fetchUserData();
+  }
+
   final int currentIndex = 4;
 
   final List<String> _currencies = ['₨', '\$', '€', '£'];
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     final currencyProvider = Provider.of<CurrencyProvider>(context);
     String selectedCurrency = currencyProvider.selectedCurrency;
     final auth = FirebaseAuth.instance;
@@ -45,8 +55,41 @@ class _SettingsViewState extends State<SettingsView> {
           children: [
             Column(
               children: [
+                CircleAvatar(
+                  backgroundColor: Colors.blueGrey,
+                  radius: 65,
+                  backgroundImage: userProvider.profilePic.isNotEmpty
+                      ? NetworkImage(userProvider.profilePic)
+                      : null, // Load image if available
+                  child: userProvider.profilePic.isEmpty
+                      ? Text(
+                          userProvider.name.isNotEmpty
+                              ? userProvider.name[0].toUpperCase()
+                              : '?', // Show first letter of name
+                          style: const TextStyle(
+                              fontSize: 40, color: Colors.white),
+                        )
+                      : null,
+                ),
+                const SizedBox(height: 10),
+                CustomText(
+                  text:
+                      userProvider.name.isNotEmpty ? userProvider.name : 'User',
+                  textLetterSpace: 1,
+                  textSize: 28,
+                  textWeight: FontWeight.w500,
+                ),
+                const SizedBox(height: 5),
+                CustomText(
+                  text: userProvider.email.isNotEmpty
+                      ? userProvider.email
+                      : 'No email',
+                  textLetterSpace: 1,
+                  textSize: 18,
+                  textWeight: FontWeight.normal,
+                ),
                 SizedBox(
-                  height: height * .03,
+                  height: height * .01,
                 ),
                 const Divider(
                   color: Colors.white,
