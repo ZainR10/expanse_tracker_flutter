@@ -28,7 +28,7 @@ class _AnalyticsViewState extends State<AnalyticsView> {
       shouldExitApp: true,
       scaffoldMessengerKey: MyApp.scaffoldMessengerKey,
       child: Scaffold(
-        backgroundColor: Colors.blueGrey.shade200,
+        backgroundColor: Colors.white,
         appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
@@ -40,6 +40,9 @@ class _AnalyticsViewState extends State<AnalyticsView> {
           children: [
             Column(
               children: [
+                const SizedBox(
+                  height: 10,
+                ),
                 const TotalExpensesWidget(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

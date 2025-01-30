@@ -25,7 +25,7 @@ class _ExpanseListViewState extends State<ExpanseListView> {
       shouldExitApp: true,
       scaffoldMessengerKey: MyApp.scaffoldMessengerKey,
       child: Scaffold(
-        backgroundColor: Colors.blueGrey.shade200,
+        backgroundColor: Colors.white,
         appBar: const PreferredSize(
             preferredSize: Size(0, 45),
             child: ReuseableAppBar(

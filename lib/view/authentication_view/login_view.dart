@@ -39,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade200,
+      backgroundColor: Colors.white,
       appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
@@ -106,11 +106,11 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: () {
                   Navigator.pushNamed(context, RoutesName.signUpView);
                 },
-                child: CustomText(
+                child: const CustomText(
                   text: 'Register',
                   textSize: 20,
                   textWeight: FontWeight.bold,
-                  textColor: Colors.blueGrey.shade800,
+                  textColor: Colors.black,
                 ),
               )
             ],

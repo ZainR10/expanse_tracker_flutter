@@ -10,7 +10,7 @@ class ReuseableAppBar extends StatelessWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       centerTitle: true,
-      backgroundColor: Colors.blueGrey.shade200,
+      backgroundColor: Colors.white,
       title: CustomText(
         text: appBarTitle,
         textColor: Colors.black,

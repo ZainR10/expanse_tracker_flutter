@@ -29,22 +29,22 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
       child: CustomContainer(
         // height: height * .12,
         // width: width * .45,
-        color: Colors.blueGrey.shade100,
+        color: Colors.grey.shade100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
                   text: 'Total Expenses',
-                  textColor: Colors.grey.shade800,
+                  textColor: Colors.black,
                   textLetterSpace: 0,
                   textSize: 28,
-                  textWeight: FontWeight.bold,
+                  textWeight: FontWeight.w500,
                 ),
-                const Icon(
+                Icon(
                   Icons.do_not_disturb_on_total_silence_outlined,
                   color: Colors.redAccent,
                   size: 35,
@@ -84,7 +84,7 @@ class _TotalExpensesWidgetState extends State<TotalExpensesWidget> {
                 return CustomText(
                   text: '$selectedCurrency${totalExpenses.toStringAsFixed(2)}',
                   textSize: 24,
-                  textWeight: FontWeight.bold,
+                  textWeight: FontWeight.w500,
                 );
               },
             )

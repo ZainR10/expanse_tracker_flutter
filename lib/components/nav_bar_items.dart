@@ -63,7 +63,7 @@ class NavBarItems extends StatelessWidget {
           InkWell(
             onTap: () => showModalBottomSheet(
               barrierColor: Colors.transparent,
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: Colors.grey.shade300,
               useSafeArea: true,
               isScrollControlled: true,
               context: context,
@@ -81,10 +81,10 @@ class NavBarItems extends StatelessWidget {
                           ),
                           title: const CustomText(
                             text: 'Add Balance',
-                            textColor: Colors.white,
+                            textColor: Colors.black,
                             textSize: 28,
                             textLetterSpace: 1,
-                            textWeight: FontWeight.w300,
+                            textWeight: FontWeight.w500,
                           ),
                           onTap: () {
                             Navigator.pop(context);
@@ -98,10 +98,10 @@ class NavBarItems extends StatelessWidget {
                         ),
                         title: const CustomText(
                           text: 'Add Expense',
-                          textColor: Colors.white,
+                          textColor: Colors.black,
                           textSize: 28,
                           textLetterSpace: 1,
-                          textWeight: FontWeight.w300,
+                          textWeight: FontWeight.w500,
                         ),
                         onTap: () {
                           Navigator.pop(context);

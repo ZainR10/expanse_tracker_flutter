@@ -51,7 +51,7 @@ class _SignupViewState extends State<SignupView> {
     }
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade200,
+      backgroundColor: Colors.white,
       appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
@@ -158,11 +158,11 @@ class _SignupViewState extends State<SignupView> {
                       onPressed: () {
                         Navigator.pushNamed(context, RoutesName.loginView);
                       },
-                      child: CustomText(
+                      child: const CustomText(
                         text: 'Login',
                         textSize: 20,
                         textWeight: FontWeight.bold,
-                        textColor: Colors.blueGrey.shade800,
+                        textColor: Colors.black,
                       ),
                     ),
                   ],

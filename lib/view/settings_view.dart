@@ -20,6 +20,8 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +37,7 @@ class _SettingsViewState extends State<SettingsView> {
     final userProvider = Provider.of<UserProvider>(context);
 
     final currencyProvider = Provider.of<CurrencyProvider>(context);
-    String selectedCurrency = currencyProvider.selectedCurrency;
+
     final auth = FirebaseAuth.instance;
     final height = MediaQuery.of(context).size.height * 1;
 
@@ -43,7 +45,7 @@ class _SettingsViewState extends State<SettingsView> {
       shouldExitApp: true,
       scaffoldMessengerKey: MyApp.scaffoldMessengerKey,
       child: Scaffold(
-        backgroundColor: Colors.blueGrey.shade200,
+        backgroundColor: Colors.white,
         appBar: const PreferredSize(
           preferredSize: Size(0, 45),
           child: ReuseableAppBar(
@@ -55,8 +57,9 @@ class _SettingsViewState extends State<SettingsView> {
           children: [
             Column(
               children: [
+                const SizedBox(height: 10),
                 CircleAvatar(
-                  backgroundColor: Colors.blueGrey,
+                  backgroundColor: Colors.grey.shade300,
                   radius: 65,
                   backgroundImage: userProvider.profilePic.isNotEmpty
                       ? NetworkImage(userProvider.profilePic)
@@ -67,7 +70,7 @@ class _SettingsViewState extends State<SettingsView> {
                               ? userProvider.name[0].toUpperCase()
                               : '?', // Show first letter of name
                           style: const TextStyle(
-                              fontSize: 40, color: Colors.white),
+                              fontSize: 40, color: Colors.black),
                         )
                       : null,
                 ),
@@ -92,21 +95,37 @@ class _SettingsViewState extends State<SettingsView> {
                   height: height * .01,
                 ),
                 const Divider(
-                  color: Colors.white,
+                  color: Colors.black,
                   thickness: 1,
                 ),
-                ListitleSettings(
-                  ontap: () {
-                    _showCurrencyDropdown(
-                        context, currencyProvider, selectedCurrency);
+                ExpansionTile(
+                  leading:
+                      const Icon(Icons.monetization_on, color: Colors.black),
+                  title: const Text('Currencies'),
+                  trailing: AnimatedRotation(
+                    turns: isExpanded ? 0.5 : 0, // 180 degrees rotation
+                    duration: const Duration(milliseconds: 300),
+                    child: const Icon(Icons.keyboard_arrow_down,
+                        color: Colors.black),
+                  ),
+                  onExpansionChanged: (bool expanded) {
+                    setState(() {
+                      isExpanded = expanded;
+                    });
                   },
-                  icon: Icons.money_sharp,
-                  iconColor: Colors.black,
-                  titleText: 'Currencies',
-                ),
-                const Divider(
-                  color: Colors.white,
-                  thickness: 1,
+                  children: _currencies.map((currency) {
+                    return RadioListTile<String>(
+                      title: Text(currency),
+                      value: currency,
+                      groupValue: currencyProvider.selectedCurrency,
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          currencyProvider.selectedCurrency = value;
+                          setState(() {});
+                        }
+                      },
+                    );
+                  }).toList(),
                 ),
                 ListitleSettings(
                   ontap: () {
@@ -120,10 +139,6 @@ class _SettingsViewState extends State<SettingsView> {
                   icon: Icons.logout_rounded,
                   titleText: 'Logout',
                 ),
-                const Divider(
-                  color: Colors.white,
-                  thickness: 1,
-                ),
                 ListitleSettings(
                   ontap: () {},
                   icon: Icons.delete_forever,
@@ -131,49 +146,12 @@ class _SettingsViewState extends State<SettingsView> {
                   titleText: 'Delete your account',
                   color: Colors.red,
                 ),
-                const Divider(
-                  color: Colors.white,
-                  thickness: 1,
-                ),
               ],
             ),
             FloatingNavBarWidget(pageIndex: currentIndex)
           ],
         ),
       ),
-    );
-  }
-
-  void _showCurrencyDropdown(BuildContext context,
-      CurrencyProvider currencyProvider, String selectedCurrency) {
-    showDialog(
-      barrierColor: Colors.transparent,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          alignment: Alignment.center,
-          shape: Border.all(color: Colors.white, width: 2, strokeAlign: 1),
-          backgroundColor: Colors.blueGrey.shade200,
-          title: const Text('Choose a Currency'),
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: _currencies.map((currency) {
-              return RadioListTile<String>(
-                title: Text(currency),
-                value: currency,
-                groupValue: currencyProvider.selectedCurrency,
-                onChanged: (String? value) {
-                  if (value != null) {
-                    currencyProvider.selectedCurrency = value;
-                    Navigator.pop(context);
-                  }
-                },
-              );
-            }).toList(),
-          ),
-        );
-      },
     );
   }
 }

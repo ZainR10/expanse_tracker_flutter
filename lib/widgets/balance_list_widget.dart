@@ -56,16 +56,16 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
                     ontapped: (context) => provider.deleteBalance(
                         balance.documentId, balance.amount),
                     child: Card(
-                      color: Colors.blueGrey.shade100,
+                      color: Colors.grey.shade100,
                       shape: OutlineInputBorder(
                         borderSide:
-                            const BorderSide(color: Colors.white, width: 1),
+                            BorderSide(color: Colors.grey.shade300, width: 1),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: ListTile(
                         horizontalTitleGap: 50,
                         leading: CircleAvatar(
-                          backgroundColor: Colors.blueGrey.shade100,
+                          backgroundColor: Colors.grey.shade100,
                           child: Icon(
                             iconsData[iconIndex]['icon'],
                             color: Colors.green,

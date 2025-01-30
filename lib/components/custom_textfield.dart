@@ -34,7 +34,7 @@ class CustomTextfield extends StatelessWidget {
         keyboardType: keyboardType,
         onFieldSubmitted: onfieldSubmission,
         decoration: InputDecoration(
-          fillColor: Colors.blueGrey.shade100,
+          fillColor: Colors.grey.shade200,
           filled: true,
           prefixIcon: textFieldIcon,
           labelText: lebaltitle,
@@ -46,7 +46,7 @@ class CustomTextfield extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(
-              color: Colors.blueGrey.shade50, // Default border color
+              color: Colors.grey.shade200, // Default border color
             ),
           ),
           focusedBorder: const OutlineInputBorder(
@@ -61,7 +61,7 @@ class CustomTextfield extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             // Border when enabled (not focused)
             borderSide: BorderSide(
-              color: Colors.blueGrey.shade50, // Enabled border color
+              color: Colors.grey.shade200, // Enabled border color
             ),
           ),
         ),

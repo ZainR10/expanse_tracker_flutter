@@ -31,19 +31,19 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 8, left: 8, bottom: 6),
       child: CustomContainer(
-        color: Colors.blueGrey.shade100,
+        color: Colors.grey.shade100,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
+                const CustomText(
                   text: 'Total Balance',
-                  textColor: Colors.grey.shade800,
+                  textColor: Colors.black,
                   textLetterSpace: 2,
                   textSize: 28,
-                  textWeight: FontWeight.bold,
+                  textWeight: FontWeight.w500,
                 ),
                 Icon(
                   Icons.account_balance,
@@ -51,7 +51,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                   size: 35,
                   shadows: [
                     Shadow(
-                      blurRadius: 15,
+                      blurRadius: 2,
                       color: Colors.greenAccent.shade700,
                     )
                   ],
@@ -93,7 +93,7 @@ class _TotalBalanceWidgetState extends State<TotalBalanceWidget> {
                             '$selectedCurrency${balanceAndExpensesProvider.totalBalance.toStringAsFixed(2)}',
                         textColor: Colors.black,
                         textSize: 24,
-                        textWeight: FontWeight.bold,
+                        textWeight: FontWeight.w500,
                       );
                     },
                   );

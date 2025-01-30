@@ -69,7 +69,7 @@ void expenseBottomSheet(BuildContext context) {
     ),
     enableDrag: true,
     isScrollControlled: true,
-    backgroundColor: Colors.blueGrey.shade50,
+    backgroundColor: Colors.grey.shade100,
     context: context,
     builder: (BuildContext context) {
       final height = MediaQuery.of(context).size.height * 1;
@@ -194,7 +194,7 @@ void expenseBottomSheet(BuildContext context) {
                                               radius: 35,
                                               backgroundColor: isSelected
                                                   ? Colors.greenAccent
-                                                  : Colors.blueGrey.shade100,
+                                                  : Colors.grey.shade200,
                                               child: Icon(
                                                 iconData['icon'],
                                                 size: 35,
@@ -206,8 +206,8 @@ void expenseBottomSheet(BuildContext context) {
                                                       color: isSelected
                                                           ? Colors
                                                               .green.shade900
-                                                          : Colors.blueGrey
-                                                              .shade800,
+                                                          : Colors
+                                                              .grey.shade800,
                                                       blurRadius: 20)
                                                 ],
                                               ),

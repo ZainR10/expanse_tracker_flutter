@@ -29,7 +29,7 @@ class _FloatingNavBarWidgetState extends State<FloatingNavBarWidget> {
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 10, bottom: 10, left: 10),
       child: CustomContainer(
-        color: Colors.blueGrey.shade200,
+        color: Colors.grey.shade300,
         height: height * .08,
         width: width * 1,
         child: NavBarItems(
