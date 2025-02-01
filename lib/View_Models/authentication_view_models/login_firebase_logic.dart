@@ -1,7 +1,9 @@
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
-import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:expanse_tracker_flutter/utils/page_transtions.dart';
+import 'package:expanse_tracker_flutter/view/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LoginViewModel with ChangeNotifier {
   bool _loginLoading = false;
@@ -25,7 +27,11 @@ class LoginViewModel with ChangeNotifier {
         .then((value) {
       setloginLoading(false);
       GeneralUtils.snackBar(value.user!.email.toString(), context);
-      Navigator.pushNamed(context, RoutesName.homeView);
+      Navigator.push(
+        context,
+        PageTransitions.pageTransition(
+            const HomeView(), PageTransitionType.bottomToTop),
+      );
     }).catchError((error) {
       setloginLoading(false);
       GeneralUtils.snackBar(error.toString(), context);

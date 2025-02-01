@@ -54,7 +54,9 @@ class _BalanceListScreenState extends State<BalanceListScreen> {
                       .indexWhere((icon) => icon['label'] == balance.icon);
                   return SlidableWidget(
                     ontapped: (context) => provider.deleteBalance(
-                        balance.documentId, balance.amount),
+                      balance.documentId,
+                      balance.amount,
+                    ),
                     child: Card(
                       color: Colors.grey.shade100,
                       shape: OutlineInputBorder(

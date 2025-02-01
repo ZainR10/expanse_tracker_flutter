@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/models/expense_and_balance_class.dart';
 import 'package:expanse_tracker_flutter/components/custom_button.dart';
+import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/components/custom_textfield.dart';
@@ -52,7 +53,7 @@ void addBalanceBottomSheet(BuildContext context) {
     {'icon': Icons.savings_rounded, 'label': 'Savings'},
     {'icon': Icons.more_horiz, 'label': 'Others'},
   ];
-
+//DEFULT SELECTED ITEM INDEX
   int selectedIndex = -1;
 
   showModalBottomSheet(
@@ -84,8 +85,10 @@ void addBalanceBottomSheet(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(width: 5),
+                  //FORM FIELDS
                   Column(
                     children: [
+                      //AMOUNT TEXT FIELD
                       CustomTextfield(
                         validator: FormValidation.validateamount,
                         textsize: 24,
@@ -98,6 +101,7 @@ void addBalanceBottomSheet(BuildContext context) {
                         keyboardType: const TextInputType.numberWithOptions(),
                         textStore: amountController,
                       ),
+                      //DATE FIELD
                       GestureDetector(
                         onTap: () => selectStartDate(context),
                         child: AbsorbPointer(
@@ -121,6 +125,7 @@ void addBalanceBottomSheet(BuildContext context) {
                     color: Colors.black,
                     height: 2,
                   ),
+                  //ICONS LIST
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -135,6 +140,7 @@ void addBalanceBottomSheet(BuildContext context) {
                               textWeight: FontWeight.bold,
                             ),
                           ),
+                          //VALIDATION METHOD FOR ICONS
                           FormField<int>(validator: (value) {
                             if (selectedIndex == -1) {
                               return 'Please select an icon.';
@@ -143,6 +149,7 @@ void addBalanceBottomSheet(BuildContext context) {
                           }, builder: (FormFieldState<int> state) {
                             return Column(
                               children: [
+                                //GRID VIEW FOR ICONS
                                 GridView.builder(
                                   padding: const EdgeInsets.all(8.0),
                                   shrinkWrap:
@@ -203,6 +210,7 @@ void addBalanceBottomSheet(BuildContext context) {
                                     );
                                   },
                                 ),
+                                //ERROR MSG IF NO ICON SELECTED
                                 if (state.hasError)
                                   CustomText(
                                     text: state.errorText!,
@@ -213,6 +221,7 @@ void addBalanceBottomSheet(BuildContext context) {
                               ],
                             );
                           }),
+                          // BUTTONS
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Row(
@@ -264,7 +273,8 @@ void addBalanceBottomSheet(BuildContext context) {
 
                                       // Add the updated balance to the provider
                                       await provider.addBalance(updatedBalance);
-
+                                      GeneralUtils.snackBar(
+                                          'Balance added', context);
                                       Navigator.pop(context);
                                     }
                                   },

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expanse_tracker_flutter/View_Models/balance_expenses_provider.dart';
 import 'package:expanse_tracker_flutter/models/expense_and_balance_class.dart';
 import 'package:expanse_tracker_flutter/components/custom_button.dart';
+import 'package:expanse_tracker_flutter/utils/general_utils.dart';
 import 'package:expanse_tracker_flutter/utils/validate.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/components/custom_textfield.dart';
@@ -54,7 +55,7 @@ void expenseBottomSheet(BuildContext context) {
     {'icon': Icons.school, 'label': 'Education'},
     {'icon': Icons.more_horiz, 'label': 'Others'},
   ];
-
+//DEFAULT INDEX FOR SELECTED ICON
   int selectedIndex = -1;
 
   showModalBottomSheet(
@@ -85,6 +86,7 @@ void expenseBottomSheet(BuildContext context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  //TITLE FIELD
                   CustomTextfield(
                     validator: FormValidation.generalValidation,
                     textsize: 24,
@@ -99,6 +101,7 @@ void expenseBottomSheet(BuildContext context) {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      //AMOUNT FIELD
                       Expanded(
                         child: CustomTextfield(
                           validator: FormValidation.generalValidation,
@@ -114,6 +117,7 @@ void expenseBottomSheet(BuildContext context) {
                         ),
                       ),
                       const SizedBox(width: 10),
+                      //DATE PICKER
                       Expanded(
                         child: GestureDetector(
                           onTap: () => selectStartDate(context),
@@ -153,6 +157,7 @@ void expenseBottomSheet(BuildContext context) {
                               textWeight: FontWeight.bold,
                             ),
                           ),
+                          //VALIDATION METHOD FOR ICONS
                           FormField<int>(
                             validator: (value) {
                               if (selectedIndex == -1) {
@@ -163,6 +168,7 @@ void expenseBottomSheet(BuildContext context) {
                             builder: (FormFieldState<int> state) {
                               return Column(
                                 children: [
+                                  //DRID VIEW FOR ICONS
                                   GridView.builder(
                                     padding: const EdgeInsets.all(8.0),
                                     shrinkWrap: true,
@@ -226,6 +232,7 @@ void expenseBottomSheet(BuildContext context) {
                                       );
                                     },
                                   ),
+                                  //ERROR MSG IF NO ICON SELECTED
                                   if (state.hasError)
                                     CustomText(
                                       text: state.errorText!,
@@ -237,6 +244,7 @@ void expenseBottomSheet(BuildContext context) {
                               );
                             },
                           ),
+                          //BUTTONS
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: Row(
@@ -293,7 +301,8 @@ void expenseBottomSheet(BuildContext context) {
                                       // Subtract from balance
                                       provider.updateBalance(
                                           -updatedExpense.amount);
-
+                                      GeneralUtils.snackBar(
+                                          'Expense added', context);
                                       Navigator.pop(context);
                                     }
                                   },

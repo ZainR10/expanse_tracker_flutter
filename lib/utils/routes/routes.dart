@@ -1,3 +1,4 @@
+import 'package:expanse_tracker_flutter/utils/page_transtions.dart';
 import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
 import 'package:expanse_tracker_flutter/view/analytics_view.dart';
 import 'package:expanse_tracker_flutter/view/expanse_list_view.dart';
@@ -7,37 +8,38 @@ import 'package:expanse_tracker_flutter/view/authentication_view/signup_view.dar
 import 'package:expanse_tracker_flutter/view/authentication_view/splash_view.dart';
 import 'package:expanse_tracker_flutter/view/settings_view.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RoutesName.splashView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const SplashView());
+        return PageTransitions.fadeTransition(const SplashView());
 
       case RoutesName.loginView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const LoginView());
+        return PageTransitions.pageTransition(
+            const LoginView(), PageTransitionType.leftToRight);
 
       case RoutesName.signUpView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const SignupView());
+        return PageTransitions.pageTransition(
+            const SignupView(), PageTransitionType.rightToLeft);
 
       case RoutesName.homeView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const HomeView());
+        return PageTransitions.pageTransition(
+            const HomeView(), PageTransitionType.rightToLeft);
 
       case RoutesName.analyticsView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const AnalyticsView());
+        return PageTransitions.pageTransition(
+            const AnalyticsView(), PageTransitionType.rightToLeft);
 
       case RoutesName.expanseListView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const ExpanseListView());
+        return PageTransitions.pageTransition(
+            const ExpanseListView(), PageTransitionType.rightToLeft);
 
       case RoutesName.settingsView:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const SettingsView());
+        return PageTransitions.pageTransition(
+            const SettingsView(), PageTransitionType.rightToLeft);
+
       default:
         return _errorRoute();
     }
@@ -52,12 +54,4 @@ class Routes {
       );
     });
   }
-}
-
-class VerificationCodeViewArguments {
-  final String verificationId;
-
-  VerificationCodeViewArguments({
-    required this.verificationId,
-  });
 }

@@ -53,102 +53,118 @@ class _SettingsViewState extends State<SettingsView> {
           ),
         ),
         body: Stack(
-          alignment: Alignment.bottomCenter,
           children: [
-            Column(
-              children: [
-                const SizedBox(height: 10),
-                CircleAvatar(
-                  backgroundColor: Colors.grey.shade300,
-                  radius: 65,
-                  backgroundImage: userProvider.profilePic.isNotEmpty
-                      ? NetworkImage(userProvider.profilePic)
-                      : null, // Load image if available
-                  child: userProvider.profilePic.isEmpty
-                      ? Text(
-                          userProvider.name.isNotEmpty
-                              ? userProvider.name[0].toUpperCase()
-                              : '?', // Show first letter of name
-                          style: const TextStyle(
-                              fontSize: 40, color: Colors.black),
-                        )
-                      : null,
-                ),
-                const SizedBox(height: 10),
-                CustomText(
-                  text:
-                      userProvider.name.isNotEmpty ? userProvider.name : 'User',
-                  textLetterSpace: 1,
-                  textSize: 28,
-                  textWeight: FontWeight.w500,
-                ),
-                const SizedBox(height: 5),
-                CustomText(
-                  text: userProvider.email.isNotEmpty
-                      ? userProvider.email
-                      : 'No email',
-                  textLetterSpace: 1,
-                  textSize: 18,
-                  textWeight: FontWeight.normal,
-                ),
-                SizedBox(
-                  height: height * .01,
-                ),
-                const Divider(
-                  color: Colors.black,
-                  thickness: 1,
-                ),
-                ExpansionTile(
-                  leading:
-                      const Icon(Icons.monetization_on, color: Colors.black),
-                  title: const Text('Currencies'),
-                  trailing: AnimatedRotation(
-                    turns: isExpanded ? 0.5 : 0, // 180 degrees rotation
-                    duration: const Duration(milliseconds: 300),
-                    child: const Icon(Icons.keyboard_arrow_down,
-                        color: Colors.black),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  // PROFILE PIC
+                  CircleAvatar(
+                    backgroundColor: Colors.grey.shade300,
+                    radius: 65,
+                    backgroundImage: userProvider.profilePic.isNotEmpty
+                        ? NetworkImage(userProvider.profilePic)
+                        : null, // Load image if available
+                    child: userProvider.profilePic.isEmpty
+                        ? Text(
+                            userProvider.name.isNotEmpty
+                                ? userProvider.name[0].toUpperCase()
+                                : '?', // Show first letter of name
+                            style: const TextStyle(
+                                fontSize: 40, color: Colors.black),
+                          )
+                        : null,
                   ),
-                  onExpansionChanged: (bool expanded) {
-                    setState(() {
-                      isExpanded = expanded;
-                    });
-                  },
-                  children: _currencies.map((currency) {
-                    return RadioListTile<String>(
-                      title: Text(currency),
-                      value: currency,
-                      groupValue: currencyProvider.selectedCurrency,
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          currencyProvider.selectedCurrency = value;
-                          setState(() {});
-                        }
-                      },
-                    );
-                  }).toList(),
-                ),
-                ListitleSettings(
-                  ontap: () {
-                    auth.signOut().then((value) {
-                      Navigator.pushNamed(context, RoutesName.loginView);
-                    }).onError((error, stackTrace) {
-                      GeneralUtils.snackBar(error.toString(), context);
-                    });
-                  },
-                  iconColor: Colors.black,
-                  icon: Icons.logout_rounded,
-                  titleText: 'Logout',
-                ),
-                ListitleSettings(
-                  ontap: () {},
-                  icon: Icons.delete_forever,
-                  iconColor: Colors.red,
-                  titleText: 'Delete your account',
-                  color: Colors.red,
-                ),
-              ],
+                  const SizedBox(height: 10),
+                  //USER NAME
+                  CustomText(
+                    text: userProvider.name.isNotEmpty
+                        ? userProvider.name
+                        : 'User',
+                    textLetterSpace: 1,
+                    textSize: 28,
+                    textWeight: FontWeight.w500,
+                  ),
+                  const SizedBox(height: 5),
+                  //USER EMAIL
+                  CustomText(
+                    text: userProvider.email.isNotEmpty
+                        ? userProvider.email
+                        : 'No email',
+                    textLetterSpace: 1,
+                    textSize: 18,
+                    textWeight: FontWeight.normal,
+                  ),
+                  SizedBox(
+                    height: height * .01,
+                  ),
+                  const Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                  ),
+                  ExpansionTile(
+                    leading: const Icon(
+                      Icons.monetization_on,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    title: const Text(
+                      'Currencies',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    trailing: AnimatedRotation(
+                      turns: isExpanded ? 0.5 : 0, // 180 degrees rotation
+                      duration: const Duration(milliseconds: 300),
+                      child: const Icon(Icons.keyboard_arrow_down,
+                          color: Colors.black),
+                    ),
+                    onExpansionChanged: (bool expanded) {
+                      setState(() {
+                        isExpanded = expanded;
+                      });
+                    },
+                    children: _currencies.map((currency) {
+                      return RadioListTile<String>(
+                        title: Text(currency),
+                        value: currency,
+                        groupValue: currencyProvider.selectedCurrency,
+                        onChanged: (String? value) {
+                          if (value != null) {
+                            currencyProvider.selectedCurrency = value;
+                            setState(() {});
+                          }
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  //LOG OUT
+                  ListitleSettings(
+                    ontap: () {
+                      auth.signOut().then((value) {
+                        Navigator.pushNamed(context, RoutesName.loginView);
+                      }).onError((error, stackTrace) {
+                        GeneralUtils.snackBar(error.toString(), context);
+                      });
+                    },
+                    iconColor: Colors.black,
+                    icon: Icons.logout_rounded,
+                    titleText: 'Logout',
+                  ),
+                  //DELETE ACCOUNT
+                  ListitleSettings(
+                    ontap: () {},
+                    icon: Icons.delete_forever,
+                    iconColor: Colors.red,
+                    titleText: 'Delete account',
+                    color: Colors.red,
+                  ),
+                ],
+              ),
             ),
-            FloatingNavBarWidget(pageIndex: currentIndex)
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingNavBarWidget(pageIndex: currentIndex))
           ],
         ),
       ),

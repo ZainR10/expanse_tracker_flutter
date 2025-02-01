@@ -23,7 +23,7 @@ class NavBarItems extends StatelessWidget {
           InkWell(
             onTap: () {
               onItemTapped(0); // Set index to 0 for Home
-              Navigator.pushNamed(context, RoutesName.homeView);
+              Navigator.pushReplacementNamed(context, RoutesName.homeView);
             },
             child: Icon(
               Icons.home,
@@ -42,7 +42,7 @@ class NavBarItems extends StatelessWidget {
           InkWell(
             onTap: () {
               onItemTapped(1); // Set index to 1 for Analytics
-              Navigator.pushNamed(context, RoutesName.analyticsView);
+              Navigator.pushReplacementNamed(context, RoutesName.analyticsView);
             },
             child: Icon(
               Icons.pie_chart,
@@ -124,7 +124,8 @@ class NavBarItems extends StatelessWidget {
           InkWell(
             onTap: () {
               onItemTapped(3); // Set index to 3 for Expense List
-              Navigator.pushNamed(context, RoutesName.expanseListView);
+              Navigator.pushReplacementNamed(
+                  context, RoutesName.expanseListView);
             },
             child: Icon(
               Icons.list_alt_outlined,
@@ -145,7 +146,7 @@ class NavBarItems extends StatelessWidget {
           InkWell(
             onTap: () {
               onItemTapped(4); // Set index to 4 for Settings
-              Navigator.pushNamed(context, RoutesName.settingsView);
+              Navigator.pushReplacementNamed(context, RoutesName.settingsView);
             },
             child: Icon(
               Icons.settings,

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expanse_tracker_flutter/utils/page_transtions.dart';
+import 'package:expanse_tracker_flutter/view/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:expanse_tracker_flutter/utils/general_utils.dart';
-import 'package:expanse_tracker_flutter/utils/routes/routes_name.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SignUpViewModel with ChangeNotifier {
   bool _signUpLoading = false;
@@ -39,7 +41,11 @@ class SignUpViewModel with ChangeNotifier {
 
       setSignUpLoading(false);
       GeneralUtils.snackBar('Account Created', context);
-      Navigator.pushNamed(context, RoutesName.homeView);
+      Navigator.push(
+        context,
+        PageTransitions.pageTransition(
+            const HomeView(), PageTransitionType.bottomToTop),
+      );
     } catch (error) {
       setSignUpLoading(false);
       GeneralUtils.snackBar(error.toString(), context);

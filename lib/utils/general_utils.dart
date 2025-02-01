@@ -10,10 +10,11 @@ class GeneralUtils {
   static snackBar(String message, BuildContext context) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: Colors.black87,
+        showCloseIcon: true,
+        backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(12),
+        // margin: const EdgeInsets.all(),
         clipBehavior: Clip.antiAlias,
         dismissDirection: DismissDirection.horizontal,
         elevation: 100,
